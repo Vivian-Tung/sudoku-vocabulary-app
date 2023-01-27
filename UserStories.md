@@ -64,7 +64,11 @@
 
 ### Language Learners:
 
-- As an expert language learner, I want to be able to create my own vocabulary lists
-  so that I can practice specific words of my choosing.
+  -As a language learner, I want many categories of words such as foods, animals, travel, to choose from so that I can improve my vocabulary in chunks and become faster at categorizing the vocabulary.
+
+-As a language learner, I want a list of vocabulary words that I keep getting wrong so that I can focus more on the mistaken words to improve my knowledge. For example, the app will keep track of mistaken words in the "still learning" category, and words that the user gets correct frequently in the "mastered" category.
+
+-As a language learner, I want the option of having a "favourite" option for the vocabulary words
+so that I can refer back to it. For example, clicking the unfilled in bookmark beside the word will put it into the bookmarked words page.
 
 ### Language Teachers:

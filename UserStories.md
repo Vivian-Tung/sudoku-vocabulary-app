@@ -22,10 +22,7 @@
   review the words before I play the game.
 
   - Example:
-    - On the main menu of the app, there is a 'Word List' button. If pressed, it takes the user 
-      to a new menu of which there is another 'Practice' button where if pressed, the user can 
-      view all the native words and their respective translation of the language being learned.
-
+    - On the main menu of the app, there is a 'Word List' button. If pressed, it takes the user to a new menu of which there is another 'Practice'  button where if pressed, the user can view all the native words and their respective translation of the language being learned.
 
 - As a novice user, I want there to be a stopwatch timer so that I can see how long it takes for me to solve the sudoku.
 

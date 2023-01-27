@@ -39,16 +39,16 @@
 - As a language teacher, I want to be able to choose the words that were taught this week to reinforce the learning.
 
   - For example, when the user clicks on "create new word list" the user can add new words by typing in the word they want to include in the list. They can add multiple words in a list and create multiple lists.
-    <img src="./user-story-assets/adding_words.png" alt="save-menu" width="150px">
+    <img src="./user-story-assets/adding_words.png" alt="adding_words" width="150px">
 
 
 - As a language teacher, I want a pronunciation feature for the words so my students could learn how to say it.
   
   - For example, when the user goes to translate the word, there is a volume button which signifies that they can click on the button to learn how to pronounce the current word they are translating. This way not only do they practice their writing skill, they can also learn to recognize the word when it is spoken out loud.
-    <img src="./user-story-assets/pronunciation.png" alt="save-menu" width="150px">
+    <img src="./user-story-assets/pronounciation.png" alt="pronounciation" width="150px">
 
 
 
 - As a language teacher, I want to be able navigate back to the history of wordlists ive created so I can use them for future cohorts of students.
   - For example, on the word list page, the user can either create a new word list, or view previous word lists that have been created so that it could be used for future students.
-    <img src="./user-story-assets/previous_wordlists.png" alt="save-menu" width="150px">
+    <img src="./user-story-assets/previous_wordlists.png" alt="previous_wordlists" width="150px">

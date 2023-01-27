@@ -32,11 +32,23 @@
 
 ### Language Learners:
 
-  -As a language learner, I want many categories of words such as foods, animals, travel, to choose from so that I can improve my vocabulary in chunks and become faster at categorizing the vocabulary.
-
--As a language learner, I want a list of vocabulary words that I keep getting wrong so that I can focus more on the mistaken words to improve my knowledge. For example, the app will keep track of mistaken words in the "still learning" category, and words that the user gets correct frequently in the "mastered" category.
-
--As a language learner, I want the option of having a "favourite" option for the vocabulary words
-so that I can refer back to it. For example, clicking the unfilled in bookmark beside the word will put it into the bookmarked words page.
+- As an expert language learner, I want to be able to create my own vocabulary lists
+  so that I can practice specific words of my choosing.
 
 ### Language Teachers:
+- As a language teacher, I want to be able to choose the words that were taught this week to reinforce the learning.
+
+  - For example, when the user clicks on "create new word list" the user can add new words by typing in the word they want to include in the list. They can add multiple words in a list and create multiple lists.
+    <img src="./user-story-assets/adding_words.png" alt="save-menu" width="150px">
+
+
+- As a language teacher, I want a pronunciation feature for the words so my students could learn how to say it.
+  
+  - For example, when the user goes to translate the word, there is a volume button which signifies that they can click on the button to learn how to pronounce the current word they are translating. This way not only do they practice their writing skill, they can also learn to recognize the word when it is spoken out loud.
+    <img src="./user-story-assets/pronunciation.png" alt="save-menu" width="150px">
+
+
+
+- As a language teacher, I want to be able navigate back to the history of wordlists ive created so I can use them for future cohorts of students.
+  - For example, on the word list page, the user can either create a new word list, or view previous word lists that have been created so that it could be used for future students.
+    <img src="./user-story-assets/previous_wordlists.png" alt="save-menu" width="150px">

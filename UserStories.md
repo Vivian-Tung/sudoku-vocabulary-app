@@ -7,7 +7,7 @@
   - Example:
     - The 'question mark' symbol will always be on the top right of the app.
 
-    - When the 'question mark' symbol is clicken, a new menu pops up and displays helpful tips
+    - When the 'question mark' symbol is clicked, a new menu pops up and displays helpful tips
       and tutorials on how to play and navigate through the app.
 
 - As a novice user, I would like there to be a hint button so that I can progress without being stuck on words.

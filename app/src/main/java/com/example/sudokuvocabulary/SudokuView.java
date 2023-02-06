@@ -92,6 +92,10 @@ public class SudokuView extends View {
         return isValid;
     }
 
+    public int getCellSize() {
+        return mCellSize;
+    }
+
     private void colourCell(Canvas canvas, int row, int column) {
         if (true) {
             // Highlight Row

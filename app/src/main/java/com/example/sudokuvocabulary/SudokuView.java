@@ -4,12 +4,15 @@ import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Canvas;
 import android.graphics.Paint;
+import android.os.Bundle;
 import android.util.AttributeSet;
 import android.view.View;
 
 import androidx.annotation.Nullable;
 
 public class SudokuView extends View {
+    private Bundle mBundle = new Bundle();
+    private SudokuModel mSudokuModel;
     private final int mGridColour;
     private final int mCellFillColour;
     private final int mCellHighlightColour;
@@ -33,6 +36,8 @@ public class SudokuView extends View {
         } finally {
             attributes.recycle();
         }
+
+        mSudokuModel = (SudokuModel) mBundle.getSerializable("sudoku");
     }
 
     @Override
@@ -65,6 +70,10 @@ public class SudokuView extends View {
         canvas.drawRect(0,0, getWidth(), getHeight(), mGridColourPaint);
 
         drawGrid(canvas);
+    }
+
+    public void setData(Bundle data) {
+        mBundle = data;
     }
 
     private void drawThickLine() {

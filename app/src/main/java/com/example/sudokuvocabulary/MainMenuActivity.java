@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.Button;
 
 public class MainMenuActivity extends AppCompatActivity {
+
     private Button mPlayButton;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -17,11 +18,10 @@ public class MainMenuActivity extends AppCompatActivity {
         mPlayButton = (Button) findViewById(R.id.main_menu_play_button);
         mPlayButton.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(MainMenuActivity.this, GameActivity.class);
+            public void onClick(View view) {
+                Intent intent = new Intent(MainMenuActivity.this, SudokuActivity.class);
                 startActivity(intent);
             }
         });
     }
-
 }

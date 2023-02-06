@@ -29,7 +29,7 @@ public class SudokuGrid extends View {
     public void onMeasure(int width, int height) {
         super.onMeasure(width, height);
 
-        int dimension = Math.min(this.getWidth(), this.getHeight());
+        int dimension = Math.min(getWidth(), getHeight());
 
         setMeasuredDimension(dimension, dimension);
     }

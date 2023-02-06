@@ -12,6 +12,10 @@ import androidx.annotation.Nullable;
 public class SudokuGrid extends View {
     private final int gridColour;
     private final Paint gridColourPaint = new Paint();
+    private int mCellSize;
+    private int mGridSideLength = 9;
+    private int mSubGridSize = 3;
+
     public SudokuGrid(Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
 
@@ -29,7 +33,9 @@ public class SudokuGrid extends View {
     public void onMeasure(int width, int height) {
         super.onMeasure(width, height);
 
-        int dimension = Math.min(getWidth(), getHeight());
+        int dimension = Math.min(getMeasuredWidth(), getMeasuredHeight());
+
+        mCellSize = dimension / mGridSideLength;
 
         setMeasuredDimension(dimension, dimension);
     }
@@ -41,6 +47,37 @@ public class SudokuGrid extends View {
         gridColourPaint.setStrokeWidth(14);
         gridColourPaint.setAntiAlias(true);
 
+        // Draw grid border
         canvas.drawRect(0,0, getWidth(), getHeight(), gridColourPaint);
+
+        drawGrid(canvas);
+    }
+
+    private void drawThickLine() {
+        gridColourPaint.setStyle(Paint.Style.STROKE);
+        gridColourPaint.setStrokeWidth(12);
+        gridColourPaint.setColor(gridColour);
+    }
+
+    private void drawThinLine() {
+        gridColourPaint.setStyle(Paint.Style.STROKE);
+        gridColourPaint.setStrokeWidth(6);
+        gridColourPaint.setColor(gridColour);
+    }
+
+    private void drawGrid(Canvas canvas) {
+
+        for (int line = 0; line < mGridSideLength+1; line++) {
+            // Check if current line is a major line
+            if (line % mSubGridSize == 0) {
+                drawThickLine();
+            } else {
+                drawThinLine();
+            }
+            // Draw column lines
+            canvas.drawLine(mCellSize*line, 0, mCellSize * line, getWidth(), gridColourPaint);
+            //Draw row lines
+            canvas.drawLine(0, mCellSize*line, getHeight(), mCellSize*line, gridColourPaint);
+        }
     }
 }

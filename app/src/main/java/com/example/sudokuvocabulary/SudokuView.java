@@ -6,6 +6,7 @@ import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.os.Bundle;
 import android.util.AttributeSet;
+import android.view.MotionEvent;
 import android.view.View;
 
 import androidx.annotation.Nullable;
@@ -70,6 +71,39 @@ public class SudokuView extends View {
         canvas.drawRect(0,0, getWidth(), getHeight(), mGridColourPaint);
 
         drawGrid(canvas);
+    }
+
+    @Override
+    public boolean onTouchEvent(MotionEvent event) {
+        boolean isValid;
+
+        float x_axis = event.getX();
+        float y_axis = event.getY();
+
+        int action = event.getAction();
+
+        if (action == MotionEvent.ACTION_DOWN) {
+            int selectedRow = (int) Math.ceil(y_axis/mCellSize);
+            int selectedColumn = (int) Math.ceil(x_axis/mCellSize);
+            isValid = true;
+        } else {
+            isValid = false;
+        }
+        return isValid;
+    }
+
+    private void colourCell(Canvas canvas, int row, int column) {
+        if (true) {
+            // Highlight Row
+            canvas.drawRect((column-1)*mCellSize, 0, column*mCellSize,
+                    mCellSize*mGridSideLength, mCellHighlightColourPaint);
+            // Highlight Column
+            canvas.drawRect(0, (row-1)*mCellSize, mCellSize*mGridSideLength,
+                    column*mCellSize, mCellHighlightColourPaint);
+            // Highlight touched square
+            canvas.drawRect((column-1)*mCellSize, (row-1)*mCellSize, column*mCellSize,
+                    row*mCellSize, mCellHighlightColourPaint);
+        }
     }
 
     public void setData(Bundle data) {

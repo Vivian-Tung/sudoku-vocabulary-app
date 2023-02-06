@@ -1,8 +1,11 @@
 package com.example.sudokuvocabulary;
 
+import android.os.Parcelable;
+
+import java.io.Serializable;
 import java.util.Random;
 
-public class SudokuModel {
+public class SudokuModel implements Serializable {
 
     private int mSubGridRows;
     private int mSubGridColumns;
@@ -92,7 +95,7 @@ public class SudokuModel {
         return true;
     }
     
-    private int caculateSubGridIndex(int index, int subGridDimension) {
+    private int calculateSubGridIndex(int index, int subGridDimension) {
         int ret = index - (index % subGridDimension) ;
         return ret;
     }
@@ -100,8 +103,8 @@ public class SudokuModel {
     public boolean gridValid(int value_row, int value_column, int number) {
 
         // Calculate which sub-grid value is in:
-        int subGridRowStart = caculateSubGridIndex(value_row, mSubGridRows);
-        int subGridColumnStart = caculateSubGridIndex(value_column, mSubGridColumns);
+        int subGridRowStart = calculateSubGridIndex(value_row, mSubGridRows);
+        int subGridColumnStart = calculateSubGridIndex(value_column, mSubGridColumns);
 
         boolean valid = rowValid(value_row, number) && columnValid(value_column, number);
 
@@ -169,7 +172,7 @@ public class SudokuModel {
                         } else {
                             // Current grid doesn't have a solution, need to change 
                             // previous values
-                            // Reset the value back to zero before recursing backwards
+                            // Reset the value back to zero before try other values
                             setValueAt(row, column, 0);
                         } 
                     }

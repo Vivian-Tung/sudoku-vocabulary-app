@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     tools:context=".SudokuActivity">
 
-    <com.example.sudokuvocabulary.SudokuGrid
+    <com.example.sudokuvocabulary.SudokuView
         android:id="@+id/sudokuGridView"
         android:layout_width="0dp"
         android:layout_height="0dp"
@@ -16,6 +16,6 @@
         custom:layout_constraintEnd_toEndOf="parent"
         custom:layout_constraintStart_toStartOf="parent"
         custom:layout_constraintTop_toTopOf="parent" >
-    </com.example.sudokuvocabulary.SudokuGrid>
+    </com.example.sudokuvocabulary.SudokuView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -2,12 +2,14 @@ package com.example.sudokuvocabulary;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 
 public class SudokuActivity extends AppCompatActivity {
+    @SuppressLint("ClickableViewAccessibility")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -27,6 +29,9 @@ public class SudokuActivity extends AppCompatActivity {
                 int cellColumn = (int) Math.ceil(motionEvent.getX()/sudokuView.getCellSize());
                 Log.d(tag, "Cell Row: " + cellRow);
                 Log.d(tag, "Cell Column: " + cellColumn);
+                Log.d(tag, "Num at cell: " + sudokuModel.getValueAt(cellRow-1, cellColumn-1));
+
+                // TODO: Call method from view to draw value at pressed grid cell
                 return false;
             }
         });

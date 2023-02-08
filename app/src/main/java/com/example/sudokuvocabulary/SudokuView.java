@@ -73,25 +73,6 @@ public class SudokuView extends View {
         drawGrid(canvas);
     }
 
-    @Override
-    public boolean onTouchEvent(MotionEvent event) {
-        boolean isValid;
-
-        float x_axis = event.getX();
-        float y_axis = event.getY();
-
-        int action = event.getAction();
-
-        if (action == MotionEvent.ACTION_DOWN) {
-            int selectedRow = (int) Math.ceil(y_axis/mCellSize);
-            int selectedColumn = (int) Math.ceil(x_axis/mCellSize);
-            isValid = true;
-        } else {
-            isValid = false;
-        }
-        return isValid;
-    }
-
     public int getCellSize() {
         return mCellSize;
     }
@@ -113,6 +94,9 @@ public class SudokuView extends View {
     public void setData(Bundle data) {
         mBundle = data;
     }
+
+    // TODO: Implement public method that takes activity params
+    //       row, col, value, and draws the number onto the grid
 
     private void drawThickLine() {
         mGridColourPaint.setStyle(Paint.Style.STROKE);

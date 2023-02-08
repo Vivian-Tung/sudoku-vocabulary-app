@@ -27,6 +27,7 @@ public class SudokuModel implements Serializable {
         for (int i=0;i<max;i++) {
             mNumberArray[i] = i+1;
         }
+        newFilledGrid();
     }
 
     public SudokuModel() {

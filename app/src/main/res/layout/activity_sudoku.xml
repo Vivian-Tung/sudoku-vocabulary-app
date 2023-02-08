@@ -12,6 +12,7 @@
         android:layout_height="0dp"
         custom:layout_constraintDimensionRatio="1:1"
         custom:gridColor="#000000"
+        custom:cellItemFillColour="#000000"
         custom:layout_constraintBottom_toBottomOf="parent"
         custom:layout_constraintEnd_toEndOf="parent"
         custom:layout_constraintStart_toStartOf="parent"

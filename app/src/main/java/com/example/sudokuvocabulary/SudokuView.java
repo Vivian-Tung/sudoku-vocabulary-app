@@ -11,12 +11,8 @@ import androidx.annotation.Nullable;
 
 public class SudokuView extends View {
     private final int mGridColour;
-    private final int mCellFillColour;
-    private final int mCellHighlightColour;
     private final int mCellItemFillColour;
     private final Paint mGridColourPaint = new Paint();
-    private final Paint mCellFillColourPaint = new Paint();
-    private final Paint mCellHighlightColourPaint = new Paint();
     private final Paint mCellItemFillColourPaint = new Paint();
     private int mCellSize;
     private int mGridSideLength = 9;
@@ -31,8 +27,6 @@ public class SudokuView extends View {
 
         try {
             mGridColour = attributes.getInteger(R.styleable.SudokuGrid_gridColor, 0);
-            mCellFillColour = attributes.getInteger(R.styleable.SudokuGrid_cellFillColour, 0);
-            mCellHighlightColour = attributes.getInteger(R.styleable.SudokuGrid_cellHighlightColour, 0);
             mCellItemFillColour = attributes.getInteger(R.styleable.SudokuGrid_cellItemFillColour, 0);
         } finally {
             attributes.recycle();
@@ -59,14 +53,6 @@ public class SudokuView extends View {
         mGridColourPaint.setStrokeWidth(14);
         mGridColourPaint.setAntiAlias(true);
 
-        mCellFillColourPaint.setStyle(Paint.Style.FILL);
-        mCellFillColourPaint.setColor(mCellFillColour);
-        mCellFillColourPaint.setAntiAlias(true);
-
-        mCellHighlightColourPaint.setStyle(Paint.Style.FILL);
-        mCellHighlightColourPaint.setColor(mCellHighlightColour);
-        mCellHighlightColourPaint.setAntiAlias(true);
-
         mCellItemFillColourPaint.setStyle(Paint.Style.FILL);
         mCellItemFillColourPaint.setTextSize(96);
         mCellItemFillColourPaint.setColor(mCellItemFillColour);
@@ -86,20 +72,6 @@ public class SudokuView extends View {
 
     public int getCellSize() {
         return mCellSize;
-    }
-
-    private void colourCell(Canvas canvas, int row, int column) {
-        if (true) {
-            // Highlight Row
-            canvas.drawRect((column-1)*mCellSize, 0, column*mCellSize,
-                    mCellSize*mGridSideLength, mCellHighlightColourPaint);
-            // Highlight Column
-            canvas.drawRect(0, (row-1)*mCellSize, mCellSize*mGridSideLength,
-                    column*mCellSize, mCellHighlightColourPaint);
-            // Highlight touched square
-            canvas.drawRect((column-1)*mCellSize, (row-1)*mCellSize, column*mCellSize,
-                    row*mCellSize, mCellHighlightColourPaint);
-        }
     }
 
     public void drawCellNumbers(Canvas canvas) {

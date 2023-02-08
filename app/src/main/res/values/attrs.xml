@@ -2,8 +2,6 @@
 <resources>
     <declare-styleable name="SudokuGrid">
         <attr name="gridColor" format="color" />
-        <attr name="cellFillColour" format="color" />
-        <attr name="cellHighlightColour" format="color" />
         <attr name="cellItemFillColour" format="color" />
     </declare-styleable>
 </resources>

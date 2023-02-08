@@ -4,25 +4,24 @@ import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Canvas;
 import android.graphics.Paint;
-import android.os.Bundle;
 import android.util.AttributeSet;
-import android.view.MotionEvent;
 import android.view.View;
 
 import androidx.annotation.Nullable;
 
 public class SudokuView extends View {
-    private Bundle mBundle = new Bundle();
-    private SudokuModel mSudokuModel;
     private final int mGridColour;
     private final int mCellFillColour;
     private final int mCellHighlightColour;
+    private final int mCellItemFillColour;
     private final Paint mGridColourPaint = new Paint();
     private final Paint mCellFillColourPaint = new Paint();
     private final Paint mCellHighlightColourPaint = new Paint();
+    private final Paint mCellItemFillColourPaint = new Paint();
     private int mCellSize;
     private int mGridSideLength = 9;
     private int mSubGridSize = 3;
+    private int[][] mCellsToDraw;
 
     public SudokuView(Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
@@ -34,11 +33,12 @@ public class SudokuView extends View {
             mGridColour = attributes.getInteger(R.styleable.SudokuGrid_gridColor, 0);
             mCellFillColour = attributes.getInteger(R.styleable.SudokuGrid_cellFillColour, 0);
             mCellHighlightColour = attributes.getInteger(R.styleable.SudokuGrid_cellHighlightColour, 0);
+            mCellItemFillColour = attributes.getInteger(R.styleable.SudokuGrid_cellItemFillColour, 0);
         } finally {
             attributes.recycle();
         }
 
-        mSudokuModel = (SudokuModel) mBundle.getSerializable("sudoku");
+        mCellsToDraw = new int[mGridSideLength][mGridSideLength];
     }
 
     @Override
@@ -67,10 +67,21 @@ public class SudokuView extends View {
         mCellHighlightColourPaint.setColor(mCellHighlightColour);
         mCellHighlightColourPaint.setAntiAlias(true);
 
+        mCellItemFillColourPaint.setStyle(Paint.Style.FILL);
+        mCellItemFillColourPaint.setTextSize(96);
+        mCellItemFillColourPaint.setColor(mCellItemFillColour);
+        mCellItemFillColourPaint.setAntiAlias(true);
+
         // Draw grid border
         canvas.drawRect(0,0, getWidth(), getHeight(), mGridColourPaint);
 
         drawGrid(canvas);
+
+        drawCellNumbers(canvas);
+    }
+
+    public void setCellToDraw(int row, int column, int value) {
+        mCellsToDraw[row][column] = value;
     }
 
     public int getCellSize() {
@@ -91,12 +102,19 @@ public class SudokuView extends View {
         }
     }
 
-    public void setData(Bundle data) {
-        mBundle = data;
+    public void drawCellNumbers(Canvas canvas) {
+        for (int row = 0; row < mGridSideLength; row++) {
+            for (int column = 0; column < mGridSideLength; column++) {
+                int cellValue = mCellsToDraw[row][column];
+                if (cellValue != 0) {
+                    int x_axis = (int) ((column * mCellSize) + (0.25 * mCellSize));
+                    int y_axis = (int) ((row * mCellSize) + (0.8 * mCellSize));
+                    String itemText = Integer.toString(cellValue);
+                    canvas.drawText(itemText, x_axis, y_axis, mCellItemFillColourPaint);
+                }
+            }
+        }
     }
-
-    // TODO: Implement public method that takes activity params
-    //       row, col, value, and draws the number onto the grid
 
     private void drawThickLine() {
         mGridColourPaint.setStyle(Paint.Style.STROKE);

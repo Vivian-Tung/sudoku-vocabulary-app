@@ -1,12 +1,11 @@
 package com.example.sudokuvocabulary;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.annotation.SuppressLint;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 public class SudokuActivity extends AppCompatActivity {
     @SuppressLint("ClickableViewAccessibility")
@@ -20,19 +19,23 @@ public class SudokuActivity extends AppCompatActivity {
         bundle.putSerializable("sudoku", sudokuModel);
 
         SudokuView sudokuView = findViewById(R.id.sudokuGridView);
-        sudokuView.setData(bundle);
         sudokuView.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View view, MotionEvent motionEvent) {
-                String tag = "SudokuActivity";
-                int cellRow = (int) Math.ceil(motionEvent.getY()/sudokuView.getCellSize());
-                int cellColumn = (int) Math.ceil(motionEvent.getX()/sudokuView.getCellSize());
-                Log.d(tag, "Cell Row: " + cellRow);
-                Log.d(tag, "Cell Column: " + cellColumn);
-                Log.d(tag, "Num at cell: " + sudokuModel.getValueAt(cellRow-1, cellColumn-1));
-
-                // TODO: Call method from view to draw value at pressed grid cell
-                return false;
+                boolean isValid = false;
+                if (motionEvent.getAction() == MotionEvent.ACTION_DOWN) {
+                    int cellRow = (int) (Math.ceil(motionEvent.getY() / sudokuView.getCellSize()))-1;
+                    int cellColumn = (int) (Math.ceil(motionEvent.getX() / sudokuView.getCellSize()))-1;
+                    int cellValue = sudokuModel.getValueAt(cellRow, cellColumn);
+                    sudokuView.setCellToDraw(cellRow, cellColumn, cellValue);
+                    isValid = true;
+                    // TODO: Display pop-up with prompt of vocab questions
+                    boolean isCorrect = true;
+                    if (isCorrect) {
+                        sudokuView.invalidate();
+                    }
+                }
+                return isValid;
             }
         });
     }

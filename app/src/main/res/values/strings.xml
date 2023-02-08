@@ -5,5 +5,5 @@
     <string name="main_menu_word_bank_button_text">Word Bank</string>
     <string name="main_menu_options_button_text">Options</string>
 
-
+    <string name="game_popup_question_text">Match the correct word:</string>
 </resources>

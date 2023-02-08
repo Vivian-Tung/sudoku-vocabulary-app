@@ -6,6 +6,30 @@
     android:layout_height="match_parent"
     tools:context=".SudokuActivity">
 
+    <androidx.cardview.widget.CardView
+        android:id="@+id/questionPopupView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        custom:layout_constraintBottom_toBottomOf="parent"
+        custom:layout_constraintEnd_toEndOf="parent"
+        custom:layout_constraintStart_toStartOf="parent"
+        custom:layout_constraintTop_toTopOf="parent" >
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/game_popup_question_text">
+        </TextView>
+
+        <LinearLayout
+            android:id="@+id/questionButtonsContainer"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="vertical">
+        </LinearLayout>
+    </androidx.cardview.widget.CardView>
+
     <com.example.sudokuvocabulary.SudokuView
         android:id="@+id/sudokuGridView"
         android:layout_width="0dp"

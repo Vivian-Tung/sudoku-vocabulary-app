@@ -14,9 +14,10 @@ public class SudokuActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sudoku);
 
-        Bundle bundle = new Bundle();
+        QuestionCardView questionCard = findViewById(R.id.questionCardView);
+        questionCard.setVisibility(View.GONE);
+
         SudokuModel sudokuModel = new SudokuModel();
-        bundle.putSerializable("sudoku", sudokuModel);
 
         SudokuView sudokuView = findViewById(R.id.sudokuGridView);
         sudokuView.setOnTouchListener(new View.OnTouchListener() {
@@ -30,6 +31,7 @@ public class SudokuActivity extends AppCompatActivity {
                     sudokuView.setCellToDraw(cellRow, cellColumn, cellValue);
                     isValid = true;
                     // TODO: Display pop-up with prompt of vocab questions
+                    questionCard.setVisibility(View.VISIBLE);
                     boolean isCorrect = true;
                     if (isCorrect) {
                         sudokuView.invalidate();

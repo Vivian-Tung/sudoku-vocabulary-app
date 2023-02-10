@@ -5,12 +5,21 @@ import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.widget.Button;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.cardview.widget.CardView;
 
 public class QuestionCardView extends CardView {
+    // TODO: Add private member variables and setters for dynamically setting number of buttons to
+    //       show
+    private int mNumberOfChoices = 9;
+    private String mWordPrompt = "Text";
+    private String[] mWordChoiceStrings;
+    private TextView mQuestionPromptView;
+    private LinearLayout mQuestionChoiceLayout;
+    private Button[] mWordChoiceButtons = new Button[mNumberOfChoices];
     public QuestionCardView(@NonNull Context context) {
         this(context, null);
     }
@@ -23,13 +32,13 @@ public class QuestionCardView extends CardView {
         cardInflater.inflate(R.layout.question_card_layout, this, true);
 
         LinearLayout parentLayout = (LinearLayout) getChildAt(0);
-        LinearLayout buttonLayout = (LinearLayout) parentLayout.getChildAt(2);
+        mQuestionPromptView = (TextView) parentLayout.getChildAt(1);
+        mQuestionChoiceLayout = (LinearLayout) parentLayout.getChildAt(2);
 
-        for (int buttonNum = 1; buttonNum < 5; buttonNum++) {
-            Button button = new Button(context);
-            button.setText("Word: ");
-            button.generateViewId();
-            buttonLayout.addView(button);
+        for (int buttonNum = 0; buttonNum < mNumberOfChoices; buttonNum++) {
+            mWordChoiceButtons[buttonNum] = new Button(context);
+            mWordChoiceButtons[buttonNum].setId(generateViewId());
+            mQuestionChoiceLayout.addView(mWordChoiceButtons[buttonNum]);
         }
     }
 
@@ -37,6 +46,24 @@ public class QuestionCardView extends CardView {
     public void onMeasure(int width, int height) {
         super.onMeasure(width, height);
         setMeasuredDimension(getMeasuredWidth(),getMeasuredHeight());
+    }
+
+    public Button[] getWordChoiceButtons() { return mWordChoiceButtons; }
+
+    public void setNumberOfChoices(int numberOfChoices) {
+        mNumberOfChoices = numberOfChoices;
+    }
+
+    public void setWordPrompt(String prompt) {
+        mQuestionPromptView.setText(prompt);
+        mQuestionPromptView.setTextSize(36);
+    }
+
+    public void setWordChoiceButtonsText(String[][] choices) {
+        int buttonNum = 0;
+        for (String[] choice: choices) {
+            mWordChoiceButtons[buttonNum++].setText(choice[1]);
+        }
     }
 }
 

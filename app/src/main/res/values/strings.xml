@@ -6,4 +6,6 @@
     <string name="main_menu_options_button_text">Options</string>
 
     <string name="game_popup_question_text">Match the correct word:</string>
+    <string name="game_correct_toast_text">Correct!</string>
+    <string name="game_incorrect_toast_text">Incorrect! Please Try Again</string>
 </resources>

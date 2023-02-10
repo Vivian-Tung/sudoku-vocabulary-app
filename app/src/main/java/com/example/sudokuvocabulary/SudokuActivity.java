@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -15,7 +16,6 @@ public class SudokuActivity extends AppCompatActivity implements View.OnClickLis
     private QuestionCardView mQuestionCard;
     private SudokuView mSudokuView;
     private SudokuModel mSudokuModel;
-
     private HashMap<String, String> mWordBank = new HashMap<>();
     private int[] mCellPicked = new int[3];
     private String mChoicePicked;
@@ -82,12 +82,17 @@ public class SudokuActivity extends AppCompatActivity implements View.OnClickLis
     @Override
     public void onClick(View view) {
         mChoicePicked = (String) ((Button) view).getText();
+        String toastMessage;
 
         if (isCorrect()) {
             mSudokuView.setCellToDraw(mCellPicked[0], mCellPicked[1], mCellPicked[2]);
             mSudokuView.invalidate();
+            toastMessage = getString(R.string.game_correct_toast_text);
+        } else {
+            toastMessage = getString(R.string.game_incorrect_toast_text);
         }
         mQuestionCard.setVisibility(View.GONE);
+        Toast.makeText(this, toastMessage, Toast.LENGTH_SHORT).show();
     }
 
     private boolean isCorrect() {

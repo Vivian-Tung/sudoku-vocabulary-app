@@ -12,8 +12,6 @@ import androidx.annotation.Nullable;
 import androidx.cardview.widget.CardView;
 
 public class QuestionCardView extends CardView {
-    // TODO: Add private member variables and setters for dynamically setting number of buttons to
-    //       show
     private int mNumberOfChoices = 9;
     private String mWordPrompt = "Text";
     private String[] mWordChoiceStrings;
@@ -50,11 +48,14 @@ public class QuestionCardView extends CardView {
 
     public Button[] getWordChoiceButtons() { return mWordChoiceButtons; }
 
+    public String getWordPrompt() { return mWordPrompt; }
+
     public void setNumberOfChoices(int numberOfChoices) {
         mNumberOfChoices = numberOfChoices;
     }
 
     public void setWordPrompt(String prompt) {
+        mWordPrompt = prompt;
         mQuestionPromptView.setText(prompt);
         mQuestionPromptView.setTextSize(36);
     }

@@ -8,38 +8,50 @@ import android.widget.Button;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import java.util.HashMap;
 import java.util.Random;
 
 public class SudokuActivity extends AppCompatActivity implements View.OnClickListener {
+    private QuestionCardView mQuestionCard;
+    private SudokuView mSudokuView;
+    private SudokuModel mSudokuModel;
+
+    private HashMap<String, String> mWordBank = new HashMap<>();
+    private int[] mCellPicked = new int[3];
+    private String mChoicePicked;
     @SuppressLint("ClickableViewAccessibility")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sudoku);
 
-        SudokuModel sudokuModel = new SudokuModel();
+        mSudokuModel = new SudokuModel();
 
-        QuestionCardView questionCard = findViewById(R.id.questionCardView);
-        questionCard.setNumberOfChoices(sudokuModel.getGridSize());
-        questionCard.setNumberOfChoices(sudokuModel.getGridSize());
-        questionCard.setVisibility(View.GONE);
-        Button[] wordChoiceButtons = questionCard.getWordChoiceButtons();
+        mQuestionCard = findViewById(R.id.questionCardView);
+        mQuestionCard.setNumberOfChoices(mSudokuModel.getGridSize());
+        mQuestionCard.setNumberOfChoices(mSudokuModel.getGridSize());
+        mQuestionCard.setVisibility(View.GONE);
 
-        SudokuView sudokuView = findViewById(R.id.sudokuGridView);
-        sudokuView.setOnTouchListener(new View.OnTouchListener() {
+        Button[] wordChoiceButtons = mQuestionCard.getWordChoiceButtons();
+        for (Button choice: wordChoiceButtons) {
+            choice.setOnClickListener(this);
+        }
+
+        mSudokuView = findViewById(R.id.sudokuGridView);
+        mSudokuView.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View view, MotionEvent motionEvent) {
                 boolean isValid = false;
                 if (motionEvent.getAction() == MotionEvent.ACTION_DOWN) {
 
-                    int cellRow = (int) (Math.ceil(motionEvent.getY() / sudokuView.getCellSize()))-1;
-                    int cellColumn = (int) (Math.ceil(motionEvent.getX() / sudokuView.getCellSize()))-1;
-                    int cellValue = sudokuModel.getValueAt(cellRow, cellColumn);
+                    mCellPicked[0] = (int) (Math.ceil(motionEvent.getY() / mSudokuView.getCellSize()))-1;
+                    mCellPicked[1] = (int) (Math.ceil(motionEvent.getX() / mSudokuView.getCellSize()))-1;
+                    mCellPicked[2] = mSudokuModel.getValueAt(mCellPicked[0], mCellPicked[1]);
 
                     isValid = true;
 
                     // Word bank for testing
-                    String[][] wordBank = {
+                    String[][] words = {
                             {"Apples", "ping guo"},
                             {"Oranges", "cheng zi"},
                             {"Watermelon", "ci gua"},
@@ -51,17 +63,16 @@ public class SudokuActivity extends AppCompatActivity implements View.OnClickLis
                             {"Plum", "li zi"}
                     };
 
-                    Random random = new Random();
-                    questionCard.setWordPrompt(wordBank[random.nextInt(wordBank.length)][0]);
-                    questionCard.setWordChoiceButtonsText(wordBank);
-
-                    questionCard.invalidate();
-                    questionCard.setVisibility(View.VISIBLE);
-                    boolean isCorrect = true; // Set to true for now
-                    if (isCorrect) {
-                        sudokuView.setCellToDraw(cellRow, cellColumn, cellValue);
-                        sudokuView.invalidate();
+                    for (String[] wordPair: words) {
+                        mWordBank.put(wordPair[0], wordPair[1]);
                     }
+
+                    Random random = new Random();
+                    mQuestionCard.setWordPrompt(words[random.nextInt(words.length)][0]);
+                    mQuestionCard.setWordChoiceButtonsText(words);
+
+                    mQuestionCard.invalidate();
+                    mQuestionCard.setVisibility(View.VISIBLE);
                 }
                 return isValid;
             }
@@ -70,6 +81,16 @@ public class SudokuActivity extends AppCompatActivity implements View.OnClickLis
 
     @Override
     public void onClick(View view) {
+        mChoicePicked = (String) ((Button) view).getText();
 
+        if (isCorrect()) {
+            mSudokuView.setCellToDraw(mCellPicked[0], mCellPicked[1], mCellPicked[2]);
+            mSudokuView.invalidate();
+        }
+        mQuestionCard.setVisibility(View.GONE);
+    }
+
+    private boolean isCorrect() {
+        return mChoicePicked.equals(mWordBank.get(mQuestionCard.getWordPrompt()));
     }
 }

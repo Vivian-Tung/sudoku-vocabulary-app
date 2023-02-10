@@ -34,6 +34,8 @@ public class SudokuModel implements Serializable {
         this(3, 3, 9, 9);
     }
 
+    public int getGridSize() { return mGridRows; }
+
     public int[][] getGrid() {
         return mSudokuGrid;
     }

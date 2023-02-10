@@ -52,15 +52,15 @@ public class SudokuActivity extends AppCompatActivity implements View.OnClickLis
 
                     // Word bank for testing
                     String[][] words = {
-                            {"Apples", "ping guo"},
-                            {"Oranges", "cheng zi"},
-                            {"Watermelon", "ci gua"},
-                            {"Grapes", "pu tao"},
-                            {"Fruits", "shui guo"},
-                            {"Banana", "xiang jiao"},
-                            {"Dragon Eyes", "long nan"},
-                            {"Mango", "mang guo"},
-                            {"Plum", "li zi"}
+                            {"Apples", "苹果"},
+                            {"Oranges", "橙子"},
+                            {"Watermelon", "西瓜"},
+                            {"Grapes", "葡萄"},
+                            {"Fruits", "水果"},
+                            {"Banana", "香蕉"},
+                            {"Dragon Eyes", "龙眼"},
+                            {"Mango", "芒果"},
+                            {"Plum", "李子"}
                     };
 
                     for (String[] wordPair: words) {

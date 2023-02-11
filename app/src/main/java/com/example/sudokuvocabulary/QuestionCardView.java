@@ -13,11 +13,9 @@ import androidx.cardview.widget.CardView;
 
 public class QuestionCardView extends CardView {
     private int mNumberOfChoices = 9;
-    private String mWordPrompt = "Text";
-    private String[] mWordChoiceStrings;
-    private TextView mQuestionPromptView;
-    private LinearLayout mQuestionChoiceLayout;
-    private Button[] mWordChoiceButtons = new Button[mNumberOfChoices];
+    private String mWordPrompt;
+    private final TextView mQuestionPromptView;
+    private final Button[] mWordChoiceButtons = new Button[mNumberOfChoices];
     public QuestionCardView(@NonNull Context context) {
         this(context, null);
     }
@@ -31,12 +29,12 @@ public class QuestionCardView extends CardView {
 
         LinearLayout parentLayout = (LinearLayout) getChildAt(0);
         mQuestionPromptView = (TextView) parentLayout.getChildAt(1);
-        mQuestionChoiceLayout = (LinearLayout) parentLayout.getChildAt(2);
+        LinearLayout questionChoiceLayout = (LinearLayout) parentLayout.getChildAt(2);
 
         for (int buttonNum = 0; buttonNum < mNumberOfChoices; buttonNum++) {
             mWordChoiceButtons[buttonNum] = new Button(context);
             mWordChoiceButtons[buttonNum].setId(generateViewId());
-            mQuestionChoiceLayout.addView(mWordChoiceButtons[buttonNum]);
+            questionChoiceLayout.addView(mWordChoiceButtons[buttonNum]);
         }
     }
 
@@ -57,7 +55,7 @@ public class QuestionCardView extends CardView {
     public void setWordPrompt(String prompt) {
         mWordPrompt = prompt;
         mQuestionPromptView.setText(prompt);
-        mQuestionPromptView.setTextSize(36);
+        mQuestionPromptView.setTextSize(32);
     }
 
     public void setWordChoiceButtonsText(String[][] choices) {

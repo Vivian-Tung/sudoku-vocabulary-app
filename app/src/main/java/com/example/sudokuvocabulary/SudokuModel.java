@@ -106,8 +106,7 @@ public class SudokuModel implements Serializable {
     }
     
     private int calculateSubGridIndex(int index, int subGridDimension) {
-        int ret = index - (index % subGridDimension) ;
-        return ret;
+        return index - (index % subGridDimension) ;
     }
 
     public boolean gridValid(int value_row, int value_column, int number) {

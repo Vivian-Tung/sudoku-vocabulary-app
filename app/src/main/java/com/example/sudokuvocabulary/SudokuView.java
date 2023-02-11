@@ -15,9 +15,9 @@ public class SudokuView extends View {
     private final Paint mGridColourPaint = new Paint();
     private final Paint mCellItemFillColourPaint = new Paint();
     private int mCellSize;
-    private int mGridSideLength = 9;
-    private int mSubGridSize = 3;
-    private int[][] mCellsToDraw;
+    private final int mGridSideLength = 9;
+    private final int mSubGridSize = 3;
+    private final int[][] mCellsToDraw;
 
     public SudokuView(Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
@@ -54,7 +54,7 @@ public class SudokuView extends View {
         mGridColourPaint.setAntiAlias(true);
 
         mCellItemFillColourPaint.setStyle(Paint.Style.FILL);
-        mCellItemFillColourPaint.setTextSize(96);
+        mCellItemFillColourPaint.setTextSize(getCellSize());
         mCellItemFillColourPaint.setColor(mCellItemFillColour);
         mCellItemFillColourPaint.setAntiAlias(true);
 
@@ -80,7 +80,7 @@ public class SudokuView extends View {
                 int cellValue = mCellsToDraw[row][column];
                 if (cellValue != 0) {
                     int x_axis = (int) ((column * mCellSize) + (0.25 * mCellSize));
-                    int y_axis = (int) ((row * mCellSize) + (0.8 * mCellSize));
+                    int y_axis = (int) ((row * mCellSize) + (0.9 * mCellSize));
                     String itemText = Integer.toString(cellValue);
                     canvas.drawText(itemText, x_axis, y_axis, mCellItemFillColourPaint);
                 }

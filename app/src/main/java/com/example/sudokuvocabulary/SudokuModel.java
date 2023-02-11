@@ -67,7 +67,7 @@ public class SudokuModel implements Serializable {
 
     public int getCellsFilled() { return mCellsFilled; }
 
-    public boolean isGridFilled() { return mCellsFilled == 1; }
+    public boolean isGridFilled() { return mCellsFilled == mGridRows*mGridColumns; }
 
     private boolean rowValid(int grid_row, int value) {
         for (int number : getRow(grid_row)) {

@@ -14,6 +14,7 @@ public class SudokuModel implements Serializable {
 
     private int[][] mSudokuGrid;
     private int[] mNumberArray;
+    private int mCellsFilled = 0;
 
     public SudokuModel(int subGridColumns, int subGridRows, int gridColumns, int gridRows) {
         mSubGridRows = subGridRows;
@@ -61,6 +62,12 @@ public class SudokuModel implements Serializable {
     public void setValueAt(int row, int column, int value) {
         mSudokuGrid[row][column] = value;
     }
+
+    public void incrementCellsFilled() { mCellsFilled++; }
+
+    public int getCellsFilled() { return mCellsFilled; }
+
+    public boolean isGridFilled() { return mCellsFilled == 1; }
 
     private boolean rowValid(int grid_row, int value) {
         for (int number : getRow(grid_row)) {

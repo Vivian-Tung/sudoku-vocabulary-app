@@ -8,4 +8,8 @@
     <string name="game_popup_question_text">Match the correct word:</string>
     <string name="game_correct_toast_text">Correct!</string>
     <string name="game_incorrect_toast_text">Incorrect! Please Try Again</string>
+
+    <string name="game_complete_text">Puzzle Complete!</string>
+    <string name="game_complete_home_button_text">Home</string>
+    <string name="game_complete_restart_button_text">Play Again</string>
 </resources>

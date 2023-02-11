@@ -13,6 +13,9 @@
         android:theme="@style/Theme.SudokuVocabulary"
         tools:targetApi="31">
         <activity
+            android:name=".GameCompleteActivity"
+            android:exported="false" />
+        <activity
             android:name=".SudokuActivity"
             android:exported="false" />
         <activity

@@ -1,6 +1,7 @@
 package com.example.sudokuvocabulary;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.MotionEvent;
 import android.view.View;
@@ -10,7 +11,6 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
 import java.util.HashMap;
-import java.util.Random;
 
 public class SudokuActivity extends AppCompatActivity implements View.OnClickListener {
     private QuestionCardView mQuestionCard;
@@ -67,8 +67,8 @@ public class SudokuActivity extends AppCompatActivity implements View.OnClickLis
                         mWordBank.put(wordPair[0], wordPair[1]);
                     }
 
-                    Random random = new Random();
-                    mQuestionCard.setWordPrompt(words[random.nextInt(words.length)][0]);
+                    mQuestionCard.setWordPrompt(words[mSudokuModel.getValueAt(mCellPicked[0],
+                            mCellPicked[1])-1][0]);
                     mQuestionCard.setWordChoiceButtonsText(words);
 
                     mQuestionCard.invalidate();
@@ -85,6 +85,7 @@ public class SudokuActivity extends AppCompatActivity implements View.OnClickLis
         String toastMessage;
 
         if (isCorrect()) {
+            mSudokuModel.incrementCellsFilled();
             mSudokuView.setCellToDraw(mCellPicked[0], mCellPicked[1], mCellPicked[2]);
             mSudokuView.invalidate();
             toastMessage = getString(R.string.game_correct_toast_text);
@@ -93,6 +94,10 @@ public class SudokuActivity extends AppCompatActivity implements View.OnClickLis
         }
         mQuestionCard.setVisibility(View.GONE);
         Toast.makeText(this, toastMessage, Toast.LENGTH_SHORT).show();
+        if (mSudokuModel.isGridFilled()) {
+            Intent intent = new Intent(SudokuActivity.this, GameCompleteActivity.class);
+            startActivity(intent);
+        }
     }
 
     private boolean isCorrect() {

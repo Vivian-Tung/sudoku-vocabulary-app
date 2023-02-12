@@ -4,6 +4,8 @@ import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Canvas;
 import android.graphics.Paint;
+import android.os.Bundle;
+import android.os.Parcelable;
 import android.util.AttributeSet;
 import android.view.View;
 
@@ -21,6 +23,7 @@ public class SudokuView extends View {
 
     public SudokuView(Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
+        setSaveEnabled(true);
 
         TypedArray attributes = context.getTheme().obtainStyledAttributes(attrs,
                 R.styleable.SudokuGrid, 0, 0);
@@ -65,6 +68,7 @@ public class SudokuView extends View {
 
         drawCellNumbers(canvas);
     }
+
 
     public void setCellToDraw(int row, int column, int value) {
         mCellsToDraw[row][column] = value;

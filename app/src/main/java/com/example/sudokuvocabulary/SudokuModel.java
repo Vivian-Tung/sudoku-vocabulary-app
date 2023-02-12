@@ -42,6 +42,10 @@ public class SudokuModel implements Serializable {
         mSudokuGrid = newGrid;
     }
 
+    public void setGridFromArray(int[] newArray) {
+        mSudokuGrid = expand(newArray);
+    }
+
     public int[] getRow(int row) {
         return mSudokuGrid[row];
     }
@@ -225,6 +229,7 @@ public class SudokuModel implements Serializable {
         int index = 0;
         for (int value: array) {
             expandedMatrix[index/matrixLength][index%matrixLength] = value;
+            index++;
         }
         return expandedMatrix;
     }

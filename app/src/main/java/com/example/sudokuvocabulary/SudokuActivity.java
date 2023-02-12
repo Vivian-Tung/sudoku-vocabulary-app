@@ -22,6 +22,11 @@ public class SudokuActivity extends AppCompatActivity implements View.OnClickLis
     private HashMap<String, String> mWordBank = new HashMap<>();
     private int[] mCellPicked = new int[3];
     private String mChoicePicked;
+
+    private static final String KEY_GRID_AS_ARRAY = "gridAsArray";
+    private static final String KEY_NUM_OF_CELLS_FILLED = "numOfCellsFilled";
+    private static final String KEY_CELLS_TO_DRAW = "cellsToDraw";
+    private static final String KEY_POPUP_VISIBLE = "popupVisible";
     @SuppressLint("ClickableViewAccessibility")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,14 +39,6 @@ public class SudokuActivity extends AppCompatActivity implements View.OnClickLis
         mQuestionCard = findViewById(R.id.questionCardView);
         mQuestionCard.setNumberOfChoices(mSudokuModel.getGridSize());
         mQuestionCard.setVisibility(View.GONE);
-
-        if (savedInstanceState != null) {
-            mSudokuModel.setGrid(SudokuModel.expand(savedInstanceState.getIntArray("GridAsArray")));
-            mSudokuModel.setNumOfCellsFilled(savedInstanceState.getInt("NumOfCellsFilled"));
-            mSudokuView.setCellsToDraw(SudokuModel.expand(savedInstanceState.getIntArray("CellsToDraw")));
-            mQuestionCard.setVisibility((savedInstanceState.getBoolean("PopupVisible"))? View.VISIBLE:View.GONE);
-            mSudokuView.invalidate();
-        }
 
         Button[] wordChoiceButtons = mQuestionCard.getWordChoiceButtons();
         for (Button choice: wordChoiceButtons) {
@@ -117,12 +114,28 @@ public class SudokuActivity extends AppCompatActivity implements View.OnClickLis
     }
 
     @Override
-    public void onSaveInstanceState(Bundle saveInstanceState) {
-        super.onSaveInstanceState(saveInstanceState);
-        saveInstanceState.putIntArray("GridAsArray", mSudokuModel.getGridAsArray());
-        saveInstanceState.putInt("NumOfCellsFilled", mSudokuModel.getNumOfCellsFilled());
-        saveInstanceState.putIntArray("CellsToDraw", SudokuModel.flatten(mSudokuView.getCellsToDraw()));
-        saveInstanceState.putBoolean("PopupVisible", (mQuestionCard.getVisibility() == View.VISIBLE));
+    public void onSaveInstanceState(Bundle savedInstanceState) {
+        savedInstanceState.putIntArray(KEY_GRID_AS_ARRAY, mSudokuModel.getGridAsArray());
+        savedInstanceState.putInt(KEY_NUM_OF_CELLS_FILLED, mSudokuModel.getNumOfCellsFilled());
+        savedInstanceState.putIntArray(KEY_CELLS_TO_DRAW, SudokuModel.flatten(mSudokuView.getCellsToDraw()));
+        savedInstanceState.putBoolean(KEY_POPUP_VISIBLE, (mQuestionCard.getVisibility() == View.VISIBLE));
+        super.onSaveInstanceState(savedInstanceState);
+    }
+
+    @Override
+    public void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+
+        mSudokuModel = new SudokuModel();
+        mSudokuModel.setGridFromArray(savedInstanceState.getIntArray(KEY_GRID_AS_ARRAY));
+        mSudokuModel.setNumOfCellsFilled(savedInstanceState.getInt(KEY_NUM_OF_CELLS_FILLED));
+
+        mSudokuView = (SudokuView) findViewById(R.id.sudokuGridView);
+        mSudokuView.setCellsToDraw(SudokuModel.expand(savedInstanceState.getIntArray(KEY_CELLS_TO_DRAW)));
+        mSudokuView.invalidate();
+
+        mQuestionCard = (QuestionCardView) findViewById(R.id.questionCardView);
+        mQuestionCard.setVisibility((savedInstanceState.getBoolean(KEY_POPUP_VISIBLE))? View.VISIBLE:View.GONE);
     }
 
     private boolean isCorrect() {

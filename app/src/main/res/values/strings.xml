@@ -14,4 +14,7 @@
     <string name="activity_main_word_bank_shops">3. Shops</string>
     <string name="activity_main_word_bank_animals">4. Animals</string>
 
+    <string name="activity_add_word_new_word_list">New Word List:</string>
+    <string name="activity_add_word_add_words"> + Add Words</string>
+
 </resources>

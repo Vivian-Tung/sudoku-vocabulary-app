@@ -17,7 +17,7 @@ public class SudokuView extends View {
     private int mCellSize;
     private final int mGridSideLength = 9;
     private final int mSubGridSize = 3;
-    private final int[][] mCellsToDraw;
+    private int[][] mCellsToDraw;
 
     public SudokuView(Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
@@ -72,6 +72,14 @@ public class SudokuView extends View {
 
     public int getCellSize() {
         return mCellSize;
+    }
+
+    public int[][] getCellsToDraw() {
+        return mCellsToDraw;
+    }
+
+    public void setCellsToDraw(int[][] cellsToDraw) {
+        mCellsToDraw = cellsToDraw;
     }
 
     public void drawCellNumbers(Canvas canvas) {

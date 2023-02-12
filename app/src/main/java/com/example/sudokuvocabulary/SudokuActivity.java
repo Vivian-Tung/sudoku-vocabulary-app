@@ -2,7 +2,10 @@ package com.example.sudokuvocabulary;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.os.Bundle;
+import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
@@ -26,28 +29,41 @@ public class SudokuActivity extends AppCompatActivity implements View.OnClickLis
         setContentView(R.layout.activity_sudoku);
 
         mSudokuModel = new SudokuModel();
+        mSudokuView = findViewById(R.id.sudokuGridView);
 
         mQuestionCard = findViewById(R.id.questionCardView);
         mQuestionCard.setNumberOfChoices(mSudokuModel.getGridSize());
-        mQuestionCard.setNumberOfChoices(mSudokuModel.getGridSize());
         mQuestionCard.setVisibility(View.GONE);
+
+        if (savedInstanceState != null) {
+            mSudokuModel.setGrid(SudokuModel.expand(savedInstanceState.getIntArray("GridAsArray")));
+            mSudokuModel.setNumOfCellsFilled(savedInstanceState.getInt("NumOfCellsFilled"));
+            mSudokuView.setCellsToDraw(SudokuModel.expand(savedInstanceState.getIntArray("CellsToDraw")));
+            mQuestionCard.setVisibility((savedInstanceState.getBoolean("PopupVisible"))? View.VISIBLE:View.GONE);
+            mSudokuView.invalidate();
+        }
 
         Button[] wordChoiceButtons = mQuestionCard.getWordChoiceButtons();
         for (Button choice: wordChoiceButtons) {
             choice.setOnClickListener(this);
         }
 
-        mSudokuView = findViewById(R.id.sudokuGridView);
         mSudokuView.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View view, MotionEvent motionEvent) {
                 boolean isValid = false;
-                if (motionEvent.getAction() == MotionEvent.ACTION_DOWN) {
+                if (motionEvent.getAction() == MotionEvent.ACTION_DOWN
+                        && mQuestionCard.getVisibility() == View.GONE) {
+                    int orientation = getResources().getConfiguration().orientation;
 
-                    mCellPicked[0] = (int) (Math.ceil(motionEvent.getY() / mSudokuView.getCellSize()))-1;
-                    mCellPicked[1] = (int) (Math.ceil(motionEvent.getX() / mSudokuView.getCellSize()))-1;
+                    if (orientation == Configuration.ORIENTATION_PORTRAIT) {
+                        mCellPicked[0] = (int) (Math.ceil(motionEvent.getY() / mSudokuView.getCellSize())) - 1;
+                        mCellPicked[1] = (int) (Math.ceil(motionEvent.getX() / mSudokuView.getCellSize())) - 1;
+                    } else if (orientation == Configuration.ORIENTATION_LANDSCAPE) {
+                        mCellPicked[0] = (int) (Math.ceil(motionEvent.getY() / mSudokuView.getCellSize())) - 1;
+                        mCellPicked[1] = (int) ((Math.ceil(motionEvent.getX()) / mSudokuView.getCellSize()));
+                    }
                     mCellPicked[2] = mSudokuModel.getValueAt(mCellPicked[0], mCellPicked[1]);
-
                     isValid = true;
 
                     // Word bank for testing
@@ -98,6 +114,15 @@ public class SudokuActivity extends AppCompatActivity implements View.OnClickLis
             Intent intent = new Intent(SudokuActivity.this, GameCompleteActivity.class);
             startActivity(intent);
         }
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle saveInstanceState) {
+        super.onSaveInstanceState(saveInstanceState);
+        saveInstanceState.putIntArray("GridAsArray", mSudokuModel.getGridAsArray());
+        saveInstanceState.putInt("NumOfCellsFilled", mSudokuModel.getNumOfCellsFilled());
+        saveInstanceState.putIntArray("CellsToDraw", SudokuModel.flatten(mSudokuView.getCellsToDraw()));
+        saveInstanceState.putBoolean("PopupVisible", (mQuestionCard.getVisibility() == View.VISIBLE));
     }
 
     private boolean isCorrect() {

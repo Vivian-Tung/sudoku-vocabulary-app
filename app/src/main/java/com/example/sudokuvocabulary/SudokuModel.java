@@ -1,7 +1,5 @@
 package com.example.sudokuvocabulary;
 
-import android.os.Parcelable;
-
 import java.io.Serializable;
 import java.util.Random;
 
@@ -11,10 +9,9 @@ public class SudokuModel implements Serializable {
     private int mSubGridColumns;
     private int mGridRows;
     private int mGridColumns;
-
     private int[][] mSudokuGrid;
     private int[] mNumberArray;
-    private int mCellsFilled = 0;
+    private int mNumOfCellsFilled = 0;
 
     public SudokuModel(int subGridColumns, int subGridRows, int gridColumns, int gridRows) {
         mSubGridRows = subGridRows;
@@ -37,8 +34,12 @@ public class SudokuModel implements Serializable {
 
     public int getGridSize() { return mGridRows; }
 
-    public int[][] getGrid() {
+    public int[][] getGridAsMatrix() {
         return mSudokuGrid;
+    }
+
+    public void setGrid(int[][] newGrid) {
+        mSudokuGrid = newGrid;
     }
 
     public int[] getRow(int row) {
@@ -63,11 +64,13 @@ public class SudokuModel implements Serializable {
         mSudokuGrid[row][column] = value;
     }
 
-    public void incrementCellsFilled() { mCellsFilled++; }
+    public void incrementCellsFilled() { mNumOfCellsFilled++; }
 
-    public int getCellsFilled() { return mCellsFilled; }
+    public int getNumOfCellsFilled() { return mNumOfCellsFilled; }
 
-    public boolean isGridFilled() { return mCellsFilled == mGridRows*mGridColumns; }
+    public void setNumOfCellsFilled(int numOfCellsFilled) { mNumOfCellsFilled = numOfCellsFilled; }
+
+    public boolean isGridFilled() { return mNumOfCellsFilled == mGridRows*mGridColumns; }
 
     private boolean rowValid(int grid_row, int value) {
         for (int number : getRow(grid_row)) {
@@ -199,5 +202,30 @@ public class SudokuModel implements Serializable {
                 setValueAt(row, column, 0);
             }
         }
+    }
+
+    public int[] getGridAsArray() {
+        return flatten(mSudokuGrid);
+    }
+
+    public static int[] flatten(int[][] matrix) {
+        int[] flattenedArray = new int[matrix.length * matrix.length];
+        int index = 0;
+        for(int[] row: matrix) {
+            for (int value: row) {
+                flattenedArray[index++] = value;
+            }
+        }
+        return flattenedArray;
+    }
+
+    public static int[][] expand(int[] array) {
+        int matrixLength = (int) Math.sqrt(array.length);
+        int[][] expandedMatrix = new int[matrixLength][matrixLength];
+        int index = 0;
+        for (int value: array) {
+            expandedMatrix[index/matrixLength][index%matrixLength] = value;
+        }
+        return expandedMatrix;
     }
 }

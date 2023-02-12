@@ -39,7 +39,9 @@
             android:id="@+id/activity_main_word_foods_button"
             android:layout_width="190dp"
             android:layout_height="wrap_content"
-            android:text="@string/activity_main_word_bank_food"></Button>
+            android:text="@string/activity_main_word_bank_food">
+
+        </Button>
 
         <Button
             android:id="@+id/activity_main_word_transportation_button"
@@ -54,11 +56,6 @@
             android:layout_height="wrap_content"
             android:text="@string/activity_main_word_bank_shops"></Button>
 
-        <Button
-            android:id="@+id/activity_main_word_animals_button"
-            android:layout_width="190dp"
-            android:layout_height="wrap_content"
-            android:text="@string/activity_main_word_bank_animals"></Button>
 
     </LinearLayout>
 </LinearLayout>

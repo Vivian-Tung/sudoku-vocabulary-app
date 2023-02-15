@@ -2,6 +2,8 @@ package com.example.sudokuvocabulary;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
+import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.util.Log;
@@ -27,6 +29,13 @@ public class wordBankActivity extends AppCompatActivity {
 
     //want schema always available
     DBAdapter myDb;
+
+    //create intent
+    public static Intent makeIntent(Context context) {
+        return new Intent(context, wordBankActivity.class);
+    }
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

@@ -5,48 +5,82 @@
     android:orientation="vertical"
     android:gravity="center">
 
-    <TextView
-        android:id = "@+id/add_word_text_view"
-        android:layout_width="wrap_content"
+
+    <LinearLayout
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_marginVertical="40dp"
-        android:text="@string/activity_main_word_bank_text"
-        android:textSize="24sp"
-        android:textColor="@color/black"
-        android:textStyle="bold">
-    </TextView>
+        android:layout_centerInParent="true"
+        android:orientation="horizontal"
+        android:layout_marginTop="0dp"
+        >
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="left"
+            android:layout_marginStart="5dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginEnd="5dp"
+            android:layout_marginBottom="5dp"
+            android:layout_weight="1"
+            android:text="Prev"
+            android:textSize="14sp"></Button>
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true"
+            android:layout_gravity="right"
+            android:layout_marginStart="5dp"
+            android:layout_marginTop="0dp"
+            android:layout_marginEnd="5dp"
+            android:layout_marginBottom="5dp"
+            android:layout_weight="1"
+            android:text="Play"
+            android:textSize="14sp"></Button>
+    </LinearLayout>
 
     <TextView
+        android:id="@+id/add_word_text_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginVertical="20dp"
+        android:text="@string/activity_main_word_bank_text"
+        android:textColor="@color/black"
+        android:textSize="24sp"
+        android:textStyle="bold"></TextView>
+
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginVertical="10dp"
         android:text="@string/activity_add_word_new_word_list"
         android:textColor="@color/black"
         android:textSize="20sp"
-        android:textStyle="bold">
-    </TextView>
-
-
+        android:textStyle="bold"></TextView>
 
     <LinearLayout
         android:id="@+id/gray_box"
-        android:layout_width="350dp"
-        android:layout_height="450dp"
-        android:orientation = "vertical"
+        android:layout_width="370dp"
+        android:layout_height="390dp"
+        android:layout_margin="10dp"
         android:background="@drawable/box"
-        android:layout_margin="10dp">
+        android:orientation="vertical">
 
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_margin="5dp"
             android:background="@drawable/box"
             android:gravity="top|left"
             android:text="@string/activity_add_word_add_words"
             android:textColor="@color/black"
             android:textSize="18sp"
-            android:textStyle="bold"
-            android:layout_margin="5dp">
+            android:textStyle="bold">
 
         </TextView>
 
@@ -54,34 +88,31 @@
             android:id="@+id/button_group1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation = "horizontal"
+            android:layout_centerInParent="true"
             android:layout_gravity="center_horizontal"
             android:layout_margin="4dp"
-            android:layout_centerInParent="true">
-
-           <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Apple"
-                android:layout_margin="2dp"
-                android:layout_weight="1">
-           </Button>
+            android:orientation="horizontal">
 
             <Button
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Banana"
                 android:layout_margin="2dp"
-                android:layout_weight="1">
-            </Button>
+                android:layout_weight="1"
+                android:text="Apple"></Button>
 
             <Button
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Orange"
                 android:layout_margin="2dp"
-                android:layout_weight="1">
-            </Button>
+                android:layout_weight="1"
+                android:text="Banana"></Button>
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="2dp"
+                android:layout_weight="1"
+                android:text="Orange"></Button>
 
         </LinearLayout>
 
@@ -89,32 +120,30 @@
             android:id="@+id/button_group2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation = "horizontal"
             android:layout_gravity="center"
-            android:layout_margin="4dp">
-            <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="pie"
-                android:layout_margin="2dp"
-                android:layout_weight="1">
-            </Button>
+            android:layout_margin="4dp"
+            android:orientation="horizontal">
 
             <Button
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="hamburger"
                 android:layout_margin="2dp"
-                android:layout_weight="1">
-            </Button>
+                android:layout_weight="1"
+                android:text="pie"></Button>
 
             <Button
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="steak"
                 android:layout_margin="2dp"
-                android:layout_weight="1">
-            </Button>
+                android:layout_weight="1"
+                android:text="hamburger"></Button>
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="2dp"
+                android:layout_weight="1"
+                android:text="steak"></Button>
         </LinearLayout>
 
     </LinearLayout>

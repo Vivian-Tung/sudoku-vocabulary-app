@@ -20,12 +20,12 @@ public class SudokuActivity extends AppCompatActivity implements View.OnClickLis
     private SudokuView mSudokuView;
     private SudokuModel mSudokuModel;
     private HashMap<String, String> mWordBank = new HashMap<>();
-    private int[] mCellPicked = new int[3];
+    private int mCellRow=0, mCellColumn=0, mCellValue=0;
     private String mChoicePicked;
 
     private static final String KEY_GRID_AS_ARRAY = "gridAsArray";
-    private static final String KEY_NUM_OF_CELLS_FILLED = "numOfCellsFilled";
-    private static final String KEY_CELLS_TO_DRAW = "cellsToDraw";
+    private static final String KEY_SOLUTION_AS_ARRAY = "solutionArray";
+    private static final String KEY_NUM_OF_EMPTY_CELLS = "numOfCellsFilled";
     private static final String KEY_POPUP_VISIBLE = "popupVisible";
     @SuppressLint("ClickableViewAccessibility")
     @Override
@@ -35,6 +35,7 @@ public class SudokuActivity extends AppCompatActivity implements View.OnClickLis
 
         mSudokuModel = new SudokuModel();
         mSudokuView = findViewById(R.id.sudokuGridView);
+        mSudokuView.setCellsToDraw(mSudokuModel.getGridAsMatrix());
 
         mQuestionCard = findViewById(R.id.questionCardView);
         mQuestionCard.setNumberOfChoices(mSudokuModel.getGridSize());
@@ -54,13 +55,13 @@ public class SudokuActivity extends AppCompatActivity implements View.OnClickLis
                     int orientation = getResources().getConfiguration().orientation;
 
                     if (orientation == Configuration.ORIENTATION_PORTRAIT) {
-                        mCellPicked[0] = (int) (Math.ceil(motionEvent.getY() / mSudokuView.getCellSize())) - 1;
-                        mCellPicked[1] = (int) (Math.ceil(motionEvent.getX() / mSudokuView.getCellSize())) - 1;
+                        mCellRow = (int) (Math.ceil(motionEvent.getY() / mSudokuView.getCellSize())) - 1;
+                        mCellColumn = (int) (Math.ceil(motionEvent.getX() / mSudokuView.getCellSize())) - 1;
                     } else if (orientation == Configuration.ORIENTATION_LANDSCAPE) {
-                        mCellPicked[0] = (int) (Math.ceil(motionEvent.getY() / mSudokuView.getCellSize())) - 1;
-                        mCellPicked[1] = (int) ((Math.ceil(motionEvent.getX()) / mSudokuView.getCellSize()));
+                        mCellRow = (int) (Math.ceil(motionEvent.getY() / mSudokuView.getCellSize())) - 1;
+                        mCellColumn = (int) ((Math.ceil(motionEvent.getX()) / mSudokuView.getCellSize()));
                     }
-                    mCellPicked[2] = mSudokuModel.getValueAt(mCellPicked[0], mCellPicked[1]);
+                    mCellValue = mSudokuModel.getSolutionAt(mCellRow, mCellColumn);
                     isValid = true;
 
                     // Word bank for testing
@@ -80,8 +81,8 @@ public class SudokuActivity extends AppCompatActivity implements View.OnClickLis
                         mWordBank.put(wordPair[0], wordPair[1]);
                     }
 
-                    mQuestionCard.setWordPrompt(words[mSudokuModel.getValueAt(mCellPicked[0],
-                            mCellPicked[1])-1][0]);
+                    mQuestionCard.setWordPrompt(words[mSudokuModel.getSolutionAt(mCellRow,
+                            mCellColumn)-1][0]);
                     mQuestionCard.setWordChoiceButtonsText(words);
 
                     mQuestionCard.invalidate();
@@ -98,8 +99,8 @@ public class SudokuActivity extends AppCompatActivity implements View.OnClickLis
         String toastMessage;
 
         if (isCorrect()) {
-            mSudokuModel.incrementCellsFilled();
-            mSudokuView.setCellToDraw(mCellPicked[0], mCellPicked[1], mCellPicked[2]);
+            mSudokuModel.checkAndFillCellAt(mCellRow, mCellColumn, mCellValue);
+            mSudokuView.setCellToDraw(mCellRow, mCellColumn, mCellValue);
             mSudokuView.invalidate();
             toastMessage = getString(R.string.game_correct_toast_text);
         } else {
@@ -116,8 +117,8 @@ public class SudokuActivity extends AppCompatActivity implements View.OnClickLis
     @Override
     public void onSaveInstanceState(Bundle savedInstanceState) {
         savedInstanceState.putIntArray(KEY_GRID_AS_ARRAY, mSudokuModel.getGridAsArray());
-        savedInstanceState.putInt(KEY_NUM_OF_CELLS_FILLED, mSudokuModel.getNumOfCellsFilled());
-        savedInstanceState.putIntArray(KEY_CELLS_TO_DRAW, SudokuModel.flatten(mSudokuView.getCellsToDraw()));
+        savedInstanceState.putIntArray(KEY_SOLUTION_AS_ARRAY, mSudokuModel.getSolutionAsArray());
+        savedInstanceState.putInt(KEY_NUM_OF_EMPTY_CELLS, mSudokuModel.getNumberOfEmptyCells());
         savedInstanceState.putBoolean(KEY_POPUP_VISIBLE, (mQuestionCard.getVisibility() == View.VISIBLE));
         super.onSaveInstanceState(savedInstanceState);
     }
@@ -128,10 +129,11 @@ public class SudokuActivity extends AppCompatActivity implements View.OnClickLis
 
         mSudokuModel = new SudokuModel();
         mSudokuModel.setGridFromArray(savedInstanceState.getIntArray(KEY_GRID_AS_ARRAY));
-        mSudokuModel.setNumOfCellsFilled(savedInstanceState.getInt(KEY_NUM_OF_CELLS_FILLED));
+        mSudokuModel.setSolutionFromArray(savedInstanceState.getIntArray(KEY_SOLUTION_AS_ARRAY));
+        mSudokuModel.setNumberOfEmptyCells(savedInstanceState.getInt(KEY_NUM_OF_EMPTY_CELLS));
 
         mSudokuView = (SudokuView) findViewById(R.id.sudokuGridView);
-        mSudokuView.setCellsToDraw(SudokuModel.expand(savedInstanceState.getIntArray(KEY_CELLS_TO_DRAW)));
+        mSudokuView.setCellsToDraw(mSudokuModel.getGridAsMatrix());
         mSudokuView.invalidate();
 
         mQuestionCard = (QuestionCardView) findViewById(R.id.questionCardView);

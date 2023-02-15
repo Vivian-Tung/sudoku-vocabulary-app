@@ -15,12 +15,13 @@
         android:textStyle="bold"></TextView>
 
     <Button
-        android:id="@+id/main_menu_play_button"
+        android:id="@+id/create_new_word_list_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/activity_main_word_bank_create_new_list"></Button>
 
     <TextView
+
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginVertical="40dp"

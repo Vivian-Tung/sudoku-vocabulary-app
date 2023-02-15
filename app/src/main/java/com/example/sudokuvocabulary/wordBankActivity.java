@@ -4,8 +4,17 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.database.Cursor;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.nio.charset.Charset;
+import java.util.ArrayList;
+import java.util.List;
 
 /*steps to using DB
 1. instantiate DB adapter
@@ -24,6 +33,8 @@ public class wordBankActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_word);
         openDB();
+
+        readWordData();
     }
     @Override
     protected void onDestroy() {
@@ -31,6 +42,41 @@ public class wordBankActivity extends AppCompatActivity {
         closeDB();
     }
 
+
+    //word bank data
+
+    private List<wordSample> wordSamples = new ArrayList<>();
+
+
+    private void readWordData() {
+        InputStream is = getResources().openRawResource(R.raw.data);
+        //read line by line -> buffewred reader
+        BufferedReader reader = new BufferedReader(
+                new InputStreamReader(is, Charset.forName("UTF-8"))
+        );
+        //loop to read lines at once
+        String line = "";
+        try {
+            while ((line = reader.readLine()) != null) {
+                //split by comma
+                String[] tokens = line.split(",");
+
+                //read the data
+                wordSample sample = new wordSample();
+                sample.setWord(tokens[0]);
+                sample.setTranslation(tokens[1]);
+                wordSamples.add(sample);
+
+                Log.d("WordBankActivity", "Just created: " + sample);
+            }
+        }  catch (IOException e){
+                Log.wtf("WordBankActivity", "Error reading data file on line" + line, e);
+                e.printStackTrace();
+            }
+        }
+
+
+    //database
     private void openDB() {
         myDb = new DBAdapter(this); //need activity to interact
         myDb.open();
@@ -96,6 +142,8 @@ public class wordBankActivity extends AppCompatActivity {
 
         displayText(message);
     }
+    
+
 
 }
 

@@ -61,6 +61,9 @@ public class SudokuActivity extends AppCompatActivity implements View.OnClickLis
                         mCellRow = (int) (Math.ceil(motionEvent.getY() / mSudokuView.getCellSize())) - 1;
                         mCellColumn = (int) ((Math.ceil(motionEvent.getX()) / mSudokuView.getCellSize()));
                     }
+                    if (!mSudokuModel.cellIsEmpty(mCellRow, mCellColumn)) {
+                        return isValid;
+                    }
                     mCellValue = mSudokuModel.getSolutionAt(mCellRow, mCellColumn);
                     isValid = true;
 

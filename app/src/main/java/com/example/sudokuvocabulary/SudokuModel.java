@@ -47,8 +47,8 @@ public class SudokuModel implements Serializable {
     }
 
     public SudokuModel(int[] grid, int subGridRows, int subGridColumns) {
-        mGridLength = grid.length;
-        mGridSize = grid.length*grid.length;
+        mGridLength = (int) Math.sqrt(grid.length);
+        mGridSize = grid.length;
         mSubGridRows = subGridRows;
         mSubGridColumns = subGridColumns;
         mNumberArray = sequenceArray();
@@ -61,7 +61,7 @@ public class SudokuModel implements Serializable {
         this(grid, 3, 3);
     }
 
-    public int getGridSize() { return mGridLength; }
+    public int getGridLength() { return mGridLength; }
 
     public int[][] getGridAsMatrix() { return mSudokuGrid; }
 

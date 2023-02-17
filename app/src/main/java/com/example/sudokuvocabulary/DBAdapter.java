@@ -21,15 +21,17 @@ public class DBAdapter {
     public static final int COL_ROWID = 0;
 
     // fields:
+    public static final String KEY_LISTID = "listID";
     public static final String KEY_WORD = "word";
     public static final String KEY_TRANSLATION = "translation";
 
     // field numbers (0 = KEY_ROWID, 1=...)
-    public static final int COL_WORD = 1;
-    public static final int COL_TRANSLATION= 2;
+    public static final int COL_LISTID = 1;
+    public static final int COL_WORD = 2;
+    public static final int COL_TRANSLATION= 3;
 
 
-    public static final String[] ALL_KEYS = new String[] {KEY_ROWID, KEY_WORD, KEY_TRANSLATION};
+    public static final String[] ALL_KEYS = new String[] {KEY_ROWID, KEY_LISTID, KEY_WORD, KEY_TRANSLATION};
 
     // DB info: it's name, and the table .
     public static final String DATABASE_NAME = "MyDb";
@@ -47,6 +49,7 @@ public class DBAdapter {
                     //		(http://www.sqlite.org/datatype3.html)
                     //  - "not null" means it is a required field (must be given a value).
                     // NOTE: All must be comma separated (end of line!) Last one must have NO comma!!
+                    + KEY_LISTID + "long not null, "
                     + KEY_WORD + " text not null, "
                     + KEY_TRANSLATION + " text not null "
 
@@ -80,10 +83,11 @@ public class DBAdapter {
     }
 
     // Add a new set of values to the database.
-    public long insertRow(String word, String translation) {
+    public long insertRow(long listID, String word, String translation) {
 
         // Create row's data:
         ContentValues initialValues = new ContentValues();
+        initialValues.put(KEY_LISTID, listID);
         initialValues.put(KEY_WORD, word);
         initialValues.put(KEY_TRANSLATION, translation);
 
@@ -131,12 +135,13 @@ public class DBAdapter {
     }
 
     // Change an existing row to be equal to new data.
-    public boolean updateRow(long rowId, String word, String translation) {
+    public boolean updateRow(long rowId, long listID, String word, String translation) {
         String where = KEY_ROWID + "=" + rowId;
 
 
         // Create row's data:
         ContentValues newValues = new ContentValues();
+        newValues.put(KEY_LISTID, listID);
         newValues.put(KEY_WORD, word);
         newValues.put(KEY_TRANSLATION, translation);
 

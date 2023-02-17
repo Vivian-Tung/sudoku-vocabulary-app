@@ -1,12 +1,15 @@
 package com.example.sudokuvocabulary;
 
 public class wordSample {
+    private long listID;
     private String word;
     private String translation;
 
-    public String getWord() {
-        return word;
-    }
+    public long getListID() {return listID;}
+
+    public void setListID(long listID) {this.listID = listID;}
+
+    public String getWord() {return word;}
 
     public void setWord(String word) {
         this.word = word;
@@ -27,4 +30,6 @@ public class wordSample {
                 ", translation='" + translation + '\'' +
                 '}';
     }
+
+
 }

@@ -7,9 +7,11 @@ import android.os.Bundle;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
 import java.util.HashMap;
 
@@ -29,6 +31,11 @@ public class SudokuActivity extends AppCompatActivity implements View.OnClickLis
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sudoku);
+
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+
+        setupTutorialButton();
 
         mSudokuModel = new SudokuModel();
         mSudokuView = findViewById(R.id.sudokuGridView);
@@ -139,5 +146,17 @@ public class SudokuActivity extends AppCompatActivity implements View.OnClickLis
 
     private boolean isCorrect() {
         return mChoicePicked.equals(mWordBank.get(mQuestionCard.getWordPrompt()));
+    }
+
+    private void setupTutorialButton() {
+        ImageView tutorialBtn = findViewById(R.id.tutorialBtn);
+        tutorialBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Intent intent = new Intent(SudokuActivity.this, TutorialActivity.class);
+                startActivity(intent);
+            }
+        });
     }
 }

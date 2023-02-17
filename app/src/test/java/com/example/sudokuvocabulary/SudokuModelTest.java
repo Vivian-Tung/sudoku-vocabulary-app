@@ -85,19 +85,26 @@ public class SudokuModelTest {
     private final int[][] testArraySuite = {testArray1, testArray2, testArray3};
 
     @Test
-    public void getGridSize() {
-        SudokuModel model = new SudokuModel(testGrid1);
-        assertEquals(9, model.getGridSize());
-        SudokuModel model2 = new SudokuModel(testGrid2);
-        assertEquals(9, model2.getGridSize());
+    public void getGridLength() {
+        for (int[][] grid: testGridSuite) {
+            SudokuModel model = new SudokuModel(grid);
+            assertEquals(grid.length, model.getGridLength());
+        }
+        for (int[] array: testArraySuite) {
+            SudokuModel model = new SudokuModel(array);
+            assertEquals((int) Math.sqrt(array.length), model.getGridLength());
+        }
     }
 
     @Test
     public void getGridAsMatrix() {
-        SudokuModel model = new SudokuModel(testGrid1);
-        assertArrayEquals(testGrid1, model.getGridAsMatrix());
-        SudokuModel model2 = new SudokuModel(testGrid2);
-        assertArrayEquals(testGrid2, model2.getGridAsMatrix());
+        for (int num=0; num < testGridSuite.length; num++) {
+            int[][] grid = testGridSuite[num];
+            SudokuModel model = new SudokuModel(grid);
+            assertArrayEquals(grid, model.getGridAsMatrix());
+            model = new SudokuModel(testArraySuite[num]);
+            assertArrayEquals(testGridSuite[num], model.getGridAsMatrix());
+        }
     }
 
     @Test

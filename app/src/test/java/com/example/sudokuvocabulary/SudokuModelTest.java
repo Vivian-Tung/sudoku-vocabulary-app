@@ -2,94 +2,156 @@ package com.example.sudokuvocabulary;
 
 import static org.junit.Assert.*;
 
+import junit.framework.TestCase;
+
 import org.junit.Test;
 
 public class SudokuModelTest {
-    public int[][] testGrid = {
-            {4,5,6,9,7,3,1,8,2},
-            {3,7,1,2,8,5,4,6,9},
-            {2,8,9,6,4,1,7,3,5},
-            {9,6,4,1,2,7,3,5,8},
-            {1,2,5,3,6,8,9,7,4},
-            {8,3,7,4,5,9,2,1,6},
-            {7,9,8,5,3,4,6,2,1},
-            {5,1,2,7,9,6,8,4,3},
-            {6,4,3,8,1,2,5,9,7},
+
+    private final int[][] testGrid1 = {
+            {4, 5, 6, 9, 7, 3, 1, 8, 2},
+            {3, 7, 1, 2, 8, 5, 4, 6, 9},
+            {2, 8, 9, 6, 4, 1, 7, 3, 5},
+            {9, 6, 4, 1, 2, 7, 3, 5, 8},
+            {1, 2, 5, 3, 6, 8, 9, 7, 4},
+            {8, 3, 7, 4, 5, 9, 2, 1, 6},
+            {7, 9, 8, 5, 3, 4, 6, 2, 1},
+            {5, 1, 2, 7, 9, 6, 8, 4, 3},
+            {6, 4, 3, 8, 1, 2, 5, 9, 7},
     };
+
+    private final int[] testArray1 = {
+            4, 5, 6, 9, 7, 3, 1, 8, 2,
+            3, 7, 1, 2, 8, 5, 4, 6, 9,
+            2, 8, 9, 6, 4, 1, 7, 3, 5,
+            9, 6, 4, 1, 2, 7, 3, 5, 8,
+            1, 2, 5, 3, 6, 8, 9, 7, 4,
+            8, 3, 7, 4, 5, 9, 2, 1, 6,
+            7, 9, 8, 5, 3, 4, 6, 2, 1,
+            5, 1, 2, 7, 9, 6, 8, 4, 3,
+            6, 4, 3, 8, 1, 2, 5, 9, 7,
+    };
+
+    private final int[][] testGrid2 = {
+            {4, 6, 9, 8, 7, 1, 5, 3, 2},
+            {5, 2, 7, 9, 6, 3, 4, 1, 8},
+            {3, 1, 8, 2, 5, 4, 9, 6, 7},
+            {7, 5, 1, 4, 9, 6, 8, 2, 3},
+            {2, 9, 4, 3, 1, 8, 7, 5, 6},
+            {8, 3, 6, 5, 2, 7, 1, 4, 9},
+            {6, 4, 2, 1, 8, 9, 3, 7, 5},
+            {9, 7, 3, 6, 4, 5, 2, 8, 1},
+            {1, 8, 5, 7, 3, 2, 6, 9, 4}
+    };
+
+    private final int[] testArray2 = {
+            4, 6, 9, 8, 7, 1, 5, 3, 2,
+            5, 2, 7, 9, 6, 3, 4, 1, 8,
+            3, 1, 8, 2, 5, 4, 9, 6, 7,
+            7, 5, 1, 4, 9, 6, 8, 2, 3,
+            2, 9, 4, 3, 1, 8, 7, 5, 6,
+            8, 3, 6, 5, 2, 7, 1, 4, 9,
+            6, 4, 2, 1, 8, 9, 3, 7, 5,
+            9, 7, 3, 6, 4, 5, 2, 8, 1,
+            1, 8, 5, 7, 3, 2, 6, 9, 4
+    };
+
+    private final int[][][] testGridSuite = {testGrid1, testGrid2};
+    private final int[][] testArraySuite = {testArray1, testArray2};
+
     @Test
     public void getGridSize() {
+        SudokuModel model = new SudokuModel(testGrid1);
+        assertEquals(9, model.getGridSize());
+        SudokuModel model2 = new SudokuModel(testGrid2);
+        assertEquals(9, model2.getGridSize());
     }
 
     @Test
     public void getGridAsMatrix() {
+        SudokuModel model = new SudokuModel(testGrid1);
+        assertArrayEquals(testGrid1, model.getGridAsMatrix());
+        SudokuModel model2 = new SudokuModel(testGrid2);
+        assertArrayEquals(testGrid2, model2.getGridAsMatrix());
     }
 
     @Test
     public void setGrid() {
+        SudokuModel model = new SudokuModel();
+        model.setGrid(testGrid1);
+        assertArrayEquals(testGrid1, model.getGridAsMatrix());
     }
 
     @Test
     public void setGridFromArray() {
-    }
-
-    @Test
-    public void getRow() {
-    }
-
-    @Test
-    public void getColumn() {
+        for (int[] array: testArraySuite) {
+            SudokuModel model = new SudokuModel();
+            model.setGridFromArray(array);
+            assertArrayEquals(array, model.getGridAsArray());
+        }
     }
 
     @Test
     public void getValueAt() {
+        for (int[][] grid: testGridSuite) {
+            SudokuModel model = new SudokuModel(grid);
+            for (int num = 0; num < grid.length * grid.length; num++) {
+                int row = num / grid.length, column = num % grid.length;
+                assertEquals(grid[row][column], model.getValueAt(row, column));
+            }
+        }
     }
 
     @Test
     public void setValueAt() {
+        int[][] emptyGrid = new int[9][9];
+        SudokuModel model = new SudokuModel(emptyGrid);
+        for (int num = 0; num < emptyGrid.length * emptyGrid.length; num++) {
+            int row = num / emptyGrid.length, column = num % emptyGrid.length;
+            model.setValueAt(row, column, num);
+            assertEquals(num, model.getValueAt(row, column));
+        }
     }
 
     @Test
     public void cellIsEmpty() {
+        SudokuModel model = new SudokuModel(testGrid2);
     }
 
     @Test
     public void isGridFilled() {
-    }
-
-    @Test
-    public void gridValid() {
+        SudokuModel model = new SudokuModel();
+        model.setGrid(testGrid1);
+        assertTrue(model.isGridFilled());
+        model.newPuzzle(4);
+        assertFalse(model.isGridFilled());
     }
 
     @Test
     public void newFilledGrid() {
-    }
-
-    @Test
-    public void solve() {
+        SudokuModel model = new SudokuModel();
+        model.newFilledGrid();
+        boolean hasEmptyCell = false;
+        for (int num: model.getGridAsArray()) {
+            hasEmptyCell = (num==0) || hasEmptyCell;
+        }
+        assertFalse(hasEmptyCell);
     }
 
     @Test
     public void newPuzzle() {
         SudokuModel model = new SudokuModel();
-        model.setGrid(testGrid);
+        model.setGrid(testGrid1);
         int numberOfEmptyCells = 9;
         model.newPuzzle(numberOfEmptyCells);
         assertEquals(numberOfEmptyCells, model.getNumberOfEmptyCells());
     }
 
     @Test
-    public void clearGrid() {
-    }
-
-    @Test
     public void getGridAsArray() {
-    }
-
-    @Test
-    public void flatten() {
-    }
-
-    @Test
-    public void expand() {
+        SudokuModel model = new SudokuModel();
+        model.setGrid(testGrid1);
+        int[] modelArray = model.getGridAsArray();
+        assertArrayEquals(testArray1, modelArray);
     }
 }

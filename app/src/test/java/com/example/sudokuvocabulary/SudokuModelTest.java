@@ -114,8 +114,25 @@ public class SudokuModelTest {
     }
 
     @Test
-    public void cellIsEmpty() {
-        SudokuModel model = new SudokuModel(testGrid2);
+    public void cellNotEmpty() {
+        for (int[][] grid: testGridSuite) {
+            SudokuModel model = new SudokuModel(grid);
+            for(int row=0; row < grid.length; row++) {
+                for (int column=0; column < grid.length; column++) {
+                    model.setValueAt(row, column, grid[row][column]);
+                    assertEquals(grid[row][column]!=0, model.cellNotEmpty(row, column));
+                }
+            }
+        }
+        for (int[] array: testArraySuite) {
+            SudokuModel model = new SudokuModel(array);
+            for(int index=0; index < array.length; index++) {
+                int gridLength = (int) Math.sqrt(array.length);
+                int row = index/gridLength, column = index%gridLength;
+                model.setValueAt(row, column, array[index]);
+                assertEquals(array[index]!=0, model.cellNotEmpty(row, column));
+            }
+        }
     }
 
     @Test

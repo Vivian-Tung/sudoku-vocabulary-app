@@ -1,8 +1,9 @@
 package com.example.sudokuvocabulary;
 
-import static org.junit.Assert.*;
-
-import junit.framework.TestCase;
+import static org.junit.Assert.assertArrayEquals;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
 
@@ -56,8 +57,32 @@ public class SudokuModelTest {
             1, 8, 5, 7, 3, 2, 6, 9, 4
     };
 
-    private final int[][][] testGridSuite = {testGrid1, testGrid2};
-    private final int[][] testArraySuite = {testArray1, testArray2};
+    int[][] testGrid3 = {
+            {0, 7, 0, 0, 0, 8, 0, 0, 0},
+            {0, 0, 0, 0, 0, 9, 7, 4, 0},
+            {8, 4, 0, 2, 0, 0, 0 ,6, 0},
+            {1, 0, 0, 0, 0, 6, 0, 0, 0},
+            {3, 9, 0, 0, 0, 0, 0, 8, 5},
+            {0, 0, 0, 3, 0, 0, 0, 0, 1},
+            {0, 2, 0, 0, 0, 4, 0, 9, 3},
+            {0, 5, 8, 1, 0, 0, 0, 0, 0},
+            {0, 0, 0, 5, 0, 0, 0, 1, 0},
+    };
+
+    int[] testArray3 = {
+            0, 7, 0, 0, 0, 8, 0, 0, 0,
+            0, 0, 0, 0, 0, 9, 7, 4, 0,
+            8, 4, 0, 2, 0, 0, 0 ,6, 0,
+            1, 0, 0, 0, 0, 6, 0, 0, 0,
+            3, 9, 0, 0, 0, 0, 0, 8, 5,
+            0, 0, 0, 3, 0, 0, 0, 0, 1,
+            0, 2, 0, 0, 0, 4, 0, 9, 3,
+            0, 5, 8, 1, 0, 0, 0, 0, 0,
+            0, 0, 0, 5, 0, 0, 0, 1, 0,
+    };
+
+    private final int[][][] testGridSuite = {testGrid1, testGrid2, testGrid3};
+    private final int[][] testArraySuite = {testArray1, testArray2, testArray3};
 
     @Test
     public void getGridSize() {

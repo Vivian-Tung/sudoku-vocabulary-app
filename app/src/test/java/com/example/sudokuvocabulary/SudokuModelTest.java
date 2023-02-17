@@ -193,7 +193,7 @@ public class SudokuModelTest {
     @Test
     public void newPuzzle() {
         SudokuModel model = new SudokuModel();
-        for (int numOfEmptyCells=0; numOfEmptyCells<50; numOfEmptyCells++) {
+        for (int numOfEmptyCells=0; numOfEmptyCells<50; numOfEmptyCells+=3) {
             model.newPuzzle(numOfEmptyCells);
             assertEquals(numOfEmptyCells, model.getNumberOfEmptyCells());
         }

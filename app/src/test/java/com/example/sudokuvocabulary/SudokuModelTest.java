@@ -109,9 +109,11 @@ public class SudokuModelTest {
 
     @Test
     public void setGrid() {
-        SudokuModel model = new SudokuModel();
-        model.setGrid(testGrid1);
-        assertArrayEquals(testGrid1, model.getGridAsMatrix());
+        for (int[][] grid: testGridSuite) {
+            SudokuModel model = new SudokuModel();
+            model.setGrid(grid);
+            assertArrayEquals(grid, model.getGridAsMatrix());
+        }
     }
 
     @Test
@@ -170,9 +172,10 @@ public class SudokuModelTest {
     @Test
     public void isGridFilled() {
         SudokuModel model = new SudokuModel();
-        model.setGrid(testGrid1);
+        model.newFilledGrid();
         assertTrue(model.isGridFilled());
-        model.newPuzzle(4);
+
+        model.setGrid(testGrid3);
         assertFalse(model.isGridFilled());
     }
 
@@ -190,17 +193,14 @@ public class SudokuModelTest {
     @Test
     public void newPuzzle() {
         SudokuModel model = new SudokuModel();
-        model.setGrid(testGrid1);
-        int numberOfEmptyCells = 9;
-        model.newPuzzle(numberOfEmptyCells);
-        assertEquals(numberOfEmptyCells, model.getNumberOfEmptyCells());
+        assertEquals(5, model.getNumberOfEmptyCells());
     }
 
     @Test
     public void getGridAsArray() {
-        SudokuModel model = new SudokuModel();
-        model.setGrid(testGrid1);
-        int[] modelArray = model.getGridAsArray();
-        assertArrayEquals(testArray1, modelArray);
+        for (int[] array: testArraySuite) {
+            SudokuModel model = new SudokuModel(array);
+            assertArrayEquals(array, model.getGridAsArray());
+        }
     }
 }

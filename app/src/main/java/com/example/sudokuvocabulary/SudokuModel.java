@@ -139,7 +139,10 @@ public class SudokuModel implements Serializable {
         return valid && subGridValid(subGridRowStart, subGridColumnStart, number);
     }
 
-    public void newFilledGrid() { solver(0); }
+    public void newFilledGrid() {
+        solver(0);
+        mNumOfEmptyCells = 0;
+    }
 
     private boolean solver(int index) {
         if (index >= mGridSize) { return true; }
@@ -155,6 +158,7 @@ public class SudokuModel implements Serializable {
                 setValueAt(row, column, number);
                 // Recursively check next position
                 if (solver(index + 1)) {
+                    mNumOfEmptyCells--;
                     break;
                 } else {
                     // Set value back to zero

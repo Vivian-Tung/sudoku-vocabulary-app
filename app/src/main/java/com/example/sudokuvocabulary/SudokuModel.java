@@ -197,6 +197,7 @@ public class SudokuModel implements Serializable {
     }
 
     public void newPuzzle(int numOfEmptyCells) {
+        setNumberOfEmptyCells(0);
         int[][] cells = new int[mGridSize][2];
         for (int index=0; index < mGridSize; index++) {
             cells[index][0] = index / mGridLength;
@@ -209,6 +210,7 @@ public class SudokuModel implements Serializable {
             setValueAt(row, column, 0);
             boolean uniqueSol = hasUniqueSolution();
             if (uniqueSol) {
+                mNumOfEmptyCells++;
                 numOfEmptyCells--;
             } else {
                 setValueAt(row, column, temp);

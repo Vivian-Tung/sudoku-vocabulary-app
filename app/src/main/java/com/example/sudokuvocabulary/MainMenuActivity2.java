@@ -22,10 +22,10 @@ public class MainMenuActivity2 extends AppCompatActivity {
         new_word_list_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //Intent intent = new Intent(MainMenuActivity2.this, wordBankActivity.class);
-                Intent intent = wordBankActivity.makeIntent(MainMenuActivity2.this);
+                Intent intent = new Intent(MainMenuActivity2.this, wordBankActivity.class);
                 startActivity(intent);
             }
         });
+
     }
 }

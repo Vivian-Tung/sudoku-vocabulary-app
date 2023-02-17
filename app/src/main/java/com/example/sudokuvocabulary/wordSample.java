@@ -1,13 +1,13 @@
 package com.example.sudokuvocabulary;
 
 public class wordSample {
-    private long listID;
+    //private long listID;
     private String word;
     private String translation;
 
-    public long getListID() {return listID;}
+    //public long getListID() {return listID;}
 
-    public void setListID(long listID) {this.listID = listID;}
+    //public void setListID(long listID) {this.listID = listID;}
 
     public String getWord() {return word;}
 

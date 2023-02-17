@@ -2,8 +2,6 @@ package com.example.sudokuvocabulary;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.content.Context;
-import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.util.Log;
@@ -30,12 +28,6 @@ public class wordBankActivity extends AppCompatActivity {
     //want schema always available
     DBAdapter myDb;
 
-
-    //create intent
-    public static Intent makeIntent(Context context) {
-        return new Intent(context, wordBankActivity.class);
-    }
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -57,8 +49,8 @@ public class wordBankActivity extends AppCompatActivity {
 
 
     private void readWordData() {
-        InputStream is = getResources().openRawResource(R.raw.data);
-        //read line by line -> buffered reader
+        InputStream is = getResources().openRawResource(R.raw.test_data);
+        //read line by line -> buffewred reader
         BufferedReader reader = new BufferedReader(
                 new InputStreamReader(is, Charset.forName("UTF-8"))
         );
@@ -71,18 +63,17 @@ public class wordBankActivity extends AppCompatActivity {
 
                 //read the data
                 wordSample sample = new wordSample();
-                sample.setListID(Long.parseLong(tokens[0]));
-                sample.setWord(tokens[1]);
-                sample.setTranslation(tokens[2]);
+                sample.setWord(tokens[0]);
+                sample.setTranslation(tokens[1]);
                 wordSamples.add(sample);
 
                 Log.d("WordBankActivity", "Just created: " + sample);
             }
         }  catch (IOException e){
-                Log.wtf("WordBankActivity", "Error reading data file on line" + line, e);
-                e.printStackTrace();
-            }
+            Log.wtf("WordBankActivity", "Error reading data file on line" + line, e);
+            e.printStackTrace();
         }
+    }
 
 
     //database
@@ -104,7 +95,7 @@ public class wordBankActivity extends AppCompatActivity {
         displayText("Clicked add new record!");
         //but actually i need to make it darkened button
 
-        long newId = myDb.insertRow(1, "Dog","狗" ); //how to connect?
+        long newId = myDb.insertRow("Dog","狗" );
 
         //query for record just added -> use ID
         Cursor cursor = myDb.getRow(newId);
@@ -136,13 +127,11 @@ public class wordBankActivity extends AppCompatActivity {
             do {
                 //process data:
                 int id = cursor.getInt(DBAdapter.COL_ROWID);
-                long listID = cursor.getLong(DBAdapter.COL_LISTID);
                 String word = cursor.getString(DBAdapter.COL_WORD);
                 String translation = cursor.getString(DBAdapter.COL_TRANSLATION);
 
                 //append data to message:
                 message += "id=" + id
-                        + ", listId =" + listID
                         + ", word =" + word
                         + ", translation =" + translation
                         + "\n";
@@ -153,7 +142,7 @@ public class wordBankActivity extends AppCompatActivity {
 
         displayText(message);
     }
-    
+
 
 
 }

@@ -35,7 +35,7 @@ public class SudokuActivity extends AppCompatActivity implements View.OnClickLis
         mSudokuView.setCellsToDraw(mSudokuModel.getGridAsMatrix());
 
         mQuestionCard = findViewById(R.id.questionCardView);
-        mQuestionCard.setNumberOfChoices(mSudokuModel.getGridSize());
+        mQuestionCard.setNumberOfChoices(mSudokuModel.getGridLength());
         mQuestionCard.setVisibility(View.GONE);
 
         Button[] wordChoiceButtons = mQuestionCard.getWordChoiceButtons();

@@ -1,21 +1,18 @@
 package com.example.sudokuvocabulary;
 
-import android.util.Log;
-
 import java.io.Serializable;
-import java.util.Arrays;
 import java.util.Random;
 
 public class SudokuModel implements Serializable {
 
-    private int mSubGridRows;
-    private int mSubGridColumns;
-    private int mGridLength;
-    private int mGridSize;
+    private final int mSubGridRows;
+    private final int mSubGridColumns;
+    private final int mGridLength;
+    private final int mGridSize;
     private int[][] mSudokuGrid;
     private int[][] mSudokuSolution;
-    private int[] mNumberArray;
-    private int mNumOfEmptyCells = 0;
+    private final int[] mNumberArray;
+    private int mNumOfEmptyCells;
 
     public SudokuModel(int gridLength, int subGridColumns, int subGridRows, int numOfEmptyCells) {
         mSubGridRows = subGridRows;
@@ -24,17 +21,29 @@ public class SudokuModel implements Serializable {
         mGridSize = gridLength*gridLength;
         mNumOfEmptyCells = numOfEmptyCells;
         mSudokuGrid = new int[gridLength][gridLength];
-        mNumberArray = new int[gridLength];
-        for (int i=0;i<gridLength;i++) {
-            mNumberArray[i] = i+1;
-        }
+        mNumberArray = sequenceArray();
         newFilledGrid();
         mSudokuSolution = copy(getGridAsMatrix());
         newPuzzle(numOfEmptyCells);
     }
 
     public SudokuModel() {
-        this(9, 3, 3, 1);
+        this(9, 3, 3, 5);
+    }
+
+    public SudokuModel(int[][] grid, int subGridRows, int subGridColumns) {
+        mGridLength = grid.length;
+        mGridSize = grid.length*grid.length;
+        mSubGridRows = subGridRows;
+        mSubGridColumns = subGridColumns;
+        mNumberArray = sequenceArray();
+        setGrid(grid);
+        mSudokuSolution = copy(getGridAsMatrix());
+        mNumOfEmptyCells = findNumOfEmptyCells();
+    }
+
+    public SudokuModel(int[][] grid) {
+        this(grid, (int) Math.sqrt(grid.length), (int) Math.sqrt(grid.length));
     }
 
     public int getGridSize() { return mGridLength; }
@@ -43,14 +52,13 @@ public class SudokuModel implements Serializable {
 
     public int[] getGridAsArray() { return flatten(mSudokuGrid); }
 
-    public int[][] getSolutionAsMatrix() { return mSudokuSolution; }
-
     public int[] getSolutionAsArray() {return flatten(mSudokuSolution); }
 
     public int getSolutionAt(int row, int column) { return mSudokuSolution[row][column]; }
 
     public void setGrid(int[][] newGrid) {
         mSudokuGrid = newGrid;
+        mNumOfEmptyCells = findNumOfEmptyCells();
     }
 
     public void setGridFromArray(int[] newArray) {
@@ -87,54 +95,28 @@ public class SudokuModel implements Serializable {
 
     public int getNumberOfEmptyCells() { return mNumOfEmptyCells; }
 
-    public boolean cellIsEmpty(int row, int column) { return getValueAt(row, column) == 0; }
+    public boolean cellNotEmpty(int row, int column) { return getValueAt(row, column) != 0; }
 
     public boolean isGridFilled() { return mNumOfEmptyCells == 0; }
 
-    public boolean checkAndFillCellAt(int row, int column, int value) {
-        if (value != getSolutionAt(row, column)) { return false; }
-
-        setValueAt(row, column, value);
-        setNumberOfEmptyCells(mNumOfEmptyCells-1);
-        return true;
-    }
-
-    private boolean rowValid(int grid_row, int value) {
-        for (int number : getRow(grid_row)) {
-            if (number == value) {
-                return false;
+    public int findNumOfEmptyCells() {
+        int numOfEmptyCells = 0;
+        for (int n: getGridAsArray()) {
+            if (n==0) {
+               numOfEmptyCells++;
             }
         }
-        return true;
+        return numOfEmptyCells;
     }
 
-    private boolean columnValid(int grid_column, int value) {
-        for (int number : getColumn(grid_column)) {
-            if (number == value) {
-                return false;
-            }
+    public void checkAndFillCellAt(int row, int column, int value) {
+        if (value == getSolutionAt(row, column)) {
+            setValueAt(row, column, value);
+            setNumberOfEmptyCells(mNumOfEmptyCells-1);
         }
-        return true;
     }
 
-    public boolean subGridValid(int grid_row_start, int grid_column_start, int value) {
-        int grid_row_end = grid_row_start + mSubGridRows;
-        int grid_column_end = grid_column_start + mSubGridColumns;
-        for (int row = grid_row_start; row < grid_row_end; row++) {
-            for (int column = grid_column_start; column < grid_column_end; column++) {
-                if (getValueAt(row, column) == value) {
-                    return false;
-                }
-            }
-        }
-        return true;
-    }
-    
-    private int calculateSubGridIndex(int index, int subGridDimension) {
-        return index - (index % subGridDimension) ;
-    }
-
-    public boolean gridValid(int value_row, int value_column, int number) {
+    private boolean gridValid(int value_row, int value_column, int number) {
         int subGridRowStart = calculateSubGridIndex(value_row, mSubGridRows);
         int subGridColumnStart = calculateSubGridIndex(value_column, mSubGridColumns);
 
@@ -142,34 +124,14 @@ public class SudokuModel implements Serializable {
         return valid && subGridValid(subGridRowStart, subGridColumnStart, number);
     }
 
-    private void shuffleArray(int[] array) {
-        Random random = new Random();
-        for (int i = 0; i < array.length; i++) {
-            int index = random.nextInt(i+1);
-            int temp = array[index];
-            array[index] = array[i];
-            array[i] = temp;
-        }
-    }
-
-    private void shuffleMatrix(int[][] matrix) {
-        Random random = new Random();
-        for (int i = 0; i < matrix.length; i++) {
-            int index = random.nextInt(i+1);
-            int[] temp = matrix[index];
-            matrix[index] = matrix[i];
-            matrix[i] = temp;
-        }
-    }
-
-    public boolean newFilledGrid() { return solver(0); }
+    public void newFilledGrid() { solver(0); }
 
     private boolean solver(int index) {
         if (index >= mGridSize) { return true; }
 
         int row = (index / mGridLength), column = (index % mGridLength);
 
-        if (!cellIsEmpty(row, column)) { return solver(index + 1); }
+        if (cellNotEmpty(row, column)) { return solver(index + 1); }
         // Number array is shuffled to generate random puzzle
         shuffleArray(mNumberArray);
         for (int number: mNumberArray) {
@@ -185,7 +147,7 @@ public class SudokuModel implements Serializable {
                 }
             }
         }
-        return !cellIsEmpty(row, column);
+        return cellNotEmpty(row, column);
     }
 
     private boolean hasUniqueSolution() {
@@ -200,7 +162,7 @@ public class SudokuModel implements Serializable {
 
         int row = (index / mGridLength), column = (index % mGridLength);
 
-        if (cellIsEmpty(row,column) == false) {
+        if (cellNotEmpty(row, column)) {
             return countSolutions(index+1, numOfSolutions);
         }
         for (int number: mNumberArray) {
@@ -235,7 +197,7 @@ public class SudokuModel implements Serializable {
         }
     }
 
-    public static int[] flatten(int[][] matrix) {
+    private int[] flatten(int[][] matrix) {
         int[] flattenedArray = new int[matrix.length * matrix.length];
         int index = 0;
         for(int[] row: matrix) {
@@ -246,7 +208,7 @@ public class SudokuModel implements Serializable {
         return flattenedArray;
     }
 
-    public static int[][] expand(int[] array) {
+    private int[][] expand(int[] array) {
         int matrixLength = (int) Math.sqrt(array.length);
         int[][] expandedMatrix = new int[matrixLength][matrixLength];
         int index = 0;
@@ -257,12 +219,80 @@ public class SudokuModel implements Serializable {
         return expandedMatrix;
     }
 
-    public static int[][] copy(int[][] matrix) {
+    private int[][] copy(int[][] matrix) {
         int[][] copy = new int[matrix.length][matrix.length];
         for (int i=0; i<matrix.length* matrix.length; i++) {
             int row = i/matrix.length, column = i% matrix.length;
             copy[row][column] = matrix[row][column];
         }
         return copy;
+    }
+
+    private int[] sequenceArray() {
+        return sequenceArray(1, 9);
+    }
+
+    private int[] sequenceArray(int start, int end) {
+        int[] array = new int[(end-start+1)];
+        int index = 0;
+        for (int num = start; num <= end; num++) {
+            array[index++] = num;
+        }
+        return array;
+    }
+
+    private void shuffleArray(int[] array) {
+        Random random = new Random();
+        for (int i = 0; i < array.length; i++) {
+            int index = random.nextInt(i+1);
+            int temp = array[index];
+            array[index] = array[i];
+            array[i] = temp;
+        }
+    }
+
+    private void shuffleMatrix(int[][] matrix) {
+        Random random = new Random();
+        for (int i = 0; i < matrix.length; i++) {
+            int index = random.nextInt(i+1);
+            int[] temp = matrix[index];
+            matrix[index] = matrix[i];
+            matrix[i] = temp;
+        }
+    }
+
+    private int calculateSubGridIndex(int index, int subGridDimension) {
+        return index - (index % subGridDimension) ;
+    }
+
+    private boolean rowValid(int grid_row, int value) {
+        for (int number : getRow(grid_row)) {
+            if (number == value) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    private boolean columnValid(int grid_column, int value) {
+        for (int number : getColumn(grid_column)) {
+            if (number == value) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    private boolean subGridValid(int grid_row_start, int grid_column_start, int value) {
+        int grid_row_end = grid_row_start + mSubGridRows;
+        int grid_column_end = grid_column_start + mSubGridColumns;
+        for (int row = grid_row_start; row < grid_row_end; row++) {
+            for (int column = grid_column_start; column < grid_column_end; column++) {
+                if (getValueAt(row, column) == value) {
+                    return false;
+                }
+            }
+        }
+        return true;
     }
 }

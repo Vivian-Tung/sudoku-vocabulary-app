@@ -46,6 +46,21 @@ public class SudokuModel implements Serializable {
         this(grid, (int) Math.sqrt(grid.length), (int) Math.sqrt(grid.length));
     }
 
+    public SudokuModel(int[] grid, int subGridRows, int subGridColumns) {
+        mGridLength = grid.length;
+        mGridSize = grid.length*grid.length;
+        mSubGridRows = subGridRows;
+        mSubGridColumns = subGridColumns;
+        mNumberArray = sequenceArray();
+        setGridFromArray(grid);
+        mSudokuSolution = copy(getGridAsMatrix());
+        mNumOfEmptyCells = findNumOfEmptyCells();
+    }
+
+    public SudokuModel(int[] grid) {
+        this(grid, 3, 3);
+    }
+
     public int getGridSize() { return mGridLength; }
 
     public int[][] getGridAsMatrix() { return mSudokuGrid; }

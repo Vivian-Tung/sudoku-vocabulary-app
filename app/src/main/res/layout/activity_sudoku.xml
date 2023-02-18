@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:custom="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".SudokuActivity">
+
+    <include
+        android:id="@+id/toolbar"
+        layout="@layout/toolbar"/>
+
+    <com.example.sudokuvocabulary.QuestionCardView
+        android:id="@+id/questionCardView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" >
+
+    </com.example.sudokuvocabulary.QuestionCardView>
+
+    <com.example.sudokuvocabulary.SudokuView
+        android:id="@+id/sudokuGridView"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        custom:layout_constraintDimensionRatio="1:1"
+        custom:gridColor="#000000"
+        custom:cellItemFillColour="#000000"
+        custom:layout_constraintBottom_toBottomOf="parent"
+        custom:layout_constraintEnd_toEndOf="parent"
+        custom:layout_constraintStart_toStartOf="parent"
+        custom:layout_constraintTop_toTopOf="parent" >
+    </com.example.sudokuvocabulary.SudokuView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

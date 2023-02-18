@@ -16,6 +16,15 @@
             android:name=".MainMenuActivity2"
             android:exported="false" />
         <activity
+            android:name=".TutorialActivity"
+            android:exported="false" />
+        <activity
+            android:name=".GameCompleteActivity"
+            android:exported="false" />
+        <activity
+            android:name=".SudokuActivity"
+            android:exported="false" />
+        <activity
             android:name=".MainMenuActivity"
             android:exported="true">
             <intent-filter>

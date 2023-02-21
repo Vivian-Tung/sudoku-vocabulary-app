@@ -21,7 +21,10 @@
     <string name="activity_main_word_bank_animals">4. Animals</string>
 
     <string name="activity_add_word_new_word_list">New Word List:</string>
-    <string name="activity_add_word_add_words"> + Add Words</string>
+    <string name="activity_add_word_choose_category"> Choose from following categories: </string>
+
+    <string name="activity_word_category_animals">Animal</string>
+    <string name="activity_word_category_select_animals">Select word to add to list:</string>
 
 
     <string name="game_complete_text">Puzzle Complete!</string>

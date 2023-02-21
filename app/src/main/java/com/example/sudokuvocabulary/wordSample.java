@@ -5,6 +5,11 @@ public class wordSample {
     private String word;
     private String translation;
 
+    public wordSample(String word, String translation) {
+       this.word = word;
+       this.translation = translation;
+    }
+
     //public long getListID() {return listID;}
 
     //public void setListID(long listID) {this.listID = listID;}

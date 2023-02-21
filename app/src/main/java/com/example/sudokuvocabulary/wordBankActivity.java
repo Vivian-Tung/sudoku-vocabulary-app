@@ -2,12 +2,10 @@ package com.example.sudokuvocabulary;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.widget.Button;
 import android.widget.TextView;
 
 import java.io.BufferedReader;
@@ -35,22 +33,8 @@ public class wordBankActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.animal_category);
         openDB();
+
         readWordData();
-
-        Button prevButton = (Button) findViewById(R.id.prev_button);
-        prevButton.setOnClickListener(view -> {
-            Intent intent = new Intent(wordBankActivity.this, MainMenuActivity2.class);
-            startActivity(intent);
-        });
-
-        Button displayListButton = (Button) findViewById(R.id.display_list_button);
-        displayListButton.setOnClickListener(view -> {
-        });
-
-        Button playButton = findViewById(R.id.add_word_play_button);
-        playButton.setOnClickListener(view -> {
-
-        });
     }
     @Override
     protected void onDestroy() {
@@ -111,8 +95,7 @@ public class wordBankActivity extends AppCompatActivity {
         displayText("Clicked add new record!");
         //but actually i need to make it darkened button
 
-        String word = (String) ((Button) v).getText();
-        long newId = myDb.insertRow(word, "Translation");
+        long newId = myDb.insertRow("Dog","狗" );
 
         //query for record just added -> use ID
         Cursor cursor = myDb.getRow(newId);

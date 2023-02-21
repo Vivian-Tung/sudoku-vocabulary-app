@@ -1,20 +1,18 @@
 package com.example.sudokuvocabulary;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.database.Cursor;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
+import androidx.appcompat.app.AppCompatActivity;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.nio.charset.Charset;
-import java.util.ArrayList;
-import java.util.List;
 
 /*steps to using DB
 1. instantiate DB adapter
@@ -45,7 +43,7 @@ public class wordBankActivity extends AppCompatActivity {
 
     //word bank data
 
-    private List<wordSample> wordSamples = new ArrayList<>();
+    private WordDictionary words = new WordDictionary();
 
 
     private void readWordData() { //maybe remove later?
@@ -62,12 +60,9 @@ public class wordBankActivity extends AppCompatActivity {
                 String[] tokens = line.split(",");
 
                 //read the data
-                wordSample sample = new wordSample();
-                sample.setWord(tokens[0]);
-                sample.setTranslation(tokens[1]);
-                wordSamples.add(sample);
+                words.add(tokens[0], tokens[1]);
 
-                Log.d("WordBankActivity", "Just created: " + sample);
+                Log.d("WordBankActivity", "Just created: " + words.find(tokens[0]));
             }
         }  catch (IOException e){
             Log.wtf("WordBankActivity", "Error reading data file on line" + line, e);

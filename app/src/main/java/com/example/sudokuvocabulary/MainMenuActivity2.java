@@ -1,10 +1,12 @@
 package com.example.sudokuvocabulary;
 
+import androidx.appcompat.app.AppCompatActivity;
+
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.Button;
-
-import androidx.appcompat.app.AppCompatActivity;
 
 public class MainMenuActivity2 extends AppCompatActivity {
 
@@ -17,9 +19,12 @@ public class MainMenuActivity2 extends AppCompatActivity {
 
         new_word_list_button = (Button) findViewById(R.id.create_new_word_list_button);
 
-        new_word_list_button.setOnClickListener(view -> {
-            Intent intent = new Intent(MainMenuActivity2.this, wordBankActivity.class);
-            startActivity(intent);
+        new_word_list_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(MainMenuActivity2.this, wordCategoryActivity.class);
+                startActivity(intent);
+            }
         });
 
     }

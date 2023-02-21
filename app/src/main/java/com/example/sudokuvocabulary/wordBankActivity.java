@@ -33,7 +33,7 @@ public class wordBankActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_add_word);
+        setContentView(R.layout.animal_category);
         openDB();
         readWordData();
 
@@ -64,9 +64,9 @@ public class wordBankActivity extends AppCompatActivity {
     private List<wordSample> wordSamples = new ArrayList<>();
 
 
-    private void readWordData() {
+    private void readWordData() { //maybe remove later?
         InputStream is = getResources().openRawResource(R.raw.test_data);
-        //read line by line -> buffewred reader
+        //read line by line -> buffered reader
         BufferedReader reader = new BufferedReader(
                 new InputStreamReader(is, Charset.forName("UTF-8"))
         );
@@ -106,7 +106,7 @@ public class wordBankActivity extends AppCompatActivity {
         textView.setText(message);
     }
 
-    //interaction with db -> actually creating the lists bc i am going to assume words already on dispaly
+    //interaction with db -> actually creating the lists bc i am going to assume words already on display
     public void onClick_AddRecord(View v) {
         displayText("Clicked add new record!");
         //but actually i need to make it darkened button

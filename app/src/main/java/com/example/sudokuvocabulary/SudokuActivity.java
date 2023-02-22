@@ -1,6 +1,7 @@
 package com.example.sudokuvocabulary;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
@@ -10,22 +11,22 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-
-import java.util.HashMap;
 
 public class SudokuActivity extends AppCompatActivity implements View.OnClickListener {
     private QuestionCardView mQuestionCard;
     private SudokuView mSudokuView;
     private SudokuModel mSudokuModel;
-    private final HashMap<String, String> mWordBank = new HashMap<>();
+    private String[] mWords, mTranslations;
     private int mCellRow=0, mCellColumn=0, mCellValue=0;
     private String mChoicePicked;
     private static final String KEY_GRID_AS_ARRAY = "gridAsArray";
     private static final String KEY_SOLUTION_AS_ARRAY = "solutionArray";
     private static final String KEY_NUM_OF_EMPTY_CELLS = "numOfCellsFilled";
     private static final String KEY_POPUP_VISIBLE = "popupVisible";
+
     @SuppressLint("ClickableViewAccessibility")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,6 +45,10 @@ public class SudokuActivity extends AppCompatActivity implements View.OnClickLis
         mQuestionCard = findViewById(R.id.questionCardView);
         mQuestionCard.setNumberOfChoices(mSudokuModel.getGridLength());
         mQuestionCard.setVisibility(View.GONE);
+
+        mWords = getIntent().getStringArrayExtra(getString(R.string.words_key));
+        mTranslations = getIntent().getStringArrayExtra(getString(R.string.translations_key));
+
 
         Button[] wordChoiceButtons = mQuestionCard.getWordChoiceButtons();
         for (Button choice: wordChoiceButtons) {
@@ -69,26 +74,9 @@ public class SudokuActivity extends AppCompatActivity implements View.OnClickLis
                 mCellValue = mSudokuModel.getSolutionAt(mCellRow, mCellColumn);
                 isValid = true;
 
-                // Word bank for testing
-                String[][] words = {
-                        {"Apples", "苹果"},
-                        {"Oranges", "橙子"},
-                        {"Watermelon", "西瓜"},
-                        {"Grapes", "葡萄"},
-                        {"Fruits", "水果"},
-                        {"Banana", "香蕉"},
-                        {"Dragon Eyes", "龙眼"},
-                        {"Mango", "芒果"},
-                        {"Plum", "李子"}
-                };
-
-                for (String[] wordPair: words) {
-                    mWordBank.put(wordPair[0], wordPair[1]);
-                }
-
-                mQuestionCard.setWordPrompt(words[mSudokuModel.getSolutionAt(mCellRow,
-                        mCellColumn)-1][0]);
-                mQuestionCard.setWordChoiceButtonsText(words);
+                mQuestionCard.setWordPrompt(mWords[
+                        mSudokuModel.getSolutionAt(mCellRow, mCellColumn)-1]);
+                mQuestionCard.setWordChoiceButtonsText(mTranslations);
 
                 mQuestionCard.invalidate();
                 mQuestionCard.setVisibility(View.VISIBLE);
@@ -113,7 +101,8 @@ public class SudokuActivity extends AppCompatActivity implements View.OnClickLis
         mQuestionCard.setVisibility(View.GONE);
         Toast.makeText(this, toastMessage, Toast.LENGTH_SHORT).show();
         if (mSudokuModel.isGridFilled()) {
-            Intent intent = new Intent(SudokuActivity.this, GameCompleteActivity.class);
+            Intent intent = newIntent(
+                    SudokuActivity.this, mWords, mTranslations);
             startActivity(intent);
         }
     }
@@ -141,22 +130,29 @@ public class SudokuActivity extends AppCompatActivity implements View.OnClickLis
         mSudokuView.invalidate();
 
         mQuestionCard = findViewById(R.id.questionCardView);
-        mQuestionCard.setVisibility((savedInstanceState.getBoolean(KEY_POPUP_VISIBLE))? View.VISIBLE:View.GONE);
+        mQuestionCard.setVisibility(
+                (savedInstanceState.getBoolean(KEY_POPUP_VISIBLE))? View.VISIBLE:View.GONE);
+    }
+
+    @NonNull
+    public Intent newIntent(Context packageContext, String[] words, String[] translations) {
+        Intent intent = new Intent(packageContext, GameCompleteActivity.class);
+        intent.putExtra(getString(R.string.words_key), words);
+        intent.putExtra(getString(R.string.translations_key), translations);
+        return intent;
     }
 
     private boolean isCorrect() {
-        return mChoicePicked.equals(mWordBank.get(mQuestionCard.getWordPrompt()));
+        return mChoicePicked.equals(
+                mTranslations[mSudokuModel.getSolutionAt(mCellRow, mCellColumn)-1]);
     }
 
     private void setupTutorialButton() {
         ImageView tutorialBtn = findViewById(R.id.tutorialBtn);
-        tutorialBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+        tutorialBtn.setOnClickListener(view -> {
 
-                Intent intent = new Intent(SudokuActivity.this, TutorialActivity.class);
-                startActivity(intent);
-            }
+            Intent intent = new Intent(SudokuActivity.this, TutorialActivity.class);
+            startActivity(intent);
         });
     }
 }

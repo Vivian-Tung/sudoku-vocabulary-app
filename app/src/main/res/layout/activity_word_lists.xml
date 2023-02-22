@@ -30,10 +30,10 @@
         android:textSize="15sp"
         android:textStyle="bold"></TextView>
 
-    <com.example.sudokuvocabulary.WordListView
+    <com.example.sudokuvocabulary.WordListsView
         android:id="@+id/existing_word_lists"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" >
-    </com.example.sudokuvocabulary.WordListView>
+    </com.example.sudokuvocabulary.WordListsView>
 
 </LinearLayout>

@@ -2,7 +2,6 @@ package com.example.sudokuvocabulary;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -11,6 +10,8 @@ import android.widget.Button;
 public class MainMenuActivity2 extends AppCompatActivity {
 
     Button new_word_list_button;
+
+    private String[] categories = {"Food", "Transportation", "Shops", "Animals"};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,6 +27,9 @@ public class MainMenuActivity2 extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
+        WordListView existingWordLists = findViewById(R.id.existing_word_lists);
+        existingWordLists.setWordListText(categories);
 
     }
 }

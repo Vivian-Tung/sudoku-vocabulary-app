@@ -30,33 +30,10 @@
         android:textSize="15sp"
         android:textStyle="bold"></TextView>
 
-    <LinearLayout
+    <com.example.sudokuvocabulary.WordListView
+        android:id="@+id/existing_word_lists"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:gravity="center_horizontal">
+        android:layout_height="wrap_content" >
+    </com.example.sudokuvocabulary.WordListView>
 
-        <Button
-            android:id="@+id/activity_main_word_foods_button"
-            android:layout_width="190dp"
-            android:layout_height="wrap_content"
-            android:text="@string/activity_main_word_bank_food">
-
-        </Button>
-
-        <Button
-            android:id="@+id/activity_main_word_transportation_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/activity_main_word_bank_transportation">
-        </Button>
-
-        <Button
-            android:id="@+id/activity_main_word_shops_button"
-            android:layout_width="190dp"
-            android:layout_height="wrap_content"
-            android:text="@string/activity_main_word_bank_shops"></Button>
-
-
-    </LinearLayout>
 </LinearLayout>

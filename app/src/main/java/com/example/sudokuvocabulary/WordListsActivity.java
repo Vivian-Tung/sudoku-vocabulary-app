@@ -1,42 +1,83 @@
 package com.example.sudokuvocabulary;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
 import android.content.Intent;
+import android.database.Cursor;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
+import java.util.ArrayList;
+
 public class WordListsActivity extends AppCompatActivity implements View.OnClickListener {
 
-    Button new_word_list_button;
+    private DBAdapter db;
 
-    private String[] categories = {"Animals", "Fruits"};
+    private Button new_word_list_button;
+
+    public static final String WORDS_KEY =
+            "com.example.android.WordListsActivity.words";
+    public static final String TRANSLATIONS_KEY =
+            "com.example.android.WordListsActivity.translations";
+
+    private ArrayList<String> categories;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_word_lists);
 
+        db = new DBAdapter(this);
+        db.open();
+
+        categories = db.getTableNames();
+
         new_word_list_button = (Button) findViewById(R.id.create_new_word_list_button);
 
-        new_word_list_button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(WordListsActivity.this, wordBankActivity.class);
-                startActivity(intent);
-            }
+        new_word_list_button.setOnClickListener(view -> {
+            Intent intent = new Intent(WordListsActivity.this, wordBankActivity.class);
+            startActivity(intent);
         });
 
-        WordListView existingWordLists = findViewById(R.id.existing_word_lists);
+        WordListsView existingWordLists = findViewById(R.id.existing_word_lists);
         existingWordLists.setWordListText(categories);
         for (Button button: existingWordLists.getListButtons()) {
             button.setOnClickListener(this);
         }
     }
 
+    @NonNull
+    public static Intent newIntent(Context packageContext, WordDictionary words) {
+        Intent intent = new Intent(packageContext, SudokuActivity.class);
+        intent.putExtra(WORDS_KEY, words.getWordsAsArray());
+        intent.putExtra(TRANSLATIONS_KEY, words.getTranslationsAsArray());
+        return intent;
+    }
+
     @Override
     public void onClick(View view) {
+        String tableName = (String) ((Button) view).getText();
+        Cursor cursor  = db.getAllRows(tableName);
+        WordDictionary dictionary = new WordDictionary();
+        while(!cursor.isAfterLast()) {
+            String word = cursor.getString(
+                    cursor.getColumnIndexOrThrow("word"));
+            String translation = cursor.getString(
+                    cursor.getColumnIndexOrThrow("translation"));
+            dictionary.add(word, translation);
+            cursor.moveToNext();
+        }
+        cursor.close();
+        Intent intent = newIntent(WordListsActivity.this, dictionary);
+        startActivity(intent);
+    }
 
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        db.close();
     }
 }

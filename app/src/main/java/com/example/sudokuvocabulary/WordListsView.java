@@ -10,15 +10,17 @@ import android.widget.ScrollView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
-public class WordListView extends ScrollView {
+import java.util.ArrayList;
+
+public class WordListsView extends ScrollView {
 
     private Button[] mListButtons;
 
-    private LinearLayout mButtonLayout;
+    private final LinearLayout mButtonLayout;
 
-    public WordListView(@NonNull Context context) { this(context, null); }
+    public WordListsView(@NonNull Context context) { this(context, null); }
 
-    public WordListView(@NonNull Context context, @Nullable AttributeSet attrs) {
+    public WordListsView(@NonNull Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
 
         LayoutInflater scrollInflater = (LayoutInflater) context.getApplicationContext()
@@ -40,12 +42,12 @@ public class WordListView extends ScrollView {
         return mListButtons;
     }
 
-    public void setWordListText(String[] categories) {
-        mListButtons = new Button[categories.length];
-        for (int wordListNumber=0; wordListNumber < categories.length; wordListNumber++) {
+    public void setWordListText(ArrayList<String> categories) {
+        mListButtons = new Button[categories.size()];
+        for (int wordListNumber=0; wordListNumber < categories.size(); wordListNumber++) {
             mListButtons[wordListNumber] = new Button(this.getContext());
             mListButtons[wordListNumber].setId(generateViewId());
-            mListButtons[wordListNumber].setText(categories[wordListNumber]);
+            mListButtons[wordListNumber].setText(categories.get(wordListNumber));
             mButtonLayout.addView(mListButtons[wordListNumber]);
         }
         invalidate();

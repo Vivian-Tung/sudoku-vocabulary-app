@@ -10,6 +10,10 @@ public class wordSample {
        this.translation = translation;
     }
 
+    public wordSample() {
+        this(null, null);
+    }
+
     //public long getListID() {return listID;}
 
     //public void setListID(long listID) {this.listID = listID;}

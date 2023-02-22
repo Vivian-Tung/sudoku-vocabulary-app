@@ -32,7 +32,7 @@ public class wordBankActivity extends AppCompatActivity {
         setContentView(R.layout.animal_category);
         openDB();
 
-        readWordData();
+        //readWordData();
     }
     @Override
     protected void onDestroy() {

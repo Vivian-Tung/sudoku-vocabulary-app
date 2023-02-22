@@ -30,10 +30,11 @@ public class wordSample {
 
     @Override
     public String toString() {
-        return "wordSample{" +
-                "word='" + word + '\'' +
-                ", translation='" + translation + '\'' +
-                '}';
+//        return "wordSample{" +
+//                "word='" + word + '\'' +
+//                ", translation='" + translation + '\'' +
+//                '}';
+        return word;
     }
 
 

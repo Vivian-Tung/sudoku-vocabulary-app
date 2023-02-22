@@ -1,5 +1,6 @@
 package com.example.sudokuvocabulary;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 public class WordDictionary {
@@ -42,6 +43,16 @@ public class WordDictionary {
             array[index++] = sample.getTranslation();
         }
         return array;
+    }
+
+    public String getWord(int index) {
+        wordSample sample = mWords.get(index);
+        return sample.getWord();
+    }
+
+    public String getTranslation(int index) {
+        wordSample sample = mWords.get(index);
+        return sample.getTranslation();
     }
 
     public void add(wordSample sample) {

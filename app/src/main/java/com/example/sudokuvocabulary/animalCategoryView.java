@@ -41,7 +41,7 @@ public class animalCategoryView extends AppCompatActivity {
         //define table
         TableLayout table = (TableLayout) findViewById(R.id.table_for_buttons);
         for (int row = 0; row < NUM_ROWS; row++) {
-            final int FINAL_ROW = row;
+
             //add new row for each row
             TableRow tableRow = new TableRow(this);
             //set layout
@@ -53,7 +53,7 @@ public class animalCategoryView extends AppCompatActivity {
             table.addView(tableRow);
             for (int col = 0; col < NUM_COLS; col++) {
                 final int FINAL_COL = col;
-
+                final int FINAL_ROW = row;
 
                 //add new button
                 Button button = new Button(this);
@@ -65,7 +65,7 @@ public class animalCategoryView extends AppCompatActivity {
                         1.0f ));//scaling weight
 
                 //put text on button -> call read data fcn
-                button.setText("" + wordSamples.get((FINAL_ROW+1) * (FINAL_COL+1)).getWord());
+                button.setText("" + wordSamples.get(FINAL_COL  + FINAL_ROW * NUM_COLS).getWord());
 
 
                 //padding
@@ -76,7 +76,7 @@ public class animalCategoryView extends AppCompatActivity {
                 button.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        gridButtonCLicked(wordSamples.get((FINAL_ROW + 1) * (FINAL_COL + 1)).getWord());
+                        gridButtonCLicked(wordSamples.get(FINAL_COL  + FINAL_ROW * NUM_COLS).getWord());
                     }
 
 
@@ -91,7 +91,8 @@ public class animalCategoryView extends AppCompatActivity {
     }
 
     private void readWordData() {
-        android.util.Log.d("myTag", "testing readWordData function");
+        //android.util.Log.d("myTag", "testing readWordData function");
+        //can change data set depending on what the user pressed in the previous screen
         InputStream is = getResources().openRawResource(R.raw.test_data);
         //read line by line -> buffered reader
         BufferedReader reader = new BufferedReader(
@@ -102,7 +103,7 @@ public class animalCategoryView extends AppCompatActivity {
 
         try {
             while ((line = reader.readLine()) != null) {
-                android.util.Log.d("myTag", "line: " + line);
+                //android.util.Log.d("myTag", "line: " + line);
 
                 //split by comma
                 String[] tokens = line.split(",");
@@ -113,10 +114,10 @@ public class animalCategoryView extends AppCompatActivity {
                 sample.setTranslation(tokens[1]);
                 wordSamples.add(sample);
 
-                android.util.Log.d("myTag", "Just created: " + sample);
+                //android.util.Log.d("myTag", "Just created: " + sample);
             }
         }  catch (IOException e){
-            android.util.Log.wtf("myTag", "Error reading data file on line" + line, e);
+            android.util.Log.wtf("animalCategoryView", "Error reading data file on line" + line, e);
             e.printStackTrace();
         }
     }

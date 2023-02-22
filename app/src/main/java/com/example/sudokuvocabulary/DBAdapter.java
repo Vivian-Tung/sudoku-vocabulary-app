@@ -7,6 +7,8 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
+import java.util.ArrayList;
+
 
 public class DBAdapter {
 
@@ -35,8 +37,8 @@ public class DBAdapter {
     public static final String[] ALL_KEYS = new String[] {KEY_ROWID, KEY_WORD, KEY_TRANSLATION};
 
     // DB info: it's name, and the table .
-    public static final String DATABASE_NAME = "MyDb";
-    public static final String DATABASE_TABLE = "mainTable";
+    public static final String DATABASE_NAME = "Words.db";
+    public static final String DATABASE_TABLE = "animals";
     // Track DB version if a new version of your app changes the format.
     public static final int DATABASE_VERSION = 1;
 
@@ -85,7 +87,7 @@ public class DBAdapter {
 
     // Add a new set of values to the database.
     //public long insertRow(long listID, String word, String translation) {
-    public long insertRow(String word, String translation) {
+    public long insertRow(String word, String translation, String table) {
 
 
         // Create row's data:
@@ -96,6 +98,10 @@ public class DBAdapter {
 
         // Insert it into the database.
         return db.insert(DATABASE_TABLE, null, initialValues);
+    }
+
+    public long insertRow(String word, String translation) {
+        return insertRow(word, translation, DATABASE_TABLE);
     }
 
     // Delete a row from the database, by rowId (primary key)
@@ -115,10 +121,27 @@ public class DBAdapter {
         c.close();
     }
 
+    public ArrayList<String> getTableNames() {
+        ArrayList<String> tableNames = new ArrayList<>();
+        Cursor c = db.rawQuery(
+                "SELECT name FROM sqlite_master WHERE type='table' " +
+                        "AND name!='android_metadata' " +
+                        "AND name != 'sqlite_sequence' order by name ", null);
+        while (c.moveToNext()) {
+            tableNames.add(c.getString(0));
+        }
+        c.close();
+        return tableNames;
+    }
+
     // Return all data in the database.
     public Cursor getAllRows() {
+        return getAllRows(DATABASE_TABLE);
+    }
+
+    public Cursor getAllRows(String tableName) {
         String where = null;
-        Cursor c = 	db.query(true, DATABASE_TABLE, ALL_KEYS,
+        Cursor c = 	db.query(true, tableName, ALL_KEYS,
                 where, null, null, null, null, null);
         if (c != null) {
             c.moveToFirst();

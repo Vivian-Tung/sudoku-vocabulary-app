@@ -3,10 +3,19 @@ package com.example.sudokuvocabulary;
 import java.util.ArrayList;
 
 public class WordDictionary {
+
+    private int mId;
+    private String mName;
     private ArrayList<wordSample> mWords;
 
-    public WordDictionary() {
+    public WordDictionary(int id, String name) {
+        mId = id;
+        mName = name;
         mWords = new ArrayList<>();
+    }
+
+    public WordDictionary() {
+        this(0, null);
     }
 
     public int getLength() {
@@ -15,6 +24,24 @@ public class WordDictionary {
 
     public ArrayList<wordSample> getWords() {
         return mWords;
+    }
+
+    public String[] getWordsAsArray() {
+        String[] array = new String[getLength()];
+        int index = 0;
+        for (wordSample sample: mWords) {
+            array[index++] = sample.getWord();
+        }
+        return array;
+    }
+
+    public String[] getTranslationsAsArray() {
+        String[] array = new String[getLength()];
+        int index = 0;
+        for (wordSample sample: mWords) {
+            array[index++] = sample.getTranslation();
+        }
+        return array;
     }
 
     public void add(wordSample sample) {

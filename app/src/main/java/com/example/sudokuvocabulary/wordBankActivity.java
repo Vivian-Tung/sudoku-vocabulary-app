@@ -31,43 +31,11 @@ public class wordBankActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.animal_category);
         openDB();
-
-        //readWordData();
     }
     @Override
     protected void onDestroy() {
         super.onDestroy();
         closeDB();
-    }
-
-
-    //word bank data
-
-    private WordDictionary words = new WordDictionary();
-
-
-    private void readWordData() { //maybe remove later?
-        InputStream is = getResources().openRawResource(R.raw.test_data);
-        //read line by line -> buffered reader
-        BufferedReader reader = new BufferedReader(
-                new InputStreamReader(is, Charset.forName("UTF-8"))
-        );
-        //loop to read lines at once
-        String line = "";
-        try {
-            while ((line = reader.readLine()) != null) {
-                //split by comma
-                String[] tokens = line.split(",");
-
-                //read the data
-                words.add(tokens[0], tokens[1]);
-
-                Log.d("WordBankActivity", "Just created: " + words.find(tokens[0]));
-            }
-        }  catch (IOException e){
-            Log.wtf("WordBankActivity", "Error reading data file on line" + line, e);
-            e.printStackTrace();
-        }
     }
 
 

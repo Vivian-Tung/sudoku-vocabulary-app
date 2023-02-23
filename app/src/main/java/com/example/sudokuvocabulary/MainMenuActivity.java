@@ -27,20 +27,6 @@ public class MainMenuActivity extends AppCompatActivity {
         db = new DBAdapter(this);
         db.open();
 
-        // Initialize default word list into database if it does not exist already
-        ArrayList<String> tables = db.getTableNames();
-        if (tables.contains("animals") && db.getAllRows("animals").getCount() == 0) {
-            db.insertRow("dog", "狗");
-            db.insertRow("cat", "猫");
-            db.insertRow("sheep", "羊");
-            db.insertRow("frog", "青蛙");
-            db.insertRow("pig", "猪");
-            db.insertRow("fish", "鱼");
-            db.insertRow("bird", "鸟");
-            db.insertRow("bear", "熊");
-            db.insertRow("wolf", "狼");
-        }
-
         mPlayButton = (Button) findViewById(R.id.main_menu_play_button);
         mPlayButton.setOnClickListener(new View.OnClickListener() {
             @Override

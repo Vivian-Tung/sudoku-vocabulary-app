@@ -68,6 +68,21 @@ public class DBAdapter {
     // Open the database connection.
     public DBAdapter open() {
         db = myDBHelper.getWritableDatabase();
+
+        // Initialize the animal list table if it is empty,
+        // TODO: move this logic into the DatabaseHelper onCreate()
+        ArrayList<String> tables = getTableNames();
+        if (tables.contains("animals") && getAllRows("animals").getCount() == 0) {
+            insertRow("dog", "狗");
+            insertRow("cat", "猫");
+            insertRow("sheep", "羊");
+            insertRow("frog", "青蛙");
+            insertRow("pig", "猪");
+            insertRow("fish", "鱼");
+            insertRow("bird", "鸟");
+            insertRow("bear", "熊");
+            insertRow("wolf", "狼");
+        }
         return this;
     }
 

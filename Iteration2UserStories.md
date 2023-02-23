@@ -21,5 +21,3 @@ As a vocabulary learner always on the move, I want to save my progress on my pho
 As a vocabulary learner practiciing late at night at home, I want to use my phone/tablet in dark mode for Soduko vocabulary practice, so that my eyes dont feel strained from the bright colours of app.
 
 **Different Size Sudoku Grids**
-
-As a vocabulary learner who wants an extra challenging mode, I want a 12x12 version of Sudoku to play on my tablet. The overall grid should be divided into rectangles of 12 cells each (3x4).

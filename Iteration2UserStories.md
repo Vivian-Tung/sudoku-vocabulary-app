@@ -1,16 +1,52 @@
-First working version should implement functionality in accord with the user stories of iteration 1 and the TDD examples:
+**First working version should implement functionality in accord with the user stories of iteration 1 and the TDD examples:**
 
-User Stories implemented from iteration 1:
-//
-//
-User Stories to be implemented from iteration 1 to iteration 3:
-//
-//
+**User Stories implemented from iteration 1:**
+
+1) As a novice user, I want to be able to access a help page so that I can reference it when I don't
+remember how to use the app.
+
+- This is achieved by clicking the "?" symbol on the top right screen when clicking the button play. This button 
+gives a quick overview of how the game of Soduko is played and how our version with vocabulary instead of numbers work.
+
+2) As a novice user, I want to be able to access the word bank so that I can study and
+review the words before I play the game.
+
+-This user story has only the UI ready for it, full control of the word bank will be implemented in iteration 3.
+
+3) As a expert language learner, I want many categories of words such as foods, animals, travel, to choose from so that I can improve my vocabulary in chunks and become faster at categorizing the vocabulary.
+
+- So far only the UI with buttons going to play the game and going back to the homescreen are implemented, to be finished in iteration 3.
+
+4) As a language teacher, I want to be able to choose the words that were taught this week to reinforce the learning.
+
+- Only one category has been implemented, to be finished in iteration 3.
+
+5) As a language teacher, I want to be able navigate back to the history of wordlists ive created so I can use them for future cohorts of students.
+
+- The UI is finished for this, to be functioning in iteration 3.
+
+**User Stories to be implemented from iteration 1 to iteration 3:**
+
+1) As a novice user, I want there to be a stopwatch timer so that I can see how long it takes for me to solve the sudoku.
+
+2) As an expert user, I want to be able to save/load a game in progress so
+so that I can stop and resume playing at my own convenience.
+
+3) As an expert user, I would like to be able to switch the look of the
+application between light and dark themes so that I have a better
+time using the application in different lighting conditions.
+
+4) As a beginner language learner, I want a list of vocabulary words that I keep getting wrong so that I can focus more on the mistaken words to improve my knowledge.
+
+5) As a medium language learner, I want the option of having a "favourite" option for the vocabulary words
+so that I can refer back to it. For example, clicking the unfilled in bookmark beside the word will put it into the bookmarked words page.
+
+6) As a language teacher, I want a pronunciation feature for the words so my students could learn how to say it.
 
 
-Add user stories and examples for the following additional requirements, with a plan to implement these in iteration 3:
+**Add user stories and examples for the following additional requirements, with a plan to implement these in iteration 3:**
 
-**Different Devices**
+****Different Devices****
 
 As a vocabulary learner practicing at home, I want to use my tablet for Sudoku vocabulary practice, so that the words will be conveniently displayed in larger, easier to read fonts.
 
@@ -20,7 +56,7 @@ As a vocabulary learner always on the move, I want to save my progress on my pho
 
 As a vocabulary learner practiciing late at night at home, I want to use my phone/tablet in dark mode for Soduko vocabulary practice, so that my eyes dont feel strained from the bright colours of app.
 
-**Different Size Sudoku Grids**
+****Different Size Sudoku Grids****
 
 As a teacher of elementary and junior high school children, I want scaled versions of Sudoku that use 4x4 and 6x6 grids. In the 6x6 grid version, the overall grid should be divided into rectangles of six cells each (2x3).
 

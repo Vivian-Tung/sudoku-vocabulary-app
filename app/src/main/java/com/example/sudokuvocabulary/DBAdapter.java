@@ -7,6 +7,11 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.nio.charset.Charset;
 import java.util.ArrayList;
 
 
@@ -24,6 +29,9 @@ public class DBAdapter {
 
     // fields:
     //public static final String KEY_LISTID = "listID";
+
+    // Key to table containing all words and translations
+    public static final String KEY_WORD_TABLE = "words";
     public static final String KEY_WORD = "word";
     public static final String KEY_TRANSLATION = "translation";
 
@@ -41,23 +49,6 @@ public class DBAdapter {
     public static final String DATABASE_TABLE = "animals";
     // Track DB version if a new version of your app changes the format.
     public static final int DATABASE_VERSION = 1;
-
-    private static final String DATABASE_CREATE_SQL =
-            "create table " + DATABASE_TABLE
-                    + " (" + KEY_ROWID + " integer primary key autoincrement, "
-
-                    // + KEY_{...} + " {type} not null"
-                    //	- Key is the column name you created above.
-                    //	- {type} is one of: text, integer, real, blob
-                    //		(http://www.sqlite.org/datatype3.html)
-                    //  - "not null" means it is a required field (must be given a value).
-                    // NOTE: All must be comma separated (end of line!) Last one must have NO comma!!
-                    //+ KEY_LISTID + "long not null, "
-                    + KEY_WORD + " text not null, "
-                    + KEY_TRANSLATION + " text not null "
-
-                    // Rest  of creation:
-                    + ");";
 
     // Context of application
     private final Context context;
@@ -85,9 +76,11 @@ public class DBAdapter {
         myDBHelper.close();
     }
 
+
+
     // Add a new set of values to the database.
     //public long insertRow(long listID, String word, String translation) {
-    public long insertRow(String word, String translation, String table) {
+    public long insertRow(SQLiteDatabase _db, String word, String translation, String table) {
 
 
         // Create row's data:
@@ -97,7 +90,11 @@ public class DBAdapter {
         initialValues.put(KEY_TRANSLATION, translation);
 
         // Insert it into the database.
-        return db.insert(DATABASE_TABLE, null, initialValues);
+        return _db.insert(table, null, initialValues);
+    }
+
+    public long insertRow(String word, String translation, String table) {
+        return insertRow(db, word, translation, table);
     }
 
     public long insertRow(String word, String translation) {
@@ -121,12 +118,16 @@ public class DBAdapter {
         c.close();
     }
 
+    // Retrieves names of tables in Database that aren't the main word table
+    // and Android auto-generated tables
     public ArrayList<String> getTableNames() {
         ArrayList<String> tableNames = new ArrayList<>();
         Cursor c = db.rawQuery(
                 "SELECT name FROM sqlite_master WHERE type='table' " +
                         "AND name!='android_metadata' " +
-                        "AND name != 'sqlite_sequence' order by name ", null);
+                        "AND name != 'sqlite_sequence' " +
+                        "AND name != 'words' " +
+                        "order by name ", null);
         while (c.moveToNext()) {
             tableNames.add(c.getString(0));
         }
@@ -186,7 +187,7 @@ public class DBAdapter {
      * Private class which handles database creation and upgrading.
      * Used to handle low-level database access.
      */
-    private static class DatabaseHelper extends SQLiteOpenHelper
+    private class DatabaseHelper extends SQLiteOpenHelper
     {
         DatabaseHelper(Context context) {
             super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -194,7 +195,11 @@ public class DBAdapter {
 
         @Override
         public void onCreate(SQLiteDatabase _db) {
-            _db.execSQL(DATABASE_CREATE_SQL);
+            String wordTable = createTableEntry(KEY_WORD_TABLE);
+            String animalTable = createTableEntry(DATABASE_TABLE);
+            _db.execSQL(wordTable);
+            _db.execSQL(animalTable);
+            writeCSVData(_db, KEY_WORD_TABLE, "test_data.csv");
         }
 
         @Override
@@ -207,6 +212,42 @@ public class DBAdapter {
 
             // Recreate new database:
             onCreate(_db);
+        }
+
+        // Helper method for creating new tables, use for defining new word list tables
+        public String createTableEntry(String tableName) {
+            return "CREATE TABLE IF NOT EXISTS " + tableName
+                            + " (" + KEY_ROWID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
+                            + KEY_WORD + " TEXT NOT NULL, "
+                            + KEY_TRANSLATION + " TEXT NOT NULL "
+                            + ");";
+        }
+
+        // Private helper for writing data from a csv to the database, from readWordData()
+        // Used when initializing database in onCreate()
+        private void writeCSVData(SQLiteDatabase _db, String tableKey, String fileName) {
+            InputStream is = context.getResources().openRawResource(R.raw.test_data);
+            //read line by line -> buffered reader
+            BufferedReader reader = new BufferedReader(
+                    new InputStreamReader(is, Charset.forName("UTF-8"))
+            );
+            //loop to read lines at once
+            String line = "";
+            try {
+                while ((line = reader.readLine()) != null) {
+                    //split by comma
+                    String[] tokens = line.split(",");
+
+                    //read the data
+                    ContentValues contentValues = new ContentValues();
+                    contentValues.put(KEY_WORD, tokens[0]);
+                    contentValues.put(KEY_TRANSLATION, tokens[1]);
+                    _db.insert(KEY_WORD_TABLE, null, contentValues);
+                }
+            }  catch (IOException e){
+                Log.wtf("DBAdapter", "Error reading data file on line" + line, e);
+                e.printStackTrace();
+            }
         }
     }
 }

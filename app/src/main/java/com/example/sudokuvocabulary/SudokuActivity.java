@@ -49,6 +49,7 @@ public class SudokuActivity extends AppCompatActivity implements View.OnClickLis
         mWords = getIntent().getStringArrayExtra(getString(R.string.words_key));
         mTranslations = getIntent().getStringArrayExtra(getString(R.string.translations_key));
 
+        mSudokuView.setWordsToDraw(mSudokuModel.getGridAsMatrix(), mWords);
 
         Button[] wordChoiceButtons = mQuestionCard.getWordChoiceButtons();
         for (Button choice: wordChoiceButtons) {
@@ -68,10 +69,13 @@ public class SudokuActivity extends AppCompatActivity implements View.OnClickLis
                     mCellRow = (int) (Math.ceil(motionEvent.getY() / mSudokuView.getCellSize())) - 1;
                     mCellColumn = (int) ((Math.ceil(motionEvent.getX()) / mSudokuView.getCellSize()));
                 }
-                if (mSudokuModel.cellNotEmpty(mCellRow, mCellColumn)) {
-                    return false;
-                }
+
                 mCellValue = mSudokuModel.getSolutionAt(mCellRow, mCellColumn);
+                if (mSudokuModel.cellNotEmpty(mCellRow, mCellColumn)) {
+                    Toast.makeText(this, mWords[mCellValue-1], Toast.LENGTH_SHORT).show();
+                    return true;
+                }
+
                 isValid = true;
 
                 mQuestionCard.setWordPrompt(mWords[
@@ -93,6 +97,7 @@ public class SudokuActivity extends AppCompatActivity implements View.OnClickLis
         if (isCorrect()) {
             mSudokuModel.checkAndFillCellAt(mCellRow, mCellColumn, mCellValue);
             mSudokuView.setCellToDraw(mCellRow, mCellColumn, mCellValue);
+            mSudokuView.setWordToDrawAt(mCellRow, mCellColumn, mTranslations[mCellValue-1]);
             mSudokuView.invalidate();
             toastMessage = getString(R.string.game_correct_toast_text);
         } else {

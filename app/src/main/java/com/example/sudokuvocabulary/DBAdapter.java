@@ -77,6 +77,11 @@ public class DBAdapter {
     }
 
 
+    // Creates a new table with the given name
+    public void newTable(String tableName) {
+        db.execSQL(myDBHelper.createTableEntry(tableName));
+    }
+
 
     // Add a new set of values to the database.
     //public long insertRow(long listID, String word, String translation) {

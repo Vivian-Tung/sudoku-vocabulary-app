@@ -11,7 +11,7 @@ gives a quick overview of how the game of Soduko is played and how our version w
 2) As a novice user, I want to be able to access the word bank so that I can study and
 review the words before I play the game.
 
--This user story has only the UI ready for it, full control of the word bank will be implemented in iteration 3.
+- This user story has only the UI ready for it, full control of the word bank will be implemented in iteration 3.
 
 3) As a expert language learner, I want many categories of words such as foods, animals, travel, to choose from so that I can improve my vocabulary in chunks and become faster at categorizing the vocabulary.
 
@@ -29,19 +29,30 @@ review the words before I play the game.
 
 1) As a novice user, I want there to be a stopwatch timer so that I can see how long it takes for me to solve the sudoku.
 
+- This will probably be displayed on the top of the screen or within some other button at the top of the screen.
+
 2) As an expert user, I want to be able to save/load a game in progress so
 so that I can stop and resume playing at my own convenience.
+
+- This will also have a button at the top or be joint all in one button with the timer included.
 
 3) As an expert user, I would like to be able to switch the look of the
 application between light and dark themes so that I have a better
 time using the application in different lighting conditions.
 
+- This will probably be a button with a "moon" symbol indicating light or dark mode.
+
 4) As a beginner language learner, I want a list of vocabulary words that I keep getting wrong so that I can focus more on the mistaken words to improve my knowledge.
+
+- This will appear in the word bank option from the home menu, probably with a button named "mistaken words".
 
 5) As a medium language learner, I want the option of having a "favourite" option for the vocabulary words
 so that I can refer back to it. For example, clicking the unfilled in bookmark beside the word will put it into the bookmarked words page.
 
+- This will also be happening in the word bank option from the home menu, buttons will have the bookmark symbol and when clicking it, it will be saved in a favorite button.
+
 6) As a language teacher, I want a pronunciation feature for the words so my students could learn how to say it.
+- This will be a feature on the pop-up screen when pressing a cell on the Soduko board. It will probably have the speaker symbol which then produces a text to speech audio when clicking the symbol.  
 
 
 **Add user stories and examples for the following additional requirements, with a plan to implement these in iteration 3:**
@@ -54,7 +65,7 @@ As a vocabulary learner taking the bus, I want to use my phone in landscape mode
 
 As a vocabulary learner always on the move, I want to save my progress on my phone/tablet for Soduko vocabulary practice, so that I can resume my progress at a later time.
 
-As a vocabulary learner practiciing late at night at home, I want to use my phone/tablet in dark mode for Soduko vocabulary practice, so that my eyes dont feel strained from the bright colours of app.
+As a vocabulary learner practicing late at night at home, I want to use my phone/tablet in dark mode for Soduko vocabulary practice, so that my eyes dont feel strained from the bright colours of app.
 
 ****Different Size Sudoku Grids****
 

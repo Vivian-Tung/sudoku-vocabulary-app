@@ -74,7 +74,6 @@
 - As a medium language learner, I want the option of having a "favourite" option for the vocabulary words
 so that I can refer back to it. For example, clicking the unfilled in bookmark beside the word will put it into the bookmarked words page.
   <img src="./user-story-assets/Screenshot_2023-01-26_193430.jpg" alt="saved" width="150px">
-  
 
 ### Language Teachers:
 - As a language teacher, I want to be able to choose the words that were taught this week to reinforce the learning.
@@ -93,3 +92,18 @@ so that I can refer back to it. For example, clicking the unfilled in bookmark b
 - As a language teacher, I want to be able navigate back to the history of wordlists ive created so I can use them for future cohorts of students.
   - For example, on the word list page, the user can either create a new word list, or view previous word lists that have been created so that it could be used for future students.
     <img src="./user-story-assets/previous_wordlists.png" alt="previous_wordlists" width="150px">
+  
+
+- As a teacher of elementary and junior high school children, I want scaled versions of Sudoku that use 4x4 and 6x6 grids. In the 6x6 grid version, the overall grid should be divided into rectangles of six cells each (2x3).
+  - Before the game starts the user should be able to select which sized Sudoku grid 
+    they wish to play with.
+    <img src="./user-story-assets/size-menu.png" alt="size menu" width=150px">
+
+  - For example, when the 4x4 button is pressed, the app should launch into a Sudoku game with 
+    a 4x4 grid with 2x2 sub-grids as shown below.
+    <img src="./user-story-assets/grid-4x4.png" alt="4x4 grid" width=150px">
+  
+  - For example, when the 6x6 button is pressed, the app should launch into a Sudoku game with
+    a 6x6 grid with 2x3 sub-grids as shown below.
+    <img src="./user-story-assets/grid-6x6.png" alt="6x6 grid" width=150px">
+

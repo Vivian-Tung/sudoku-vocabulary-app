@@ -34,7 +34,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".wordBankActivity"
+            android:name=".WordBankActivity"
             android:exported="false">
         </activity>
         <activity

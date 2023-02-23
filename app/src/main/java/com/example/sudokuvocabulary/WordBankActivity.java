@@ -2,17 +2,10 @@ package com.example.sudokuvocabulary;
 
 import android.database.Cursor;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
-
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.nio.charset.Charset;
 
 /*steps to using DB
 1. instantiate DB adapter
@@ -21,7 +14,7 @@ import java.nio.charset.Charset;
 4. close the DB
  */
 
-public class wordBankActivity extends AppCompatActivity {
+public class WordBankActivity extends AppCompatActivity {
 
     //want schema always available
     DBAdapter myDb;

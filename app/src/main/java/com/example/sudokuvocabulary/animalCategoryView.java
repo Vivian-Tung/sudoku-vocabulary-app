@@ -1,30 +1,26 @@
 package com.example.sudokuvocabulary;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.lang.reflect.Method;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 public class animalCategoryView extends AppCompatActivity {
     private static final int NUM_ROWS = 8;
     private static final int NUM_COLS = 3;
-    public List<wordSample> wordSamples = new ArrayList<>();
+    public List<WordSample> wordSamples = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -109,7 +105,7 @@ public class animalCategoryView extends AppCompatActivity {
                 String[] tokens = line.split(",");
 
                 //read the data
-                wordSample sample = new wordSample();
+                WordSample sample = new WordSample();
                 sample.setWord(tokens[0]);
                 sample.setTranslation(tokens[1]);
                 wordSamples.add(sample);

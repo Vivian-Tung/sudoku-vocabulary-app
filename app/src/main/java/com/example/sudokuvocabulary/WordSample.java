@@ -1,16 +1,16 @@
 package com.example.sudokuvocabulary;
 
-public class wordSample {
+public class WordSample {
     //private long listID;
     private String word;
     private String translation;
 
-    public wordSample(String word, String translation) {
+    public WordSample(String word, String translation) {
        this.word = word;
        this.translation = translation;
     }
 
-    public wordSample() {
+    public WordSample() {
         this(null, null);
     }
 

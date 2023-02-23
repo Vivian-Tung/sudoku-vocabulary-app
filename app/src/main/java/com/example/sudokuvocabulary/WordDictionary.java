@@ -1,13 +1,12 @@
 package com.example.sudokuvocabulary;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 
 public class WordDictionary {
 
     private int mId;
     private String mName;
-    private ArrayList<wordSample> mWords;
+    private ArrayList<WordSample> mWords;
 
     public WordDictionary(int id, String name) {
         mId = id;
@@ -23,14 +22,14 @@ public class WordDictionary {
         return mWords.size();
     }
 
-    public ArrayList<wordSample> getWords() {
+    public ArrayList<WordSample> getWords() {
         return mWords;
     }
 
     public String[] getWordsAsArray() {
         String[] array = new String[getLength()];
         int index = 0;
-        for (wordSample sample: mWords) {
+        for (WordSample sample: mWords) {
             array[index++] = sample.getWord();
         }
         return array;
@@ -39,32 +38,32 @@ public class WordDictionary {
     public String[] getTranslationsAsArray() {
         String[] array = new String[getLength()];
         int index = 0;
-        for (wordSample sample: mWords) {
+        for (WordSample sample: mWords) {
             array[index++] = sample.getTranslation();
         }
         return array;
     }
 
     public String getWord(int index) {
-        wordSample sample = mWords.get(index);
+        WordSample sample = mWords.get(index);
         return sample.getWord();
     }
 
     public String getTranslation(int index) {
-        wordSample sample = mWords.get(index);
+        WordSample sample = mWords.get(index);
         return sample.getTranslation();
     }
 
-    public void add(wordSample sample) {
+    public void add(WordSample sample) {
         mWords.add(sample);
     }
 
     public void add(String word, String translation) {
-        wordSample sample = new wordSample(word, translation);
+        WordSample sample = new WordSample(word, translation);
         add(sample);
     }
 
-    public void remove(wordSample sample) {
+    public void remove(WordSample sample) {
         mWords.remove(sample);
     }
 
@@ -72,8 +71,8 @@ public class WordDictionary {
         mWords.remove(find(word));
     }
 
-    public wordSample find(String word) {
-        for (wordSample sample: mWords) {
+    public WordSample find(String word) {
+        for (WordSample sample: mWords) {
             if(sample.getWord().equals(word)) {
                 return sample;
             }
@@ -82,7 +81,7 @@ public class WordDictionary {
     }
 
     public String findTranslation(String word) {
-        wordSample sample = find(word);
+        WordSample sample = find(word);
         if (sample == null) {
             return null;
         }

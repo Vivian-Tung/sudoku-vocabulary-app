@@ -18,11 +18,6 @@ public class WordListsActivity extends AppCompatActivity implements View.OnClick
 
     private Button new_word_list_button;
 
-    public static final String WORDS_KEY =
-            "com.example.android.WordListsActivity.words";
-    public static final String TRANSLATIONS_KEY =
-            "com.example.android.WordListsActivity.translations";
-
     private ArrayList<String> categories;
 
     @Override
@@ -52,8 +47,9 @@ public class WordListsActivity extends AppCompatActivity implements View.OnClick
     @NonNull
     public static Intent newIntent(Context packageContext, WordDictionary words) {
         Intent intent = new Intent(packageContext, SudokuActivity.class);
-        intent.putExtra(WORDS_KEY, words.getWordsAsArray());
-        intent.putExtra(TRANSLATIONS_KEY, words.getTranslationsAsArray());
+        intent.putExtra(packageContext.getString(R.string.words_key), words.getWordsAsArray());
+        intent.putExtra(packageContext.getString(
+                R.string.translations_key), words.getTranslationsAsArray());
         return intent;
     }
 

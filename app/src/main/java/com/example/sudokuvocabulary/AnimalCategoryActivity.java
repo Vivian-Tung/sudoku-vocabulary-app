@@ -1,6 +1,8 @@
 package com.example.sudokuvocabulary;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TableLayout;
@@ -14,24 +16,77 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.nio.charset.Charset;
-import java.util.ArrayList;
-import java.util.List;
 
-public class animalCategoryView extends AppCompatActivity {
+public class AnimalCategoryActivity extends AppCompatActivity {
     private static final int NUM_ROWS = 8;
     private static final int NUM_COLS = 3;
-    public List<WordSample> wordSamples = new ArrayList<>();
+    private WordDictionary words = new WordDictionary();
+    private WordDictionary wordsAdded;
+    private DBAdapter db;
+    private String tableName;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.animal_category);
 
+        if (getIntent().getStringArrayExtra(getString(R.string.words_key)) != null) {
+            String[] wordsArray = getIntent()
+                    .getStringArrayExtra(getString(R.string.words_key));
+            String[] translationsArray = getIntent()
+                    .getStringArrayExtra(getString(R.string.translations_key));
+            wordsAdded = new WordDictionary(wordsArray, translationsArray);
+        } else {
+            wordsAdded = new WordDictionary();
+        }
+        tableName = getIntent().getStringExtra(getString(R.string.new_table_name_key));
+
         readWordData();
         populateButtons();
 
-    }
+        // Display List Button
+        Button displayListButton = findViewById(R.id.display_list_button);
+        displayListButton.setOnClickListener(view -> {
+            Intent intent = new Intent(
+                    AnimalCategoryActivity.this, DisplayListActivity.class);
 
+            intent.putExtra(getString(R.string.new_table_name_key), tableName);
+            intent.putExtra(getString(R.string.words_key),
+                    wordsAdded.getWordsAsArray());
+            intent.putExtra(getString(R.string.translations_key),
+                    wordsAdded.getTranslationsAsArray());
+
+            startActivity(intent);
+        });
+
+        Button playButton = findViewById(R.id.animal_category_play_button);
+        playButton.setOnClickListener(view -> {
+
+            // Add the new word list to database
+            db = new DBAdapter(this);
+            db.open();
+            db.newTable(tableName);
+            for (WordSample wordSample: wordsAdded.getWords()) {
+                db.insertRow(wordSample.getWord(), wordSample.getTranslation(), tableName);
+            }
+
+            // Launch the sudoku game
+            Intent intent = new Intent(AnimalCategoryActivity.this,
+                    SudokuActivity.class);
+            intent.putExtra(getString(R.string.words_key),
+                    wordsAdded.getWordsAsArray());
+            intent.putExtra(getString(R.string.translations_key),
+                    wordsAdded.getTranslationsAsArray());
+            startActivity(intent);
+        });
+
+        Button prevButton = findViewById(R.id.animal_category_prev_button);
+        prevButton.setOnClickListener(view -> {
+            Intent intent = new Intent(AnimalCategoryActivity.this,
+                    WordCategoryActivity.class);
+            startActivity(intent);
+        });
+    }
 
     private void populateButtons() {
         //define table
@@ -61,8 +116,10 @@ public class animalCategoryView extends AppCompatActivity {
                         1.0f ));//scaling weight
 
                 //put text on button -> call read data fcn
-                button.setText("" + wordSamples.get(FINAL_COL  + FINAL_ROW * NUM_COLS).getWord());
+                button.setText("" + words.getWord(FINAL_COL  + FINAL_ROW * NUM_COLS));
 
+                // Generate an ID for the button
+                button.setId(View.generateViewId());
 
                 //padding
                 button.setPadding(0,0,0,0);
@@ -72,7 +129,9 @@ public class animalCategoryView extends AppCompatActivity {
                 button.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        gridButtonCLicked(wordSamples.get(FINAL_COL  + FINAL_ROW * NUM_COLS).getWord());
+                        gridButtonCLicked(words.getWord(FINAL_COL  + FINAL_ROW * NUM_COLS));
+                        Button button = findViewById(view.getId());
+                        button.setEnabled(false);
                     }
 
 
@@ -84,6 +143,11 @@ public class animalCategoryView extends AppCompatActivity {
     }
     private void gridButtonCLicked(String word) {
         Toast.makeText(this, word + " added", Toast.LENGTH_SHORT).show();
+        wordsAdded.add(word, words.findTranslation(word));
+        if (wordsAdded.getLength() >= 9) {
+            Toast.makeText(this, "Nine words have been selected",
+                    Toast.LENGTH_SHORT).show();
+        }
     }
 
     private void readWordData() {
@@ -105,10 +169,7 @@ public class animalCategoryView extends AppCompatActivity {
                 String[] tokens = line.split(",");
 
                 //read the data
-                WordSample sample = new WordSample();
-                sample.setWord(tokens[0]);
-                sample.setTranslation(tokens[1]);
-                wordSamples.add(sample);
+                words.add(tokens[0], tokens[1]);
 
                 //android.util.Log.d("myTag", "Just created: " + sample);
             }

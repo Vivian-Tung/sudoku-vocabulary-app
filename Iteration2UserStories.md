@@ -11,7 +11,7 @@ gives a quick overview of how the game of Soduko is played and how our version w
 2) As a novice user, I want to be able to access the word bank so that I can study and
 review the words before I play the game.
 
-- This user story has only the UI ready for it, for now only with the button labelled "animals". This button does not work but full control of the word bank will be implemented in iteration 3.
+- This user story has only the UI for animals and creating a new category with a variety of words the user can choose from. For this iteration, make sure you only choose exactly 9 words or else the app wont let you play after.
 
 3) As a expert language learner, I want many categories of words such as foods, animals, travel, to choose from so that I can improve my vocabulary in chunks and become faster at categorizing the vocabulary.
 
@@ -35,25 +35,30 @@ review the words before I play the game.
 so that I can stop and resume playing at my own convenience.
 
 - This will also have a button at the top or be joint all in one button with the timer included.
+<img src="./user-story-assets/save-menu.png" alt="save-menu" width="150px">
 
 3) As an expert user, I would like to be able to switch the look of the
 application between light and dark themes so that I have a better
 time using the application in different lighting conditions.
 
-- This will probably be a button with a "moon" symbol indicating light or dark mode.
+- This will probably be a button with a "moon" symbol indicating light or dark mode which would be on the top bar of the Sudoku board. It could also be implemented in the options button on the home menu for the user to choose between light or dark mode.
 
 4) As a beginner language learner, I want a list of vocabulary words that I keep getting wrong so that I can focus more on the mistaken words to improve my knowledge.
 
-- This will appear in the word bank option from the home menu, probably with a button named "mistaken words".
+- This will appear in the word bank option from the home menu, probably with a header named "Still learning" over the words.
+<img src="./user-story-assets/Screenshot_2023-01-26_193346.jpg" alt="master" width="150px">
+
 
 5) As a medium language learner, I want the option of having a "favourite" option for the vocabulary words
 so that I can refer back to it. For example, clicking the unfilled in bookmark beside the word will put it into the bookmarked words page.
 
 - This will also be happening in the word bank option from the home menu, buttons will have the bookmark symbol and when clicking it, it will be saved in a favorite button.
+  <img src="./user-story-assets/Screenshot_2023-01-26_193430.jpg" alt="saved" width="150px">
 
 6) As a language teacher, I want a pronunciation feature for the words so my students could learn how to say it.
 
 - This will be a feature on the pop-up screen when pressing a cell on the Soduko board. It will probably have the speaker symbol which then produces a text to speech audio when clicking the symbol.  
+<img src="./user-story-assets/pronounciation.png" alt="pronounciation" width="150px">
 
 
 **Add user stories and examples for the following additional requirements, with a plan to implement these in iteration 3:**

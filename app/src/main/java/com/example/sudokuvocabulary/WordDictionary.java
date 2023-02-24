@@ -98,4 +98,8 @@ public class WordDictionary {
         }
         return sample.getTranslation();
     }
+
+    public boolean contains(String word) {
+        return find(word) != null;
+    }
 }

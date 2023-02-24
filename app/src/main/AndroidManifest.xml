@@ -40,16 +40,11 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".WordBankActivity"
-            android:exported="false" />
-        <activity
             android:name=".WordCategoryActivity"
             android:exported="false" />
         <activity
             android:name=".AnimalCategoryActivity"
             android:exported="false">
-
-            <!-- need to remove later on and just call create animal view from wordbank activity -->
         </activity>
     </application>
 

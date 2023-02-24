@@ -5,9 +5,11 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CompoundButton;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.Toast;
+import android.widget.ToggleButton;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -114,7 +116,7 @@ public class AnimalCategoryActivity extends AppCompatActivity {
                 final int FINAL_ROW = row;
 
                 //add new button
-                Button button = new Button(this);
+                ToggleButton button = new ToggleButton(this);
 
                 //set layout
                 button.setLayoutParams(new TableRow.LayoutParams(
@@ -123,7 +125,11 @@ public class AnimalCategoryActivity extends AppCompatActivity {
                         1.0f ));//scaling weight
 
                 //put text on button -> call read data fcn
-                button.setText("" + words.getWord(FINAL_COL  + FINAL_ROW * NUM_COLS));
+                String currentWord = words.getWord(FINAL_COL + FINAL_ROW * NUM_COLS);
+                button.setText(currentWord);
+                button.setTextOn(currentWord);
+                button.setTextOff(currentWord);
+                button.setChecked(wordsAdded.contains(currentWord));
 
                 // Generate an ID for the button
                 button.setId(View.generateViewId());
@@ -133,19 +139,20 @@ public class AnimalCategoryActivity extends AppCompatActivity {
 
 
                 //action for button clicked
-                button.setOnClickListener(new View.OnClickListener() {
+                button.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                     @Override
-                    public void onClick(View view) {
-                        gridButtonCLicked(words.getWord(FINAL_COL  + FINAL_ROW * NUM_COLS));
-                        Button button = findViewById(view.getId());
-                        button.setEnabled(false);
+                    public void onCheckedChanged(CompoundButton compoundButton, boolean isChecked) {
+                        int index = FINAL_COL + FINAL_ROW * NUM_COLS;
+                        if (isChecked) {
+                            gridButtonCLicked(words.getWord(index));
+                        } else {
+                            wordsAdded.remove(words.getWord(index));
+                        }
                     }
-
-
                 });
-                tableRow.addView(button);
 
-                }
+                tableRow.addView(button);
+            }
         }
     }
     private void gridButtonCLicked(String word) {

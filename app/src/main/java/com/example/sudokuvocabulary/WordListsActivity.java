@@ -33,7 +33,8 @@ public class WordListsActivity extends AppCompatActivity implements View.OnClick
         new_word_list_button = (Button) findViewById(R.id.create_new_word_list_button);
 
         new_word_list_button.setOnClickListener(view -> {
-            Intent intent = new Intent(WordListsActivity.this, WordBankActivity.class);
+            Intent intent = new Intent(
+                    WordListsActivity.this, WordListNameActivity.class);
             startActivity(intent);
         });
 

@@ -58,10 +58,10 @@ public class QuestionCardView extends CardView {
         mQuestionPromptView.setTextSize(32);
     }
 
-    public void setWordChoiceButtonsText(String[][] choices) {
+    public void setWordChoiceButtonsText(String[] choices) {
         int buttonNum = 0;
-        for (String[] choice: choices) {
-            mWordChoiceButtons[buttonNum++].setText(choice[1]);
+        for (String choice: choices) {
+            mWordChoiceButtons[buttonNum++].setText(choice);
         }
     }
 }

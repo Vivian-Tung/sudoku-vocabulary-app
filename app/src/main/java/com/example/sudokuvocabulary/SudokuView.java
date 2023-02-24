@@ -11,6 +11,8 @@ import android.view.View;
 
 import androidx.annotation.Nullable;
 
+import java.util.ArrayList;
+
 public class SudokuView extends View {
     private final int mGridColour;
     private final int mCellItemFillColour;
@@ -20,6 +22,8 @@ public class SudokuView extends View {
     private final int mGridSideLength = 9;
     private final int mSubGridSize = 3;
     private int[][] mCellsToDraw;
+
+    private String[][] mWordsToDraw;
 
     public SudokuView(Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
@@ -36,6 +40,7 @@ public class SudokuView extends View {
         }
 
         mCellsToDraw = new int[mGridSideLength][mGridSideLength];
+        mWordsToDraw = new String[mGridSideLength][mGridSideLength];
     }
 
     @Override
@@ -57,9 +62,10 @@ public class SudokuView extends View {
         mGridColourPaint.setAntiAlias(true);
 
         mCellItemFillColourPaint.setStyle(Paint.Style.FILL);
-        mCellItemFillColourPaint.setTextSize(getCellSize());
+        mCellItemFillColourPaint.setTextSize(getCellSize()/2);
         mCellItemFillColourPaint.setColor(mCellItemFillColour);
         mCellItemFillColourPaint.setAntiAlias(true);
+        mCellItemFillColourPaint.setTextAlign(Paint.Align.CENTER);
 
         // Draw grid border
         canvas.drawRect(0,0, getWidth(), getHeight(), mGridColourPaint);
@@ -78,12 +84,33 @@ public class SudokuView extends View {
         return mCellSize;
     }
 
-    public int[][] getCellsToDraw() {
-        return mCellsToDraw;
+    public String[][] getWordsToDraw() {
+        return mWordsToDraw;
+    }
+
+    public String getWordToDrawAt(int row, int column) {
+        return mWordsToDraw[row][column];
     }
 
     public void setCellsToDraw(int[][] cellsToDraw) {
         mCellsToDraw = cellsToDraw;
+    }
+
+    public void setWordToDrawAt(int row, int column, String word) {
+        mWordsToDraw[row][column] = word;
+    }
+
+    public void setWordsToDraw(String[][] wordsToDraw) {
+        mWordsToDraw = wordsToDraw;
+    }
+
+    public void setWordsToDraw(int[][] cellsToDraw, String[] wordsToDraw) {
+        for (int index=0; index < mGridSideLength*mGridSideLength; index++) {
+            int row = index / mGridSideLength, column = index % mGridSideLength;
+            if (cellsToDraw[row][column] != 0) {
+                setWordToDrawAt(row, column, wordsToDraw[cellsToDraw[row][column]-1]);
+            }
+        }
     }
 
     public void drawCellNumbers(Canvas canvas) {
@@ -91,9 +118,13 @@ public class SudokuView extends View {
             for (int column = 0; column < mGridSideLength; column++) {
                 int cellValue = mCellsToDraw[row][column];
                 if (cellValue != 0) {
-                    int x_axis = (int) ((column * mCellSize) + (0.25 * mCellSize));
-                    int y_axis = (int) ((row * mCellSize) + (0.9 * mCellSize));
-                    String itemText = Integer.toString(cellValue);
+                    int x_axis = (int) ((column * mCellSize) + (0.5 * mCellSize));
+                    int y_axis = (int) ((row * mCellSize) + (0.8 * mCellSize));
+                    String itemText = "" + Character.toUpperCase(
+                            getWordToDrawAt(row, column).charAt(0));
+                    if (getWordToDrawAt(row, column).length() > 1) {
+                        itemText += Character.toUpperCase(getWordToDrawAt(row, column).charAt(1));
+                    }
                     canvas.drawText(itemText, x_axis, y_axis, mCellItemFillColourPaint);
                 }
             }

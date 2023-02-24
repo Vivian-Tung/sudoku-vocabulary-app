@@ -79,10 +79,10 @@ public class WordDictionary {
     }
 
     public void remove(String word) {
-        mWords.remove(find(word));
+        mWords.remove(findSample(word));
     }
 
-    public WordSample find(String word) {
+    public WordSample findSample(String word) {
         for (WordSample sample: mWords) {
             if(sample.getWord().equals(word)) {
                 return sample;
@@ -92,7 +92,7 @@ public class WordDictionary {
     }
 
     public String findTranslation(String word) {
-        WordSample sample = find(word);
+        WordSample sample = findSample(word);
         if (sample == null) {
             return null;
         }
@@ -100,6 +100,6 @@ public class WordDictionary {
     }
 
     public boolean contains(String word) {
-        return find(word) != null;
+        return findSample(word) != null;
     }
 }

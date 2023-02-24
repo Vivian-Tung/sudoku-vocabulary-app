@@ -62,28 +62,35 @@ public class AnimalCategoryActivity extends AppCompatActivity {
         Button playButton = findViewById(R.id.animal_category_play_button);
         playButton.setOnClickListener(view -> {
 
-            // Add the new word list to database
-            db = new DBAdapter(this);
-            db.open();
-            db.newTable(tableName);
-            for (WordSample wordSample: wordsAdded.getWords()) {
-                db.insertRow(wordSample.getWord(), wordSample.getTranslation(), tableName);
-            }
+            if (wordsAdded.getLength() != 9) {
+                Toast.makeText(this,
+                        "Exactly nine words must be selected",
+                        Toast.LENGTH_SHORT).show();
+            } else {
+                // Add the new word list to database
+                db = new DBAdapter(this);
+                db.open();
+                db.newTable(tableName);
+                for (WordSample wordSample : wordsAdded.getWords()) {
+                    db.insertRow(wordSample.getWord(), wordSample.getTranslation(), tableName);
+                }
 
-            // Launch the sudoku game
-            Intent intent = new Intent(AnimalCategoryActivity.this,
-                    SudokuActivity.class);
-            intent.putExtra(getString(R.string.words_key),
-                    wordsAdded.getWordsAsArray());
-            intent.putExtra(getString(R.string.translations_key),
-                    wordsAdded.getTranslationsAsArray());
-            startActivity(intent);
+                // Launch the sudoku game
+                Intent intent = new Intent(AnimalCategoryActivity.this,
+                        SudokuActivity.class);
+                intent.putExtra(getString(R.string.words_key),
+                        wordsAdded.getWordsAsArray());
+                intent.putExtra(getString(R.string.translations_key),
+                        wordsAdded.getTranslationsAsArray());
+                startActivity(intent);
+            }
         });
 
         Button prevButton = findViewById(R.id.animal_category_prev_button);
         prevButton.setOnClickListener(view -> {
             Intent intent = new Intent(AnimalCategoryActivity.this,
                     WordCategoryActivity.class);
+            intent.putExtra(getString(R.string.new_table_name_key), tableName);
             startActivity(intent);
         });
     }

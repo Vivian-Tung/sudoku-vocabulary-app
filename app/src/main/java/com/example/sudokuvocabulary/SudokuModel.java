@@ -63,6 +63,10 @@ public class SudokuModel implements Serializable {
 
     public int getGridLength() { return mGridLength; }
 
+    public int getGridSize() { return mGridSize; }
+
+    public int[] getNumberArray() { return mNumberArray; }
+
     public int[][] getGridAsMatrix() { return mSudokuGrid; }
 
     public int[] getGridAsArray() { return flatten(mSudokuGrid); }
@@ -131,7 +135,7 @@ public class SudokuModel implements Serializable {
         }
     }
 
-    private boolean gridValid(int value_row, int value_column, int number) {
+    public boolean gridValid(int value_row, int value_column, int number) {
         int subGridRowStart = calculateSubGridIndex(value_row, mSubGridRows);
         int subGridColumnStart = calculateSubGridIndex(value_column, mSubGridColumns);
 
@@ -140,60 +144,12 @@ public class SudokuModel implements Serializable {
     }
 
     public void newFilledGrid() {
-        solver(0);
+        SudokuSolverModel.solve(this);
         mNumOfEmptyCells = 0;
     }
 
-    private boolean solver(int index) {
-        if (index >= mGridSize) { return true; }
-
-        int row = (index / mGridLength), column = (index % mGridLength);
-
-        if (cellNotEmpty(row, column)) { return solver(index + 1); }
-        // Number array is shuffled to generate random puzzle
-        shuffleArray(mNumberArray);
-        for (int number: mNumberArray) {
-            if (gridValid(row, column, number)) {
-                // Insert current number at that position
-                setValueAt(row, column, number);
-                // Recursively check next position
-                if (solver(index + 1)) {
-                    mNumOfEmptyCells--;
-                    break;
-                } else {
-                    // Set value back to zero
-                    setValueAt(row, column, 0);
-                }
-            }
-        }
-        return cellNotEmpty(row, column);
-    }
-
     private boolean hasUniqueSolution() {
-        return countSolutions(0, 0) == 1;
-    }
-
-    private int countSolutions(int index, int numOfSolutions) {
-        if (numOfSolutions > 1) { return numOfSolutions; }
-        if (index >= mGridSize) {
-            return numOfSolutions+1;
-        }
-
-        int row = (index / mGridLength), column = (index % mGridLength);
-
-        if (cellNotEmpty(row, column)) {
-            return countSolutions(index+1, numOfSolutions);
-        }
-        for (int number: mNumberArray) {
-            if (gridValid(row, column, number)) {
-                // Insert current number in the cell
-                setValueAt(row, column, number);
-                // Recursively check next cell
-                numOfSolutions = countSolutions(index+1, numOfSolutions);
-                setValueAt(row, column, 0);
-            }
-        }
-        return numOfSolutions;
+        return SudokuSolverModel.solutions(this) == 1;
     }
 
     public void newPuzzle(int numOfEmptyCells) {

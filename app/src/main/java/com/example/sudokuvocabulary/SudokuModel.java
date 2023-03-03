@@ -63,6 +63,10 @@ public class SudokuModel implements Serializable {
 
     public int getGridLength() { return mGridLength; }
 
+    public int getGridSize() { return mGridSize; }
+
+    public int[] getNumberArray() { return mNumberArray; }
+
     public int[][] getGridAsMatrix() { return mSudokuGrid; }
 
     public int[] getGridAsArray() { return flatten(mSudokuGrid); }
@@ -131,7 +135,7 @@ public class SudokuModel implements Serializable {
         }
     }
 
-    private boolean gridValid(int value_row, int value_column, int number) {
+    public boolean gridValid(int value_row, int value_column, int number) {
         int subGridRowStart = calculateSubGridIndex(value_row, mSubGridRows);
         int subGridColumnStart = calculateSubGridIndex(value_column, mSubGridColumns);
 

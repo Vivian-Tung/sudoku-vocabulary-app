@@ -177,29 +177,6 @@ public class SudokuModel implements Serializable {
         return SudokuSolverModel.solutions(this) == 1;
     }
 
-    private int countSolutions(int index, int numOfSolutions) {
-        if (numOfSolutions > 1) { return numOfSolutions; }
-        if (index >= mGridSize) {
-            return numOfSolutions+1;
-        }
-
-        int row = (index / mGridLength), column = (index % mGridLength);
-
-        if (cellNotEmpty(row, column)) {
-            return countSolutions(index+1, numOfSolutions);
-        }
-        for (int number: mNumberArray) {
-            if (gridValid(row, column, number)) {
-                // Insert current number in the cell
-                setValueAt(row, column, number);
-                // Recursively check next cell
-                numOfSolutions = countSolutions(index+1, numOfSolutions);
-                setValueAt(row, column, 0);
-            }
-        }
-        return numOfSolutions;
-    }
-
     public void newPuzzle(int numOfEmptyCells) {
         setNumberOfEmptyCells(0);
         int[][] cells = new int[mGridSize][2];

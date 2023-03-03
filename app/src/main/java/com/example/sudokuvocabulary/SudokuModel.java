@@ -144,33 +144,8 @@ public class SudokuModel implements Serializable {
     }
 
     public void newFilledGrid() {
-        solver(0);
+        SudokuSolverModel.solve(this);
         mNumOfEmptyCells = 0;
-    }
-
-    private boolean solver(int index) {
-        if (index >= mGridSize) { return true; }
-
-        int row = (index / mGridLength), column = (index % mGridLength);
-
-        if (cellNotEmpty(row, column)) { return solver(index + 1); }
-        // Number array is shuffled to generate random puzzle
-        shuffleArray(mNumberArray);
-        for (int number: mNumberArray) {
-            if (gridValid(row, column, number)) {
-                // Insert current number at that position
-                setValueAt(row, column, number);
-                // Recursively check next position
-                if (solver(index + 1)) {
-                    mNumOfEmptyCells--;
-                    break;
-                } else {
-                    // Set value back to zero
-                    setValueAt(row, column, 0);
-                }
-            }
-        }
-        return cellNotEmpty(row, column);
     }
 
     private boolean hasUniqueSolution() {

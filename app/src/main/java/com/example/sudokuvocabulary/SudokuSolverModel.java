@@ -5,13 +5,13 @@ public class SudokuSolverModel {
         void execute(SudokuModel board, int index, int solutions, int row, int column);
     }
 
-    public int solutions(SudokuModel board) {
+    public static int solutions(SudokuModel board) {
         RunInSolver function = (model, index , solutions, row, column) ->
                 board.setValueAt(row, column, 0);
         return solver(board, 0, 0, function);
     }
 
-    public boolean solve(SudokuModel board) {
+    public static boolean solve(SudokuModel board) {
         RunInSolver function = (model, index, solution, row, column) -> {
             if (solution > 0) {
                 board.setNumberOfEmptyCells(board.getNumberOfEmptyCells()-1);
@@ -22,7 +22,7 @@ public class SudokuSolverModel {
         return solver(board, 0, 0, function) == 1;
     }
 
-    public int solver(SudokuModel board, int index, int solutions, RunInSolver function) {
+    private static int solver(SudokuModel board, int index, int solutions, RunInSolver function) {
         if (solutions > 1) { return solutions; }
         if (index >= board.getGridSize()) {
             return solutions + 1;

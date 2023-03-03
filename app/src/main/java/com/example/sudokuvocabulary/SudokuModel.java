@@ -174,7 +174,7 @@ public class SudokuModel implements Serializable {
     }
 
     private boolean hasUniqueSolution() {
-        return countSolutions(0, 0) == 1;
+        return SudokuSolverModel.solutions(this) == 1;
     }
 
     private int countSolutions(int index, int numOfSolutions) {

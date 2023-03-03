@@ -19,8 +19,4 @@ public class SudokuSolverModelTest {
         SudokuSolverModel.solve(model);
         assertTrue(model.isGridFilled());
     }
-
-    @Test
-    public void solver() {
-    }
 }

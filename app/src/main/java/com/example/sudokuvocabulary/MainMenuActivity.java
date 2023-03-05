@@ -8,6 +8,8 @@ import android.database.Cursor;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -65,14 +67,7 @@ public class MainMenuActivity extends AppCompatActivity {
         mDarkSwitch.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                savePreferences("darkSwitch_Val", mDarkSwitch.isChecked());
-                if (mDarkSwitch.isChecked()) {
-                    AppCompatDelegate.setDefaultNightMode((AppCompatDelegate.MODE_NIGHT_YES));
-                    savePreferences("darkSwitch_Val", true);
-                } else {
-                    AppCompatDelegate.setDefaultNightMode((AppCompatDelegate.MODE_NIGHT_NO));
-                    savePreferences("darkSwitch_Val", false);
-                }
+                switchListener();
             }
         });
         loadSavedPreferences();
@@ -96,11 +91,11 @@ public class MainMenuActivity extends AppCompatActivity {
     private void setupTutorialButton() {
         ImageView tutorialBtn = findViewById(R.id.tutorialBtn);
         tutorialBtn.setOnClickListener(view -> {
-
             Intent intent = new Intent(MainMenuActivity.this, TutorialActivity.class);
             startActivity(intent);
         });
     }
+
 
     //save switch state
     private void loadSavedPreferences(){
@@ -121,5 +116,19 @@ public class MainMenuActivity extends AppCompatActivity {
         editor.putBoolean(key, value);
         editor.commit();
     }
+
+    //switch listener
+    private void switchListener() {
+        savePreferences("darkSwitch_Val", mDarkSwitch.isChecked());
+        if (mDarkSwitch.isChecked()) {
+            AppCompatDelegate.setDefaultNightMode((AppCompatDelegate.MODE_NIGHT_YES));
+            savePreferences("darkSwitch_Val", true);
+        } else {
+            AppCompatDelegate.setDefaultNightMode((AppCompatDelegate.MODE_NIGHT_NO));
+            savePreferences("darkSwitch_Val", false);
+        }
+
+    }
+
 
 }

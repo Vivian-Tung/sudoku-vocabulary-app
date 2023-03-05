@@ -17,6 +17,34 @@
             android:layout_alignParentEnd="true"
             android:src="@drawable/baseline_question_mark_36"></ImageView>
 
+        <ImageView
+            android:id="@+id/moonImg"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:layout_toLeftOf="@+id/tutorialBtn"
+            android:src="@drawable/ic_baseline_brightness_2_24">
+        </ImageView>
+
+        <androidx.appcompat.widget.SwitchCompat
+            android:id="@+id/darkSwitch"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:layout_toLeftOf="@+id/moonImg"
+
+            />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:layout_toLeftOf="@+id/darkSwitch"
+            android:src="@drawable/ic_baseline_wb_sunny_24">
+        </ImageView>
+
+
+
     </RelativeLayout>
 
 

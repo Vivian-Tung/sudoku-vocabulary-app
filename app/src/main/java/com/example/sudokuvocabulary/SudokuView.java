@@ -9,53 +9,37 @@ import android.view.View;
 
 import androidx.annotation.Nullable;
 
-// TODO:
-// Replace current int matrix for storing cells to draw with string matrix
-// Re-write methods to work with new string matrix
-
 public class SudokuView extends View {
     private final int mGridColour;
     private final int mCellItemFillColour;
     private final Paint mGridColourPaint = new Paint();
     private final Paint mCellItemFillColourPaint = new Paint();
     private int mCellSize;
-    private final int mGridSideLength = 9;
-    private final int mSubGridSize = 3;
-    // Stores index of word to write at a particular cell,
-    // Positive values indicate cell is filled with English,
-    // Negative values indicate cell is filled with Chinese
-    private int[][] mCellsToDraw;
-    // Stores the words to draw and their translations as pairs in an array
-    // i.e. mCellsToDraw[0][0] is the english word of word one
-    // mCellsToDraw[0][1] is the translation for word one
+    private int mGridLength = 9;
+    private int mSubGridLength = 3;
+    private int mSubGridHeight = 3; // To be used for drawing various sized grids
     private String[][] mWordsToDraw;
 
     public SudokuView(Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
         setSaveEnabled(true);
-
         TypedArray attributes = context.getTheme().obtainStyledAttributes(attrs,
                 R.styleable.SudokuGrid, 0, 0);
-
         try {
             mGridColour = attributes.getInteger(R.styleable.SudokuGrid_gridColor, 0);
             mCellItemFillColour = attributes.getInteger(R.styleable.SudokuGrid_cellItemFillColour, 0);
         } finally {
             attributes.recycle();
         }
-
-        mCellsToDraw = new int[mGridSideLength][mGridSideLength];
-        mWordsToDraw = new String[mGridSideLength][mGridSideLength];
+        mWordsToDraw = new String[mGridLength][mGridLength];
     }
 
     @Override
     public void onMeasure(int width, int height) {
         super.onMeasure(width, height);
-
         int dimension = Math.min(getMeasuredWidth(), getMeasuredHeight());
-
-        mCellSize = dimension / mGridSideLength;
-
+        // Calculate the size for each individual cell
+        mCellSize = dimension / mGridLength;
         setMeasuredDimension(dimension, dimension);
     }
 
@@ -74,15 +58,21 @@ public class SudokuView extends View {
 
         // Draw grid border
         canvas.drawRect(0,0, getWidth(), getHeight(), mGridColourPaint);
-
+        // Draw the Sudoku grid and fill each cell with the correct word
         drawGrid(canvas);
-
         drawCellItems(canvas);
     }
 
-    // Sets the translated word to be drawn at the specified cell
-    public void setCellToDraw(int row, int column, int value) {
-        mCellsToDraw[row][column] = -value;
+    public void setInitialGrid(int[][] grid, String[] words, String[] translations) {
+        for (int i = 0; i < mGridLength* mGridLength; i++) {
+            int row = i / mGridLength, column = i % mGridLength;
+            // Set each cell to the english word specified by grid
+            if (grid[row][column] != 0) {
+                mWordsToDraw[row][column] = words[grid[row][column] - 1];
+            }
+        }
+        // Call invalidate to redraw the grid
+        this.invalidate();
     }
 
     public int getCellSize() {
@@ -97,21 +87,18 @@ public class SudokuView extends View {
         return mWordsToDraw[row][column];
     }
 
-    public void setCellsToDraw(int[][] cellsToDraw) {
-        mCellsToDraw = cellsToDraw;
-    }
-
     public void setWordToDrawAt(int row, int column, String word) {
         mWordsToDraw[row][column] = word;
     }
 
     public void setWordsToDraw(String[][] wordsToDraw) {
         mWordsToDraw = wordsToDraw;
+        this.invalidate();
     }
 
     public void setWordsToDraw(int[][] cellsToDraw, String[] wordsToDraw) {
-        for (int index=0; index < mGridSideLength*mGridSideLength; index++) {
-            int row = index / mGridSideLength, column = index % mGridSideLength;
+        for (int index = 0; index < mGridLength * mGridLength; index++) {
+            int row = index / mGridLength, column = index % mGridLength;
             if (cellsToDraw[row][column] != 0) {
                 setWordToDrawAt(row, column, wordsToDraw[cellsToDraw[row][column]-1]);
             }
@@ -119,19 +106,17 @@ public class SudokuView extends View {
     }
 
     public void drawCellItems(Canvas canvas) {
-        for (int row = 0; row < mGridSideLength; row++) {
-            for (int column = 0; column < mGridSideLength; column++) {
-                int cellValue = mCellsToDraw[row][column];
-                if (cellValue != 0) {
-                    int x_axis = (int) ((column * mCellSize) + (0.5 * mCellSize));
-                    int y_axis = (int) ((row * mCellSize) + (0.8 * mCellSize));
-                    String itemText = "" + Character.toUpperCase(
-                            getWordToDrawAt(row, column).charAt(0));
-                    if (getWordToDrawAt(row, column).length() > 1) {
-                        itemText += Character.toUpperCase(getWordToDrawAt(row, column).charAt(1));
-                    }
-                    canvas.drawText(itemText, x_axis, y_axis, mCellItemFillColourPaint);
+        for (int i = 0; i < mGridLength*mGridLength; i++) {
+            int row = i / mGridLength, column = i % mGridLength;
+            String word = mWordsToDraw[row][column];
+            if (word != null) {
+                int x_axis = (int) ((column * mCellSize) + (0.5 * mCellSize));
+                int y_axis = (int) ((row * mCellSize) + (0.8 * mCellSize));
+                String itemText = "" + Character.toUpperCase(word.charAt(0));
+                if (word.length() > 1) {
+                    itemText += Character.toUpperCase(getWordToDrawAt(row, column).charAt(1));
                 }
+                canvas.drawText(itemText, x_axis, y_axis, mCellItemFillColourPaint);
             }
         }
     }
@@ -150,9 +135,9 @@ public class SudokuView extends View {
 
     private void drawGrid(Canvas canvas) {
 
-        for (int line = 0; line < mGridSideLength+1; line++) {
-            // Check if current line is a major line
-            if (line % mSubGridSize == 0) {
+        for (int line = 0; line < mGridLength +1; line++) {
+            // Check if current line is a major line, draw a thicker line if so
+            if (line % mSubGridLength == 0) {
                 drawThickLine();
             } else {
                 drawThinLine();

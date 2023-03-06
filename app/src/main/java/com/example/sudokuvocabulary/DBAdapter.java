@@ -171,6 +171,18 @@ public class DBAdapter {
         return c;
     }
 
+    // Returns all available categories in word table as an ArrayList
+    public ArrayList<String> getAllCategories() {
+        ArrayList<String> categories = new ArrayList<>();
+        String[] keyArray = {KEY_CATEGORY};
+        Cursor c = db.query(true, KEY_WORD_TABLE, keyArray,
+                null, null, null, null, null, null);
+        while (c.moveToNext()) {
+            categories.add(c.getString(0));
+        }
+        return categories;
+    }
+
     // Get a specific row (by rowId)
     public Cursor getRow(long rowId) {
         String where = KEY_ROWID + "=" + rowId;
@@ -183,7 +195,7 @@ public class DBAdapter {
     }
 
     // Get all words of a specific category
-    public ArrayList<ArrayList<String>> getCategory(String category) {
+    public ArrayList<ArrayList<String>> getWordsFromCategory(String category) {
         String where = KEY_CATEGORY + "=" + category;
         ArrayList<ArrayList<String>> words = new ArrayList<>();
 

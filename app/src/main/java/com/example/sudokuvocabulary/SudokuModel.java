@@ -174,7 +174,7 @@ public class SudokuModel implements Serializable {
         }
     }
 
-    private int[] flatten(int[][] matrix) {
+    public static int[] flatten(int[][] matrix) {
         int[] flattenedArray = new int[matrix.length * matrix.length];
         int index = 0;
         for(int[] row: matrix) {
@@ -185,11 +185,33 @@ public class SudokuModel implements Serializable {
         return flattenedArray;
     }
 
-    private int[][] expand(int[] array) {
+    public static String[] flatten(String[][] matrix) {
+        String[] flattenedArray = new String[matrix.length * matrix.length];
+        int index = 0;
+        for(String[] row: matrix) {
+            for (String value: row) {
+                flattenedArray[index++] = value;
+            }
+        }
+        return flattenedArray;
+    }
+
+    public static int[][] expand(int[] array) {
         int matrixLength = (int) Math.sqrt(array.length);
         int[][] expandedMatrix = new int[matrixLength][matrixLength];
         int index = 0;
         for (int value: array) {
+            expandedMatrix[index/matrixLength][index%matrixLength] = value;
+            index++;
+        }
+        return expandedMatrix;
+    }
+
+    public static String[][] expand(String[] array) {
+        int matrixLength = (int) Math.sqrt(array.length);
+        String[][] expandedMatrix = new String[matrixLength][matrixLength];
+        int index = 0;
+        for (String value: array) {
             expandedMatrix[index/matrixLength][index%matrixLength] = value;
             index++;
         }

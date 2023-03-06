@@ -39,18 +39,16 @@ public class SudokuActivity extends AppCompatActivity implements View.OnClickLis
 
         setupTutorialButton();
 
+        mWords = getIntent().getStringArrayExtra(getString(R.string.words_key));
+        mTranslations = getIntent().getStringArrayExtra(getString(R.string.translations_key));
+
         mSudokuModel = new SudokuModel();
         mSudokuView = findViewById(R.id.sudokuGridView);
-        mSudokuView.setCellsToDraw(mSudokuModel.getGridAsMatrix());
+        mSudokuView.setInitialGrid(mSudokuModel.getGridAsMatrix(), mWords, mTranslations);
 
         mQuestionCard = findViewById(R.id.questionCardView);
         mQuestionCard.setNumberOfChoices(mSudokuModel.getGridLength());
         mQuestionCard.setVisibility(View.GONE);
-
-        mWords = getIntent().getStringArrayExtra(getString(R.string.words_key));
-        mTranslations = getIntent().getStringArrayExtra(getString(R.string.translations_key));
-
-        mSudokuView.setWordsToDraw(mSudokuModel.getGridAsMatrix(), mWords);
 
         Button[] wordChoiceButtons = mQuestionCard.getWordChoiceButtons();
         for (Button choice: wordChoiceButtons) {
@@ -97,7 +95,6 @@ public class SudokuActivity extends AppCompatActivity implements View.OnClickLis
 
         if (isCorrect()) {
             mSudokuModel.checkAndFillCellAt(mCellRow, mCellColumn, mCellValue);
-            mSudokuView.setCellToDraw(mCellRow, mCellColumn, mCellValue);
             mSudokuView.setWordToDrawAt(mCellRow, mCellColumn, mTranslations[mCellValue-1]);
             mSudokuView.invalidate();
             toastMessage = getString(R.string.game_correct_toast_text);
@@ -122,6 +119,8 @@ public class SudokuActivity extends AppCompatActivity implements View.OnClickLis
         savedInstanceState.putStringArray(getString(R.string.words_key), mWords);
         savedInstanceState.putStringArray(getString(R.string.translations_key), mTranslations);
         savedInstanceState.putString(getString(R.string.word_prompt_key), mWordPrompt);
+        savedInstanceState.putStringArray(getString(R.string.word_grid_key),
+                SudokuModel.flatten(mSudokuView.getWordsToDraw()));
         super.onSaveInstanceState(savedInstanceState);
     }
 
@@ -139,9 +138,9 @@ public class SudokuActivity extends AppCompatActivity implements View.OnClickLis
         mWordPrompt = savedInstanceState.getString(getString(R.string.word_prompt_key));
 
         mSudokuView = findViewById(R.id.sudokuGridView);
-        mSudokuView.setCellsToDraw(mSudokuModel.getGridAsMatrix());
-        mSudokuView.setWordsToDraw(mSudokuModel.getGridAsMatrix(), mWords);
-        mSudokuView.invalidate();
+        String[][] wordsToDraw = SudokuModel.expand(
+                savedInstanceState.getStringArray(getString(R.string.word_grid_key)));
+        mSudokuView.setWordsToDraw(wordsToDraw);
 
         mQuestionCard = findViewById(R.id.questionCardView);
         mQuestionCard.setWordPrompt(mWordPrompt);

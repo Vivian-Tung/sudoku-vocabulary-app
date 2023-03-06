@@ -6,10 +6,6 @@
     android:orientation="vertical"
     android:gravity="center">
 
-
-
-
-
     <TextView
         android:id="@+id/add_word_text_view"
         android:layout_width="wrap_content"
@@ -38,13 +34,12 @@
         android:background="@drawable/box"
         android:orientation="vertical">
 
-
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="5dp"
             android:background="@drawable/box"
-            android:gravity="top|left"
+            android:gravity="top|start"
             android:text="@string/activity_add_word_choose_category"
             android:textColor="@color/black"
             android:textSize="18sp"

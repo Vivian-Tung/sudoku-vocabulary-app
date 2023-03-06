@@ -60,8 +60,8 @@ public class QuestionCardView extends CardView {
 
     public void setWordChoiceButtonsText(String[] choices) {
         int buttonNum = 0;
-        for (String choice: choices) {
-            mWordChoiceButtons[buttonNum++].setText(choice);
+        for (Button button: mWordChoiceButtons) {
+            button.setText(choices[buttonNum++]);
         }
     }
 }

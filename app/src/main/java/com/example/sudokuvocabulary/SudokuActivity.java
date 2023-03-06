@@ -21,6 +21,7 @@ public class SudokuActivity extends AppCompatActivity implements View.OnClickLis
     private SudokuModel mSudokuModel;
     private String[] mWords, mTranslations;
     private int mCellRow=0, mCellColumn=0, mCellValue=0;
+    private String mWordPrompt;
     private String mChoicePicked;
     private static final String KEY_GRID_AS_ARRAY = "gridAsArray";
     private static final String KEY_SOLUTION_AS_ARRAY = "solutionArray";
@@ -78,8 +79,8 @@ public class SudokuActivity extends AppCompatActivity implements View.OnClickLis
 
                 isValid = true;
 
-                mQuestionCard.setWordPrompt(mWords[
-                        mSudokuModel.getSolutionAt(mCellRow, mCellColumn)-1]);
+                mWordPrompt = mWords[mSudokuModel.getSolutionAt(mCellRow, mCellColumn)-1];
+                mQuestionCard.setWordPrompt(mWordPrompt);
                 mQuestionCard.setWordChoiceButtonsText(mTranslations);
 
                 mQuestionCard.invalidate();
@@ -118,6 +119,9 @@ public class SudokuActivity extends AppCompatActivity implements View.OnClickLis
         savedInstanceState.putIntArray(KEY_SOLUTION_AS_ARRAY, mSudokuModel.getSolutionAsArray());
         savedInstanceState.putInt(KEY_NUM_OF_EMPTY_CELLS, mSudokuModel.getNumberOfEmptyCells());
         savedInstanceState.putBoolean(KEY_POPUP_VISIBLE, (mQuestionCard.getVisibility() == View.VISIBLE));
+        savedInstanceState.putStringArray(getString(R.string.words_key), mWords);
+        savedInstanceState.putStringArray(getString(R.string.translations_key), mTranslations);
+        savedInstanceState.putString(getString(R.string.word_prompt_key), mWordPrompt);
         super.onSaveInstanceState(savedInstanceState);
     }
 
@@ -130,11 +134,19 @@ public class SudokuActivity extends AppCompatActivity implements View.OnClickLis
         mSudokuModel.setSolutionFromArray(savedInstanceState.getIntArray(KEY_SOLUTION_AS_ARRAY));
         mSudokuModel.setNumberOfEmptyCells(savedInstanceState.getInt(KEY_NUM_OF_EMPTY_CELLS));
 
+        mWords = savedInstanceState.getStringArray(getString(R.string.words_key));
+        mTranslations = savedInstanceState.getStringArray(getString(R.string.translations_key));
+        mWordPrompt = savedInstanceState.getString(getString(R.string.word_prompt_key));
+
         mSudokuView = findViewById(R.id.sudokuGridView);
         mSudokuView.setCellsToDraw(mSudokuModel.getGridAsMatrix());
+        mSudokuView.setWordsToDraw(mSudokuModel.getGridAsMatrix(), mWords);
         mSudokuView.invalidate();
 
         mQuestionCard = findViewById(R.id.questionCardView);
+        mQuestionCard.setWordPrompt(mWordPrompt);
+        mQuestionCard.setNumberOfChoices(mSudokuModel.getGridLength());
+        mQuestionCard.setWordChoiceButtonsText(mTranslations);
         mQuestionCard.setVisibility(
                 (savedInstanceState.getBoolean(KEY_POPUP_VISIBLE))? View.VISIBLE:View.GONE);
     }

@@ -38,5 +38,6 @@
 
     <string name="new_table_name_key">com.example.android.sudokuvocabulary.listName</string>
     <string name="words_key">com.example.android.sudokuvocabulary.words</string>
-    <string name="translations_key">"com.example.android.sudokuvocabulary.translations"</string>
+    <string name="translations_key">com.example.android.sudokuvocabulary.translations</string>
+    <string name="word_prompt_key">com.example.android.sudokuvocabulary.prompt</string>
 </resources>

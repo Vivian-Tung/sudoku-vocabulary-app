@@ -11,6 +11,7 @@ import android.widget.TableRow;
 import android.widget.Toast;
 import android.widget.ToggleButton;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import java.io.BufferedReader;
@@ -18,6 +19,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 
 public class AnimalCategoryActivity extends AppCompatActivity {
     private static final int NUM_ROWS = 8;
@@ -97,6 +99,16 @@ public class AnimalCategoryActivity extends AppCompatActivity {
         });
     }
 
+    @Override
+    public void onSaveInstanceState(@NonNull Bundle savedInstanceState) {
+        super.onSaveInstanceState(savedInstanceState);
+    }
+
+    @Override
+    public void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+    }
+
     private void populateButtons() {
         //define table
         TableLayout table = (TableLayout) findViewById(R.id.table_for_buttons);
@@ -139,15 +151,12 @@ public class AnimalCategoryActivity extends AppCompatActivity {
 
 
                 //action for button clicked
-                button.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-                    @Override
-                    public void onCheckedChanged(CompoundButton compoundButton, boolean isChecked) {
-                        int index = FINAL_COL + FINAL_ROW * NUM_COLS;
-                        if (isChecked) {
-                            gridButtonCLicked(words.getWord(index));
-                        } else {
-                            wordsAdded.remove(words.getWord(index));
-                        }
+                button.setOnCheckedChangeListener((compoundButton, isChecked) -> {
+                    int index = FINAL_COL + FINAL_ROW * NUM_COLS;
+                    if (isChecked) {
+                        gridButtonCLicked(words.getWord(index));
+                    } else {
+                        wordsAdded.remove(words.getWord(index));
                     }
                 });
 
@@ -170,7 +179,7 @@ public class AnimalCategoryActivity extends AppCompatActivity {
         InputStream is = getResources().openRawResource(R.raw.test_data);
         //read line by line -> buffered reader
         BufferedReader reader = new BufferedReader(
-                new InputStreamReader(is, Charset.forName("UTF-8"))
+                new InputStreamReader(is, StandardCharsets.UTF_8)
         );
         //loop to read lines at once
         String line = "";

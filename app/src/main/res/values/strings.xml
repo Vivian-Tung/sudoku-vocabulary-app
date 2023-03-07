@@ -41,4 +41,5 @@
     <string name="translations_key">com.example.android.sudokuvocabulary.translations</string>
     <string name="word_prompt_key">com.example.android.sudokuvocabulary.prompt</string>
     <string name="word_grid_key">com.example.android.sudokuvocabulary.wordgrid</string>
+    <string name="category_key">com.example.android.sudokuvocabulary.category</string>
 </resources>

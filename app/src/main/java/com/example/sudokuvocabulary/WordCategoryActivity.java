@@ -12,8 +12,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import java.util.ArrayList;
 
 public class WordCategoryActivity extends AppCompatActivity implements View.OnClickListener {
-
-    Button animal_category_button;
     String tableName;
     DBAdapter db;
     ViewGroup buttonLayout;
@@ -36,9 +34,11 @@ public class WordCategoryActivity extends AppCompatActivity implements View.OnCl
 
     @Override
     public void onClick(View view) {
+        Button button = (Button) view;
         Intent intent = new Intent(WordCategoryActivity.this,
         AnimalCategoryActivity.class);
         intent.putExtra(getString(R.string.new_table_name_key), tableName);
+        intent.putExtra(getString(R.string.category_key), button.getText().toString());
         startActivity(intent);
     }
 

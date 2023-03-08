@@ -93,6 +93,7 @@ public class DBAdapter {
         myDBHelper.close();
     }
 
+    public boolean isOpen() { return myDBHelper.getWritableDatabase().isOpen(); }
 
     // Creates a new table with the given name
     public void newTable(String tableName) {

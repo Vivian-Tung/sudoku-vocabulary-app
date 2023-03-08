@@ -12,6 +12,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 
 
@@ -180,6 +181,7 @@ public class DBAdapter {
         while (c.moveToNext()) {
             categories.add(c.getString(0));
         }
+        c.close();
         return categories;
     }
 
@@ -196,20 +198,25 @@ public class DBAdapter {
 
     // Get all words of a specific category
     public ArrayList<ArrayList<String>> getWordsFromCategory(String category) {
-        String where = KEY_CATEGORY + "=" + category;
+        String where = KEY_CATEGORY + " = ?";
+        String[] selectionArgs = { category };
         ArrayList<ArrayList<String>> words = new ArrayList<>();
+        ArrayList<String> word = new ArrayList<>();
+        ArrayList<String> translation = new ArrayList<>();
 
         // Query for all words matching the given category
-        Cursor c = db.query(true, KEY_WORD_TABLE, ALL_KEYS,
-                where, null, null, null, null, null
+        String[] columnsToQuery = {KEY_WORD, KEY_TRANSLATION};
+        Cursor c = db.query(KEY_WORD_TABLE, columnsToQuery,
+                where, selectionArgs, null, null, null
         );
         //  Extract all matching words into the ArrayList
         while(c.moveToNext()) {
-            ArrayList<String> word = new ArrayList<>();
             word.add(c.getString(0));
-            word.add(c.getString(1));
+            translation.add(c.getString(1));
         }
         c.close();
+        words.add(0, word);
+        words.add(1, translation);
         return words;
     }
 
@@ -290,7 +297,7 @@ public class DBAdapter {
             InputStream is = context.getResources().openRawResource(R.raw.data);
             //read line by line -> buffered reader
             BufferedReader reader = new BufferedReader(
-                    new InputStreamReader(is, Charset.forName("UTF-8"))
+                    new InputStreamReader(is, StandardCharsets.UTF_8)
             );
             //loop to read lines at once
             String line = "";

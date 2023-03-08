@@ -50,7 +50,7 @@ public class DBAdapter {
     public static final String DATABASE_NAME = "Words.db";
     public static final String ANIMAL_TABLE = "animals";
     // Track DB version if a new version of your app changes the format.
-    public static final int DATABASE_VERSION = 1;
+    public static final int DATABASE_VERSION = 2;
 
     // Context of application
     private final Context context;
@@ -266,9 +266,16 @@ public class DBAdapter {
             Log.w(TAG, "Upgrading application's database from version " + oldVersion
                     + " to " + newVersion + ", which will destroy all old data!");
 
-            // Destroy old database:
-            _db.execSQL("DROP TABLE IF EXISTS " + ANIMAL_TABLE);
+            // Get names of all tables
+            Cursor c = db.rawQuery(
+                    "SELECT name FROM sqlite_master WHERE type='table' " +
+                            "order by name ", null);
 
+            // Destroy old database tables:
+            while (c.moveToNext()) {
+                _db.execSQL("DROP TABLE IF EXISTS " + c.getString(0));
+            }
+            c.close();
             // Recreate new database:
             onCreate(_db);
         }

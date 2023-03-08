@@ -43,7 +43,7 @@
             android:name=".WordCategoryActivity"
             android:exported="false" />
         <activity
-            android:name=".AnimalCategoryActivity"
+            android:name=".AddWordsActivity"
             android:exported="false">
         </activity>
     </application>

@@ -131,7 +131,7 @@ public class AnimalCategoryActivity extends AppCompatActivity {
                     1.0f ));//scaling weight
             //add row
             table.addView(tableRow);
-            for (int col = 0; col < NUM_COLS; col++) {
+            for (int col = 0; col < NUM_COLS && col + row * NUM_COLS < words.getLength(); col++) {
                 final int FINAL_COL = col;
                 final int FINAL_ROW = row;
 

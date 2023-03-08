@@ -12,6 +12,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 
 
@@ -34,6 +35,7 @@ public class DBAdapter {
     public static final String KEY_WORD_TABLE = "words";
     public static final String KEY_WORD = "word";
     public static final String KEY_TRANSLATION = "translation";
+    public static final String KEY_CATEGORY = "category";
 
     // field numbers (0 = KEY_ROWID, 1=...)
     //public static final int COL_LISTID = 1;
@@ -46,9 +48,9 @@ public class DBAdapter {
 
     // DB info: it's name, and the table .
     public static final String DATABASE_NAME = "Words.db";
-    public static final String DATABASE_TABLE = "animals";
+    public static final String ANIMAL_TABLE = "animals";
     // Track DB version if a new version of your app changes the format.
-    public static final int DATABASE_VERSION = 1;
+    public static final int DATABASE_VERSION = 2;
 
     // Context of application
     private final Context context;
@@ -91,6 +93,7 @@ public class DBAdapter {
         myDBHelper.close();
     }
 
+    public boolean isOpen() { return myDBHelper.getWritableDatabase().isOpen(); }
 
     // Creates a new table with the given name
     public void newTable(String tableName) {
@@ -118,13 +121,13 @@ public class DBAdapter {
     }
 
     public long insertRow(String word, String translation) {
-        return insertRow(word, translation, DATABASE_TABLE);
+        return insertRow(word, translation, ANIMAL_TABLE);
     }
 
     // Delete a row from the database, by rowId (primary key)
     public boolean deleteRow(long rowId) {
         String where = KEY_ROWID + "=" + rowId;
-        return db.delete(DATABASE_TABLE, where, null) != 0;
+        return db.delete(ANIMAL_TABLE, where, null) != 0;
     }
 
     public void deleteAll() {
@@ -157,7 +160,7 @@ public class DBAdapter {
 
     // Return all data in the database.
     public Cursor getAllRows() {
-        return getAllRows(DATABASE_TABLE);
+        return getAllRows(ANIMAL_TABLE);
     }
 
     public Cursor getAllRows(String tableName) {
@@ -170,15 +173,52 @@ public class DBAdapter {
         return c;
     }
 
+    // Returns all available categories in word table as an ArrayList
+    public ArrayList<String> getAllCategories() {
+        ArrayList<String> categories = new ArrayList<>();
+        String[] keyArray = {KEY_CATEGORY};
+        Cursor c = db.query(true, KEY_WORD_TABLE, keyArray,
+                null, null, null, null, null, null);
+        while (c.moveToNext()) {
+            categories.add(c.getString(0));
+        }
+        c.close();
+        return categories;
+    }
+
     // Get a specific row (by rowId)
     public Cursor getRow(long rowId) {
         String where = KEY_ROWID + "=" + rowId;
-        Cursor c = 	db.query(true, DATABASE_TABLE, ALL_KEYS,
+        Cursor c = 	db.query(true, ANIMAL_TABLE, ALL_KEYS,
                 where, null, null, null, null, null);
         if (c != null) {
             c.moveToFirst();
         }
         return c;
+    }
+
+    // Get all words of a specific category
+    public ArrayList<ArrayList<String>> getWordsFromCategory(String category) {
+        String where = KEY_CATEGORY + " = ?";
+        String[] selectionArgs = { category };
+        ArrayList<ArrayList<String>> words = new ArrayList<>();
+        ArrayList<String> word = new ArrayList<>();
+        ArrayList<String> translation = new ArrayList<>();
+
+        // Query for all words matching the given category
+        String[] columnsToQuery = {KEY_WORD, KEY_TRANSLATION};
+        Cursor c = db.query(KEY_WORD_TABLE, columnsToQuery,
+                where, selectionArgs, null, null, null
+        );
+        //  Extract all matching words into the ArrayList
+        while(c.moveToNext()) {
+            word.add(c.getString(0));
+            translation.add(c.getString(1));
+        }
+        c.close();
+        words.add(0, word);
+        words.add(1, translation);
+        return words;
     }
 
     // Change an existing row to be equal to new data.
@@ -194,7 +234,7 @@ public class DBAdapter {
         newValues.put(KEY_TRANSLATION, translation);
 
         // Insert it into the database.
-        return db.update(DATABASE_TABLE, newValues, where, null) != 0;
+        return db.update(ANIMAL_TABLE, newValues, where, null) != 0;
     }
 
 
@@ -215,11 +255,11 @@ public class DBAdapter {
 
         @Override
         public void onCreate(SQLiteDatabase _db) {
-            String wordTable = createTableEntry(KEY_WORD_TABLE);
-            String animalTable = createTableEntry(DATABASE_TABLE);
+            String wordTable = createWordTable(KEY_WORD_TABLE);
+            String animalTable = createTableEntry(ANIMAL_TABLE);
             _db.execSQL(wordTable);
             _db.execSQL(animalTable);
-            writeCSVData(_db, KEY_WORD_TABLE, "test_data.csv");
+            writeCSVData(_db);
         }
 
         @Override
@@ -227,14 +267,32 @@ public class DBAdapter {
             Log.w(TAG, "Upgrading application's database from version " + oldVersion
                     + " to " + newVersion + ", which will destroy all old data!");
 
-            // Destroy old database:
-            _db.execSQL("DROP TABLE IF EXISTS " + DATABASE_TABLE);
+            // Get names of all tables
+            Cursor c = _db.rawQuery(
+                    "SELECT name FROM sqlite_master WHERE type='table' " +
+                            "AND name!='android_metadata' " +
+                            "AND name != 'sqlite_sequence' " +
+                            "order by name ", null);
 
+            // Destroy old database tables:
+            while (c.moveToNext()) {
+                _db.execSQL("DROP TABLE IF EXISTS " + c.getString(0));
+            }
+            c.close();
             // Recreate new database:
             onCreate(_db);
         }
 
-        // Helper method for creating new tables, use for defining new word list tables
+        public String createWordTable(String tableName) {
+            return "CREATE TABLE IF NOT EXISTS " + tableName
+                    + " (" + KEY_ROWID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
+                    + KEY_WORD + " TEXT NOT NULL, "
+                    + KEY_TRANSLATION + " TEXT NOT NULL, "
+                    + KEY_CATEGORY + " TEXT NOT NULL "
+                    + ");";
+        }
+
+    // Helper method for creating new tables, use for defining new word list tables
         public String createTableEntry(String tableName) {
             return "CREATE TABLE IF NOT EXISTS " + tableName
                             + " (" + KEY_ROWID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
@@ -245,11 +303,11 @@ public class DBAdapter {
 
         // Private helper for writing data from a csv to the database, from readWordData()
         // Used when initializing database in onCreate()
-        private void writeCSVData(SQLiteDatabase _db, String tableKey, String fileName) {
-            InputStream is = context.getResources().openRawResource(R.raw.test_data);
+        private void writeCSVData(SQLiteDatabase _db) {
+            InputStream is = context.getResources().openRawResource(R.raw.data);
             //read line by line -> buffered reader
             BufferedReader reader = new BufferedReader(
-                    new InputStreamReader(is, Charset.forName("UTF-8"))
+                    new InputStreamReader(is, StandardCharsets.UTF_8)
             );
             //loop to read lines at once
             String line = "";
@@ -262,6 +320,7 @@ public class DBAdapter {
                     ContentValues contentValues = new ContentValues();
                     contentValues.put(KEY_WORD, tokens[0]);
                     contentValues.put(KEY_TRANSLATION, tokens[1]);
+                    contentValues.put(KEY_CATEGORY, tokens[2]);
                     _db.insert(KEY_WORD_TABLE, null, contentValues);
                 }
             }  catch (IOException e){

@@ -401,9 +401,8 @@ public class SudokuModel implements Serializable {
      */
     private int[] sequenceArray(int length) {
         int[] array = new int[length];
-        int index = 0;
-        for (int num = 0; num <= length; num++) {
-            array[index++] = num;
+        for (int num = 0; num < length; num++) {
+            array[num] = num+1;
         }
         return array;
     }

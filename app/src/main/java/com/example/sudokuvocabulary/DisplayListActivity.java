@@ -4,7 +4,6 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.LayoutInflater;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.LinearLayout;
@@ -41,14 +40,16 @@ public class DisplayListActivity extends AppCompatActivity {
         Button backButton = new Button(this);
         backButton.setLayoutParams(new LinearLayout.LayoutParams(
                 ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
-        backButton.setText(getString(R.string.activity_word_list_back_button));
+        backButton.setText(getString(R.string.back_button_text));
         layout.addView(backButton);
         backButton.setOnClickListener(view -> {
+            String categoryKey = getString(R.string.category_key);
             Intent intent = new Intent(DisplayListActivity.this,
-                    AnimalCategoryActivity.class);
+                    AddWordsActivity.class);
             intent.putExtra(getString(R.string.new_table_name_key), tableName);
             intent.putExtra(getString(R.string.words_key), words);
             intent.putExtra(getString(R.string.translations_key), translations);
+            intent.putExtra(categoryKey, getIntent().getStringExtra(categoryKey));
             startActivity(intent);
         });
     }

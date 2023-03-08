@@ -19,8 +19,8 @@
             android:layout_marginEnd="5dp"
             android:layout_marginBottom="1dp"
             android:layout_weight="1"
-            android:text="Prev"
-            android:textSize="14sp"></Button>
+            android:text="@string/back_button_text"
+            android:textSize="14sp" />
 
         <Button
             android:id="@+id/display_list_button"
@@ -31,31 +31,28 @@
             android:layout_marginEnd="5dp"
             android:layout_marginBottom="1dp"
             android:layout_weight="1"
-            android:text="display list"
-            android:textSize="14sp"></Button>
+            android:text="@string/show_list_button_text"
+            android:textSize="14sp" />
 
         <Button
             android:id="@+id/animal_category_play_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentLeft="true"
             android:layout_alignParentTop="true"
             android:layout_marginStart="5dp"
             android:layout_marginTop="1dp"
             android:layout_marginEnd="5dp"
             android:layout_marginBottom="1dp"
             android:layout_weight="1"
-            android:text="Play"
-            android:textSize="14sp"></Button>
+            android:text="@string/play_button_text"
+            android:textSize="14sp" />
     </LinearLayout>
 
     <TextView
-        android:id="@+id/animal_words"
+        android:id="@+id/category_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginVertical="20dp"
-        android:text="@string/activity_word_category_animals"
         android:textColor="@color/black"
         android:textSize="24sp"
         android:textStyle="bold">
@@ -75,27 +72,26 @@
             android:layout_height="wrap_content"
             android:layout_margin="5dp"
             android:background="@drawable/box"
-            android:gravity="top|left"
+            android:gravity="top|start"
             android:text="@string/activity_word_category_select_animals"
             android:textColor="@color/black"
             android:textSize="18sp"
             android:textStyle="bold">
 
         </TextView>
-        <TableLayout
-            android:id="@+id/table_for_buttons"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginTop="0dp"
-            android:stretchColumns="*">
 
-        </TableLayout>
+        <ScrollView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" >
 
+            <TableLayout
+                android:id="@+id/table_for_buttons"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="0dp"
+                android:stretchColumns="*">
+
+            </TableLayout>
+        </ScrollView>
     </LinearLayout>
-
-
-
-
-
-
 </LinearLayout>

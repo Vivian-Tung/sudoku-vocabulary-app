@@ -267,8 +267,10 @@ public class DBAdapter {
                     + " to " + newVersion + ", which will destroy all old data!");
 
             // Get names of all tables
-            Cursor c = db.rawQuery(
+            Cursor c = _db.rawQuery(
                     "SELECT name FROM sqlite_master WHERE type='table' " +
+                            "AND name!='android_metadata' " +
+                            "AND name != 'sqlite_sequence' " +
                             "order by name ", null);
 
             // Destroy old database tables:

@@ -44,11 +44,13 @@ public class DisplayListActivity extends AppCompatActivity {
         backButton.setText(getString(R.string.activity_word_list_back_button));
         layout.addView(backButton);
         backButton.setOnClickListener(view -> {
+            String categoryKey = getString(R.string.category_key);
             Intent intent = new Intent(DisplayListActivity.this,
                     AnimalCategoryActivity.class);
             intent.putExtra(getString(R.string.new_table_name_key), tableName);
             intent.putExtra(getString(R.string.words_key), words);
             intent.putExtra(getString(R.string.translations_key), translations);
+            intent.putExtra(categoryKey, getIntent().getStringExtra(categoryKey));
             startActivity(intent);
         });
     }

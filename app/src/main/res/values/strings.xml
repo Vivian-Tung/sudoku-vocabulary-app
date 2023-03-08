@@ -21,6 +21,7 @@
     <string name="activity_word_list_name_prompt">What is the name of the new list?</string>
     <string name="activity_word_list_name_button">Confirm</string>
     <string name="activity_word_list_name_hint">List Name</string>
+    <string name="show_list_button_text">Display List</string>
 
     <string name="activity_add_word_new_word_list">New Word List:</string>
     <string name="activity_add_word_choose_category"> Choose from following categories: </string>

@@ -20,6 +20,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
 
 public class AnimalCategoryActivity extends AppCompatActivity {
     private static final int NUM_ROWS = 8;
@@ -27,12 +28,21 @@ public class AnimalCategoryActivity extends AppCompatActivity {
     private WordDictionary words = new WordDictionary();
     private WordDictionary wordsAdded;
     private DBAdapter db;
+    private String category;
     private String tableName;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.animal_category);
+
+        category = getIntent().getStringExtra(getString(R.string.category_key)).toLowerCase();
+        db = new DBAdapter(this);
+        db.open();
+
+        ArrayList<ArrayList<String>> words = db.getWordsFromCategory(category);
+
+        this.words = new WordDictionary(words.get(0), words.get(1));
 
         if (getIntent().getStringArrayExtra(getString(R.string.words_key)) != null) {
             String[] wordsArray = getIntent()
@@ -45,7 +55,6 @@ public class AnimalCategoryActivity extends AppCompatActivity {
         }
         tableName = getIntent().getStringExtra(getString(R.string.new_table_name_key));
 
-        readWordData();
         populateButtons();
 
         // Display List Button
@@ -59,7 +68,8 @@ public class AnimalCategoryActivity extends AppCompatActivity {
                     wordsAdded.getWordsAsArray());
             intent.putExtra(getString(R.string.translations_key),
                     wordsAdded.getTranslationsAsArray());
-
+            intent.putExtra(getString(R.string.category_key), category);
+            db.close();
             startActivity(intent);
         });
 
@@ -72,8 +82,6 @@ public class AnimalCategoryActivity extends AppCompatActivity {
                         Toast.LENGTH_SHORT).show();
             } else {
                 // Add the new word list to database
-                db = new DBAdapter(this);
-                db.open();
                 db.newTable(tableName);
                 for (WordSample wordSample : wordsAdded.getWords()) {
                     db.insertRow(wordSample.getWord(), wordSample.getTranslation(), tableName);
@@ -165,7 +173,6 @@ public class AnimalCategoryActivity extends AppCompatActivity {
         }
     }
     private void gridButtonCLicked(String word) {
-        Toast.makeText(this, word + " added", Toast.LENGTH_SHORT).show();
         wordsAdded.add(word, words.findTranslation(word));
         if (wordsAdded.getLength() >= 9) {
             Toast.makeText(this, "Nine words have been selected",
@@ -173,7 +180,7 @@ public class AnimalCategoryActivity extends AppCompatActivity {
         }
     }
 
-    private void readWordData() {
+    private void readWordData() { // To remove later
         //android.util.Log.d("myTag", "testing readWordData function");
         //can change data set depending on what the user pressed in the previous screen
         InputStream is = getResources().openRawResource(R.raw.test_data);

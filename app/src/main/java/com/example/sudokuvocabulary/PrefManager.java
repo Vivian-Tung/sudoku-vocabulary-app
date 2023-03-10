@@ -9,15 +9,14 @@ import androidx.appcompat.app.AppCompatDelegate;
 import androidx.appcompat.widget.SwitchCompat;
 
 public class PrefManager  {
+    private Context context;
 
-    public static Context context;
-
-    PrefManager(Context context) {
+    public PrefManager (Context context) {
         this.context = context;
     }
 
-
     //save preferences
+
     public void savePreferences(String key, boolean value) {
         SharedPreferences sharedPreferences = context.getSharedPreferences("darkSwitch_Val", Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
@@ -26,7 +25,7 @@ public class PrefManager  {
     }
 
     //load saved preferences
-    public boolean loadSavedPreferences(){
+    public boolean loadSavedPreferences(Context context){
         SharedPreferences sharedPreferences = context.getSharedPreferences("darkSwitch_Val", Context.MODE_PRIVATE);
         boolean darkMode = sharedPreferences.getBoolean("value", false);
         if (darkMode) { //dark mode on

@@ -1,5 +1,6 @@
 package com.example.sudokuvocabulary;
 
+
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Context;
@@ -29,8 +30,7 @@ public class MainMenuActivity extends AppCompatActivity {
     Button button1;
     private Button mPlayButton;
     SwitchCompat mDarkSwitch;
-    boolean onDarkMode = false;
-    public static Context contextOfApplication;
+    private PrefManager mPrefManager;
 
 
 
@@ -38,6 +38,8 @@ public class MainMenuActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_menu);
+
+        mPrefManager = new PrefManager(this);
 
         db = new DBAdapter(this);
         db.open();
@@ -72,19 +74,18 @@ public class MainMenuActivity extends AppCompatActivity {
         mDarkSwitch.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                savePreferences("darkSwitch_Val", mDarkSwitch.isChecked());
+                mPrefManager.savePreferences("darkSwitch_Val", mDarkSwitch.isChecked());
                 if (mDarkSwitch.isChecked()) {
                     AppCompatDelegate.setDefaultNightMode((AppCompatDelegate.MODE_NIGHT_YES));
-                    savePreferences("darkSwitch_Val", true);
+                    mPrefManager.savePreferences("darkSwitch_Val", true);
                 } else {
                     AppCompatDelegate.setDefaultNightMode((AppCompatDelegate.MODE_NIGHT_NO));
-                    savePreferences("darkSwitch_Val", false);
+                    mPrefManager.savePreferences("darkSwitch_Val", false);
                 }
             }
         });
 
-        //do i need this?
-        //loadSavedPreferences();
+        mPrefManager.loadSavedPreferences(this);
 
         setupTutorialButton();
 
@@ -141,22 +142,10 @@ public class MainMenuActivity extends AppCompatActivity {
 //            AppCompatDelegate.setDefaultNightMode((AppCompatDelegate.MODE_NIGHT_NO));
 //            savePreferences("darkSwitch_Val", false);
 //        }
-//
 
-    private void savePreferences(String key, boolean onDarkMode) {
-        new PrefManager(this).savePreferences("dark_mode_val", onDarkMode);
-    }
+//    private void savePreferences(String key, boolean onDarkMode) {
+//        new PrefManager(this).savePreferences("dark_mode_val", onDarkMode);
+//    }
 
-//    private void loadSavedPreferences() {
-//        new PrefManager(this).loadSavedPreferences();
-//    }
-//    //trying to solve static issue
-//    public void onCreate() {
-//        contextOfApplication = getApplicationContext();
-//    }
-//
-//    public static Context getContextOfApplication(){
-//        return contextOfApplication;
-//    }
 
 }

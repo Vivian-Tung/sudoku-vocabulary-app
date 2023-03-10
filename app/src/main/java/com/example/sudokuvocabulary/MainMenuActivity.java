@@ -2,6 +2,7 @@ package com.example.sudokuvocabulary;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
@@ -28,6 +29,10 @@ public class MainMenuActivity extends AppCompatActivity {
     Button button1;
     private Button mPlayButton;
     SwitchCompat mDarkSwitch;
+    boolean onDarkMode = false;
+    public static Context contextOfApplication;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,10 +72,19 @@ public class MainMenuActivity extends AppCompatActivity {
         mDarkSwitch.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                switchListener();
+                savePreferences("darkSwitch_Val", mDarkSwitch.isChecked());
+                if (mDarkSwitch.isChecked()) {
+                    AppCompatDelegate.setDefaultNightMode((AppCompatDelegate.MODE_NIGHT_YES));
+                    savePreferences("darkSwitch_Val", true);
+                } else {
+                    AppCompatDelegate.setDefaultNightMode((AppCompatDelegate.MODE_NIGHT_NO));
+                    savePreferences("darkSwitch_Val", false);
+                }
             }
         });
-        loadSavedPreferences();
+
+        //do i need this?
+        //loadSavedPreferences();
 
         setupTutorialButton();
 
@@ -97,38 +111,52 @@ public class MainMenuActivity extends AppCompatActivity {
     }
 
 
-    //save switch state
-    private void loadSavedPreferences(){
-        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
-        mDarkSwitch.setChecked(sharedPreferences.getBoolean("value", false));
-        if (mDarkSwitch.isChecked()) {
-            mDarkSwitch.setChecked(true);
-        } else {
-            mDarkSwitch.setChecked(false);
-        }
+//    //save switch state
+//    public void loadSavedPreferences(){
+//        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+//        mDarkSwitch.setChecked(sharedPreferences.getBoolean("value", false));
+//        if (mDarkSwitch.isChecked()) {
+//            mDarkSwitch.setChecked(true);
+//        } else {
+//            mDarkSwitch.setChecked(false);
+//        }
+//    }
+//
+//    //save preferences
+//    public void savePreferences(String key, boolean value) {
+//        SharedPreferences sharedPreferences = PreferenceManager
+//                .getDefaultSharedPreferences(this);
+//        SharedPreferences.Editor editor = sharedPreferences.edit();
+//        editor.putBoolean(key, value);
+//        editor.commit();
+//    }
+//
+//    //switch listener
+//    public void switchListener() {
+//        savePreferences("darkSwitch_Val", mDarkSwitch.isChecked());
+//        if (mDarkSwitch.isChecked()) {
+//            AppCompatDelegate.setDefaultNightMode((AppCompatDelegate.MODE_NIGHT_YES));
+//            savePreferences("darkSwitch_Val", true);
+//        } else {
+//            AppCompatDelegate.setDefaultNightMode((AppCompatDelegate.MODE_NIGHT_NO));
+//            savePreferences("darkSwitch_Val", false);
+//        }
+//
+
+    private void savePreferences(String key, boolean onDarkMode) {
+        new PrefManager(this).savePreferences("dark_mode_val", onDarkMode);
     }
 
-    //save preferences
-    private void savePreferences(String key, boolean value) {
-        SharedPreferences sharedPreferences = PreferenceManager
-                .getDefaultSharedPreferences(this);
-        SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.putBoolean(key, value);
-        editor.commit();
-    }
-
-    //switch listener
-    private void switchListener() {
-        savePreferences("darkSwitch_Val", mDarkSwitch.isChecked());
-        if (mDarkSwitch.isChecked()) {
-            AppCompatDelegate.setDefaultNightMode((AppCompatDelegate.MODE_NIGHT_YES));
-            savePreferences("darkSwitch_Val", true);
-        } else {
-            AppCompatDelegate.setDefaultNightMode((AppCompatDelegate.MODE_NIGHT_NO));
-            savePreferences("darkSwitch_Val", false);
-        }
-
-    }
-
+//    private void loadSavedPreferences() {
+//        new PrefManager(this).loadSavedPreferences();
+//    }
+//    //trying to solve static issue
+//    public void onCreate() {
+//        contextOfApplication = getApplicationContext();
+//    }
+//
+//    public static Context getContextOfApplication(){
+//        return contextOfApplication;
+//    }
 
 }

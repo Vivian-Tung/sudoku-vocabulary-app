@@ -3,8 +3,11 @@ package com.example.sudokuvocabulary;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
+import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
@@ -13,6 +16,8 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
+import androidx.appcompat.widget.SwitchCompat;
 import androidx.appcompat.widget.Toolbar;
 
 public class SudokuActivity extends AppCompatActivity implements View.OnClickListener {
@@ -26,6 +31,9 @@ public class SudokuActivity extends AppCompatActivity implements View.OnClickLis
     private static final String KEY_SOLUTION_AS_ARRAY = "solutionArray";
     private static final String KEY_NUM_OF_EMPTY_CELLS = "numOfCellsFilled";
     private static final String KEY_POPUP_VISIBLE = "popupVisible";
+    //SwitchCompat mDarkSwitch;
+
+
 
     @SuppressLint("ClickableViewAccessibility")
     @Override
@@ -37,6 +45,28 @@ public class SudokuActivity extends AppCompatActivity implements View.OnClickLis
         setSupportActionBar(toolbar);
 
         setupTutorialButton();
+
+//        //check for dark or light mode
+//        mDarkSwitch = findViewById(R.id.darkSwitch);
+//
+//        mDarkSwitch.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                savePreferences("darkSwitch_Val", mDarkSwitch.isChecked());
+//                if (mDarkSwitch.isChecked()) {
+//                    AppCompatDelegate.setDefaultNightMode((AppCompatDelegate.MODE_NIGHT_YES));
+//                    savePreferences("darkSwitch_Val", true);
+//                } else {
+//                    AppCompatDelegate.setDefaultNightMode((AppCompatDelegate.MODE_NIGHT_NO));
+//                    savePreferences("darkSwitch_Val", false);
+//                }
+//            }
+//        });
+////        loadSavedPreferences();
+
+        setupTutorialButton();
+
+
 
         mSudokuModel = new SudokuModel();
         mSudokuView = findViewById(R.id.sudokuGridView);
@@ -160,4 +190,9 @@ public class SudokuActivity extends AppCompatActivity implements View.OnClickLis
             startActivity(intent);
         });
     }
+
+//    private void savePreferences(String key, boolean onDarkMode) {
+//        new PrefManager(this).savePreferences("dark_mode_val", onDarkMode);
+//    }
+
 }

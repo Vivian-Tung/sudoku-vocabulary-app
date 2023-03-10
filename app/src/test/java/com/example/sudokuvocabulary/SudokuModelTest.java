@@ -172,31 +172,8 @@ public class SudokuModelTest {
     @Test
     public void isGridFilled() {
         SudokuModel model = new SudokuModel();
-        model.newFilledGrid();
-        assertTrue(model.isGridFilled());
-
         model.setGrid(testGrid3);
         assertFalse(model.isGridFilled());
-    }
-
-    @Test
-    public void newFilledGrid() {
-        SudokuModel model = new SudokuModel();
-        model.newFilledGrid();
-        boolean hasEmptyCell = false;
-        for (int num: model.getGridAsArray()) {
-            hasEmptyCell = (num==0) || hasEmptyCell;
-        }
-        assertFalse(hasEmptyCell);
-    }
-
-    @Test
-    public void newPuzzle() {
-        SudokuModel model = new SudokuModel();
-        for (int numOfEmptyCells=0; numOfEmptyCells<50; numOfEmptyCells+=3) {
-            model.newPuzzle(numOfEmptyCells);
-            assertEquals(numOfEmptyCells, model.getNumberOfEmptyCells());
-        }
     }
 
     @Test

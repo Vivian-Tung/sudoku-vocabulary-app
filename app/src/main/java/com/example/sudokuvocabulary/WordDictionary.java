@@ -14,6 +14,11 @@ public class WordDictionary {
         mWords = new ArrayList<>();
     }
 
+    public WordDictionary(ArrayList<String> words, ArrayList<String> translations) {
+        this(0, null);
+        setFromArrays(words, translations);
+    }
+
     public WordDictionary(String[] words, String[] translations) {
         this(0, null);
         setFromArrays(words, translations);
@@ -29,6 +34,12 @@ public class WordDictionary {
 
     public ArrayList<WordSample> getWords() {
         return mWords;
+    }
+
+    public void setFromArrays(ArrayList<String> words, ArrayList<String> translations) {
+        for (int index = 0; index < words.size(); index++) {
+            add(words.get(index), translations.get(index));
+        }
     }
 
     public void setFromArrays(String[] words, String[] translations) {

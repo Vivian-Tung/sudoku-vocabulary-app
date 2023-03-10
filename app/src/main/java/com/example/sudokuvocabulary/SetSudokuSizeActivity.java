@@ -36,7 +36,7 @@ public class SetSudokuSizeActivity extends AppCompatActivity implements View.OnC
         btn_6x6.setOnClickListener(this);
 
         Button btn_9x9 = findViewById(R.id.btn_9x9);
-        btn_6x6.setOnClickListener(this);
+        btn_9x9.setOnClickListener(this);
 
         Button btn_12x12 = findViewById(R.id.btn_12x12);
         btn_12x12.setOnClickListener(this);

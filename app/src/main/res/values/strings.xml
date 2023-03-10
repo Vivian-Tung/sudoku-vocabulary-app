@@ -39,4 +39,9 @@
     <string name="new_table_name_key">com.example.android.WordListNameActivity.listName</string>
     <string name="words_key">com.example.android.WordListsActivity.words</string>
     <string name="translations_key">"com.example.android.WordListsActivity.translations"</string>
+
+    <string name="size_4x4">4x4</string>
+    <string name="size_6x6">6x6</string>
+    <string name="size_9x9">9x9</string>
+    <string name="size_12x12">12x12</string>
 </resources>

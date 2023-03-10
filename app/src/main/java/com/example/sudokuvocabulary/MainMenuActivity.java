@@ -24,26 +24,35 @@ public class MainMenuActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_menu);
 
-        db = new DBAdapter(this);
-        db.open();
+//        db = new DBAdapter(this);
+//        db.open();
+//
+//        mPlayButton = (Button) findViewById(R.id.main_menu_play_button);
+//        mPlayButton.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                Cursor cursor  = db.getAllRows("animals");
+//                WordDictionary dictionary = new WordDictionary();
+//                while(!cursor.isAfterLast()) {
+//                    String word = cursor.getString(
+//                            cursor.getColumnIndexOrThrow("word"));
+//                    String translation = cursor.getString(
+//                            cursor.getColumnIndexOrThrow("translation"));
+//                    dictionary.add(word, translation);
+//                    cursor.moveToNext();
+//                }
+//                cursor.close();
+//                Intent intent = WordListsActivity.newIntent(
+//                        MainMenuActivity.this, dictionary);
+//                startActivity(intent);
+//            }
+//        });
 
         mPlayButton = (Button) findViewById(R.id.main_menu_play_button);
         mPlayButton.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) {
-                Cursor cursor  = db.getAllRows("animals");
-                WordDictionary dictionary = new WordDictionary();
-                while(!cursor.isAfterLast()) {
-                    String word = cursor.getString(
-                            cursor.getColumnIndexOrThrow("word"));
-                    String translation = cursor.getString(
-                            cursor.getColumnIndexOrThrow("translation"));
-                    dictionary.add(word, translation);
-                    cursor.moveToNext();
-                }
-                cursor.close();
-                Intent intent = WordListsActivity.newIntent(
-                        MainMenuActivity.this, dictionary);
+            public void onClick(View v) {
+                Intent intent = new Intent (MainMenuActivity.this, SetSudokuSizeActivity.class);
                 startActivity(intent);
             }
         });

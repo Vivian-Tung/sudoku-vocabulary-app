@@ -96,15 +96,6 @@ public class SudokuView extends View {
         this.invalidate();
     }
 
-    public void setWordsToDraw(int[][] cellsToDraw, String[] wordsToDraw) {
-        for (int index = 0; index < mGridLength * mGridLength; index++) {
-            int row = index / mGridLength, column = index % mGridLength;
-            if (cellsToDraw[row][column] != 0) {
-                setWordToDrawAt(row, column, wordsToDraw[cellsToDraw[row][column]-1]);
-            }
-        }
-    }
-
     public void drawCellItems(Canvas canvas) {
         for (int i = 0; i < mGridLength*mGridLength; i++) {
             int row = i / mGridLength, column = i % mGridLength;

@@ -59,15 +59,9 @@ public class SudokuActivity extends AppCompatActivity implements View.OnClickLis
             boolean isValid = false;
             if (motionEvent.getAction() == MotionEvent.ACTION_DOWN
                     && mQuestionCard.getVisibility() == View.GONE) {
-                int orientation = getResources().getConfiguration().orientation;
 
-                if (orientation == Configuration.ORIENTATION_PORTRAIT) {
-                    mCellRow = (int) (Math.ceil(motionEvent.getY() / mSudokuView.getCellSize())) - 1;
-                    mCellColumn = (int) (Math.ceil(motionEvent.getX() / mSudokuView.getCellSize())) - 1;
-                } else if (orientation == Configuration.ORIENTATION_LANDSCAPE) {
-                    mCellRow = (int) (Math.ceil(motionEvent.getY() / mSudokuView.getCellSize())) - 1;
-                    mCellColumn = (int) ((Math.ceil(motionEvent.getX()) / mSudokuView.getCellSize()));
-                }
+                mCellRow = (int) (Math.ceil(motionEvent.getY() / mSudokuView.getCellHeight())) - 1;
+                mCellColumn = (int) ((Math.ceil(motionEvent.getX()) / mSudokuView.getCellWidth()));
 
                 mCellValue = mSudokuModel.getSolutionAt(mCellRow, mCellColumn);
                 if (mSudokuModel.cellNotEmpty(mCellRow, mCellColumn)) {

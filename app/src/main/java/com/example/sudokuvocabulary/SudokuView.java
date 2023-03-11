@@ -81,6 +81,10 @@ public class SudokuView extends View {
         return mCellHeight;
     }
 
+    public int getCellWidth() {
+        return mCellWidth;
+    }
+
     public String[][] getWordsToDraw() {
         return mWordsToDraw;
     }

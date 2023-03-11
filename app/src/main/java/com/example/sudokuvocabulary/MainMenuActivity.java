@@ -1,28 +1,17 @@
 package com.example.sudokuvocabulary;
 
 
-import androidx.appcompat.app.AppCompatActivity;
-
-import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
-import android.util.Log;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
 import androidx.appcompat.widget.SwitchCompat;
 import androidx.appcompat.widget.Toolbar;
-
-
-
-import java.util.ArrayList;
 
 public class MainMenuActivity extends AppCompatActivity {
 
@@ -40,6 +29,8 @@ public class MainMenuActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main_menu);
 
         mPrefManager = new PrefManager(this);
+        // Key containing dark mode switch boolean value
+        final String themeSwitchKey = getString(R.string.theme_value_key);
 
         db = new DBAdapter(this);
         db.open();
@@ -69,28 +60,27 @@ public class MainMenuActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
         //check for dark or light mode
+        boolean themeSwitchState = mPrefManager.loadSavedPreferences(this, themeSwitchKey);
         mDarkSwitch = findViewById(R.id.darkSwitch);
+        // Restore the switch value to the previous setting
+        mDarkSwitch.setChecked(themeSwitchState);
 
         mDarkSwitch.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                mPrefManager.savePreferences("darkSwitch_Val", mDarkSwitch.isChecked());
                 if (mDarkSwitch.isChecked()) {
                     AppCompatDelegate.setDefaultNightMode((AppCompatDelegate.MODE_NIGHT_YES));
-                    mPrefManager.savePreferences("darkSwitch_Val", true);
+                    mPrefManager.savePreferences(themeSwitchKey, true);
                 } else {
                     AppCompatDelegate.setDefaultNightMode((AppCompatDelegate.MODE_NIGHT_NO));
-                    mPrefManager.savePreferences("darkSwitch_Val", false);
+                    mPrefManager.savePreferences(themeSwitchKey, false);
                 }
             }
         });
 
-        mPrefManager.loadSavedPreferences(this);
-
         setupTutorialButton();
 
         button1=findViewById(R.id.main_menu_word_bank_button);
-
         button1.setOnClickListener(view -> {
             Intent intent = new Intent(MainMenuActivity.this, WordListsActivity.class);
             startActivity(intent);

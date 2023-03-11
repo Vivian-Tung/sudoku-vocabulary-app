@@ -18,23 +18,23 @@ public class PrefManager  {
     //save preferences
 
     public void savePreferences(String key, boolean value) {
-        SharedPreferences sharedPreferences = context.getSharedPreferences("darkSwitch_Val", Context.MODE_PRIVATE);
+        SharedPreferences sharedPreferences = context.getSharedPreferences(key, Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putBoolean(key, value);
         editor.commit();
     }
 
     //load saved preferences
-    public boolean loadSavedPreferences(Context context){
-        SharedPreferences sharedPreferences = context.getSharedPreferences("darkSwitch_Val", Context.MODE_PRIVATE);
-        boolean darkMode = sharedPreferences.getBoolean("value", false);
+    public boolean loadSavedPreferences(Context context, String key){
+        SharedPreferences sharedPreferences = context.getSharedPreferences(key, Context.MODE_PRIVATE);
+        boolean darkMode = sharedPreferences.getBoolean(key, false);
         if (darkMode) { //dark mode on
             AppCompatDelegate.setDefaultNightMode((AppCompatDelegate.MODE_NIGHT_YES));
-            savePreferences("darkSwitch_Val", true);
+            savePreferences(key, true);
             return true;
         } else {
             AppCompatDelegate.setDefaultNightMode((AppCompatDelegate.MODE_NIGHT_NO));
-            savePreferences("darkSwitch_Val", false);
+            savePreferences(key, false);
             return false;
         }
     }

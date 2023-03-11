@@ -14,7 +14,8 @@ public class SudokuView extends View {
     private final int mCellItemFillColour;
     private final Paint mGridColourPaint = new Paint();
     private final Paint mCellItemFillColourPaint = new Paint();
-    private int mCellSize;
+    private int mCellHeight;
+    private int mCellWidth;
     private int mGridLength = 9;
     private int mSubGridLength = 3;
     private int mSubGridHeight = 3; // To be used for drawing various sized grids
@@ -37,10 +38,11 @@ public class SudokuView extends View {
     @Override
     public void onMeasure(int width, int height) {
         super.onMeasure(width, height);
-        int dimension = Math.min(getMeasuredWidth(), getMeasuredHeight());
+        int min = Math.min(getMeasuredWidth(), getMeasuredHeight());
         // Calculate the size for each individual cell
-        mCellSize = dimension / mGridLength;
-        setMeasuredDimension(dimension, dimension);
+        mCellHeight = min / mGridLength;
+        mCellWidth = getMeasuredWidth() / mGridLength;
+        setMeasuredDimension(getMeasuredWidth(), min);
     }
 
     @Override
@@ -76,7 +78,7 @@ public class SudokuView extends View {
     }
 
     public int getCellSize() {
-        return mCellSize;
+        return mCellHeight;
     }
 
     public String[][] getWordsToDraw() {
@@ -101,8 +103,8 @@ public class SudokuView extends View {
             int row = i / mGridLength, column = i % mGridLength;
             String word = mWordsToDraw[row][column];
             if (word != null) {
-                int x_axis = (int) ((column * mCellSize) + (0.5 * mCellSize));
-                int y_axis = (int) ((row * mCellSize) + (0.8 * mCellSize));
+                int x_axis = (int) ((column * mCellHeight) + (0.5 * mCellHeight));
+                int y_axis = (int) ((row * mCellHeight) + (0.8 * mCellHeight));
                 String itemText = "" + Character.toUpperCase(word.charAt(0));
                 if (word.length() > 1) {
                     itemText += Character.toUpperCase(getWordToDrawAt(row, column).charAt(1));
@@ -134,9 +136,9 @@ public class SudokuView extends View {
                 drawThinLine();
             }
             // Draw column lines
-            canvas.drawLine(mCellSize*line, 0, mCellSize * line, getWidth(), mGridColourPaint);
+            canvas.drawLine(mCellHeight *line, 0, mCellHeight * line, getWidth(), mGridColourPaint);
             //Draw row lines
-            canvas.drawLine(0, mCellSize*line, getHeight(), mCellSize*line, mGridColourPaint);
+            canvas.drawLine(0, mCellHeight *line, getHeight(), mCellHeight *line, mGridColourPaint);
         }
     }
 }

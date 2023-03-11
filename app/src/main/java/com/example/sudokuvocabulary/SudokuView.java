@@ -53,7 +53,7 @@ public class SudokuView extends View {
         mGridColourPaint.setAntiAlias(true);
 
         mCellItemFillColourPaint.setStyle(Paint.Style.FILL);
-        mCellItemFillColourPaint.setTextSize(getCellSize()/2);
+        mCellItemFillColourPaint.setTextSize((int) (getCellHeight()/2));
         mCellItemFillColourPaint.setColor(mCellItemFillColour);
         mCellItemFillColourPaint.setAntiAlias(true);
         mCellItemFillColourPaint.setTextAlign(Paint.Align.CENTER);
@@ -77,7 +77,7 @@ public class SudokuView extends View {
         this.invalidate();
     }
 
-    public int getCellSize() {
+    public int getCellHeight() {
         return mCellHeight;
     }
 
@@ -103,13 +103,13 @@ public class SudokuView extends View {
             int row = i / mGridLength, column = i % mGridLength;
             String word = mWordsToDraw[row][column];
             if (word != null) {
-                int x_axis = (int) ((column * mCellHeight) + (0.5 * mCellHeight));
+                int x_axis = (int) ((column * mCellWidth) + (0.5 * mCellWidth));
                 int y_axis = (int) ((row * mCellHeight) + (0.8 * mCellHeight));
-                String itemText = "" + Character.toUpperCase(word.charAt(0));
-                if (word.length() > 1) {
-                    itemText += Character.toUpperCase(getWordToDrawAt(row, column).charAt(1));
-                }
-                canvas.drawText(itemText, x_axis, y_axis, mCellItemFillColourPaint);
+                int textLength = (int)(mCellWidth / mCellItemFillColourPaint.getTextSize() + 1);
+
+                String wordToDraw = word.length() > textLength ?
+                        word.substring(0, textLength) : word;
+                canvas.drawText(wordToDraw, x_axis, y_axis, mCellItemFillColourPaint);
             }
         }
     }
@@ -136,9 +136,9 @@ public class SudokuView extends View {
                 drawThinLine();
             }
             // Draw column lines
-            canvas.drawLine(mCellHeight *line, 0, mCellHeight * line, getWidth(), mGridColourPaint);
+            canvas.drawLine(mCellWidth *line, 0, mCellWidth * line, getHeight(), mGridColourPaint);
             //Draw row lines
-            canvas.drawLine(0, mCellHeight *line, getHeight(), mCellHeight *line, mGridColourPaint);
+            canvas.drawLine(0, mCellHeight *line, getWidth(), mCellHeight *line, mGridColourPaint);
         }
     }
 }

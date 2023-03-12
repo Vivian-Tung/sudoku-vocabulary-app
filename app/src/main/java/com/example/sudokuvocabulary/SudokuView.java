@@ -38,11 +38,11 @@ public class SudokuView extends View {
     @Override
     public void onMeasure(int width, int height) {
         super.onMeasure(width, height);
-        int min = Math.min(getMeasuredWidth(), getMeasuredHeight());
+        int min = (int) Math.min(getMeasuredWidth(), getMeasuredHeight());
         // Calculate the size for each individual cell
-        mCellHeight = min / mGridLength;
+        mCellHeight = (min / mGridLength);
         mCellWidth = getMeasuredWidth() / mGridLength;
-        setMeasuredDimension(getMeasuredWidth(), min);
+        setMeasuredDimension(width, height);
     }
 
     @Override

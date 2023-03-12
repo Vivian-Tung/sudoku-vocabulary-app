@@ -38,6 +38,9 @@
     <string name="word_prompt_key">com.example.android.sudokuvocabulary.prompt</string>
     <string name="word_grid_key">com.example.android.sudokuvocabulary.wordgrid</string>
     <string name="category_key">com.example.android.sudokuvocabulary.category</string>
+    <string name="cell_row_key">com.example.sudokuvocabulary.row</string>
+    <string name="cell_column_key">com.example.sudokuvocabulary.column</string>
+    <string name="cell_value_key">com.example.sudokuvocabulary.value</string>
 
     <string name="size_4x4">4x4</string>
     <string name="size_6x6">6x6</string>

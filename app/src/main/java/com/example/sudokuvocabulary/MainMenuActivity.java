@@ -18,7 +18,6 @@ public class MainMenuActivity extends AppCompatActivity {
 
     DBAdapter db;
     Button button1;
-    private Button mPlayButton;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -48,13 +47,10 @@ public class MainMenuActivity extends AppCompatActivity {
 //            }
 //        });
 
-        mPlayButton = (Button) findViewById(R.id.main_menu_play_button);
-        mPlayButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent (MainMenuActivity.this, SetSudokuSizeActivity.class);
-                startActivity(intent);
-            }
+        Button playButton = (Button) findViewById(R.id.main_menu_play_button);
+        playButton.setOnClickListener(v -> {
+            Intent intent = new Intent (MainMenuActivity.this, SetSudokuSizeActivity.class);
+            startActivity(intent);
         });
 
         Toolbar toolbar = findViewById(R.id.toolbar);
@@ -73,7 +69,6 @@ public class MainMenuActivity extends AppCompatActivity {
     @Override
     public void onDestroy() {
         super.onDestroy();
-        db.close();
     }
 
     private void setupTutorialButton() {

@@ -39,8 +39,10 @@ public class MainMenuTest {
     private static final int LAUNCH_TIMEOUT = 5000;
 
     private void setUp() {
+        // Initialize the test device
         device = UiDevice.getInstance(InstrumentationRegistry.getInstrumentation());
-        // Launch a simple calculator app
+
+        // Launch the sudoku app main menu
         this.context = InstrumentationRegistry.getInstrumentation().getContext();
         Intent intent = context.getPackageManager()
                 .getLaunchIntentForPackage(APP_PACKAGE);
@@ -65,7 +67,21 @@ public class MainMenuTest {
         return textView.exists();
     }
 
-    private boolean sudokuBoardVisible(UiSelector selector) {
+    private UiObject findEditText(UiSelector selector) {
+        return device.findObject(selector.className("android.widget.EditText"));
+    }
+
+    private boolean fillEditText(UiSelector selector, String text) throws UiObjectNotFoundException
+    {
+        UiObject editable = findEditText(selector);
+        boolean doesExist = editable.exists();
+        if (doesExist) {
+            editable.setText(text);
+        }
+        return doesExist;
+    }
+
+    private boolean sudokuBoardIsActive(UiSelector selector) {
         UiObject sudoku = device.findObject(selector
                 .resourceId(formatId("sudokuGridView"))
         );
@@ -135,7 +151,7 @@ public class MainMenuTest {
             ));
 
             // Check that the SudokuView is visible and working
-            assertTrue(sudokuBoardVisible(new UiSelector()));
+            assertTrue(sudokuBoardIsActive(new UiSelector()));
 
         } catch (Exception e) { // Somethings has gone very wrong
             handleException(e);
@@ -166,9 +182,100 @@ public class MainMenuTest {
 
             // Check that the sudoku game has launched
             // and that the board is visible and working
-            assertTrue(sudokuBoardVisible(new UiSelector()));
+            assertTrue(sudokuBoardIsActive(new UiSelector()));
 
         } catch (Exception e) {
+            handleException(e);
+        }
+    }
+
+    @Test public void testAddWordsActivity() {
+        setUp(); // Initialize device and launch app
+
+        String listName = "foods"; // Name of new word list
+        String category = "food"; // Word category to access
+
+        try {
+            // Try to click word bank button in main menu
+            assertTrue(clickButton(new UiSelector().textContains("word bank")));
+
+            // Verify that the app is in the word list menu by finding the
+            // matching visible text view
+            assertTrue(doesTextViewExist(new UiSelector().textContains("word lists")));
+
+            // Try to click the 'create new word list button
+            assertTrue(clickButton(new UiSelector().textContains("create new word list")));
+
+            // Verify that we are in the word list name activity
+            // by finding text input box and insert new word list name
+            assertTrue(fillEditText(new UiSelector()
+                    .textContains("list name"),
+                    listName
+            ));
+
+            // Try to press the confirmation button
+            assertTrue(clickButton(new UiSelector().textContains("confirm")));
+
+            // Check that app is in word category selection menu
+            assertTrue(doesTextViewExist(new UiSelector().textContains("categories")));
+
+            // Try to click the specified word category button
+            assertTrue(clickButton(new UiSelector()
+                    .textContains(category)
+            ));
+
+            // Verify that the app is in the activity for selecting words
+            // by checking if the TextView with the category name exists
+            assertTrue(doesTextViewExist(new UiSelector().textContains(category)));
+
+            // Find the table layout holding the word buttons
+            UiObject wordButtons = device.findObject(new UiSelector()
+                    .className("android.widget.TableLayout")
+            );
+
+            // Select the first nine word buttons
+            int button = 0;
+            while (button < 9) {
+                UiObject row = wordButtons.getChild(new UiSelector()
+                        .className("android.widget.TableRow")
+                        .instance((button/3))
+                );
+
+                for (int column = 0; column < row.getChildCount(); column++) {
+                    // Try to select a word in a toggle button
+                    UiObject wordButton = row.getChild(new UiSelector()
+                            .clickable(true)
+                            .checkable(true)
+                            .checked(false)
+                            .className("android.widget.ToggleButton")
+                    );
+                    wordButton.click();
+                    assertTrue(wordButton.exists());
+                    button++;
+                }
+            }
+
+            // Check that the back button works
+            assertTrue(clickButton(new UiSelector().textContains("back")));
+
+        } catch (Exception e) {
+            handleException(e);
+        }
+    }
+
+    @Test
+    public void rotatedOrientationTest() {
+        setUp(); // Initialize device and launch app
+
+        try {
+            device.setOrientationRight(); // Rotate the device right
+
+            // Run all test cases in this orientation
+            launchGameFromMainMenu();
+            selectListFromWordBank();
+            testAddWordsActivity();
+
+        } catch (Exception e) { // Device has failed to rotate
             handleException(e);
         }
     }

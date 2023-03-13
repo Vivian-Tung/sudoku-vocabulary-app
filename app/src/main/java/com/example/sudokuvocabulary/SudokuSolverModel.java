@@ -1,5 +1,7 @@
 package com.example.sudokuvocabulary;
 
+import java.util.Random;
+
 public class SudokuSolverModel {
     private interface RunInSolver {
         void execute(SudokuModel board, int index, int solutions, int row, int column);
@@ -28,7 +30,8 @@ public class SudokuSolverModel {
         if (board.cellNotEmpty(row, column)) {
             return solver(board, index+1, solutions, function);
         }
-        for (int number: board.getNumberArray()) {
+
+        for (int number: shuffleArray(board.getNumberArray())) {
             if (board.gridValid(row, column, number)) {
                 board.setValueAt(row, column, number);
                 solutions = solver(board, index+1, solutions, function);
@@ -36,5 +39,16 @@ public class SudokuSolverModel {
             }
         }
         return solutions;
+    }
+
+    private static int[] shuffleArray(int[] array) {
+        Random random = new Random();
+        for (int i = 0; i < array.length; i++) {
+            int index = random.nextInt(i+1);
+            int temp = array[index];
+            array[index] = array[i];
+            array[i] = temp;
+        }
+        return array;
     }
 }

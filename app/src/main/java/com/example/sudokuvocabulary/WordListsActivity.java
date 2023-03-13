@@ -18,7 +18,7 @@ public class WordListsActivity extends AppCompatActivity implements View.OnClick
 
     private Button new_word_list_button;
 
-    private ArrayList<String> categories;
+    private ArrayList<String> mLists;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,7 +28,7 @@ public class WordListsActivity extends AppCompatActivity implements View.OnClick
         db = new DBAdapter(this);
         db.open();
 
-        categories = db.getTableNames();
+        mLists = db.getTableNames();
 
         new_word_list_button = (Button) findViewById(R.id.create_new_word_list_button);
 
@@ -39,7 +39,7 @@ public class WordListsActivity extends AppCompatActivity implements View.OnClick
         });
 
         WordListsView existingWordLists = findViewById(R.id.existing_word_lists);
-        existingWordLists.setWordListText(categories);
+        existingWordLists.setWordListText(mLists);
         for (Button button: existingWordLists.getListButtons()) {
             button.setOnClickListener(this);
         }

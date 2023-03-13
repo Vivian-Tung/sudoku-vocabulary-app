@@ -48,9 +48,6 @@ public class MainMenuActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_menu);
 
-        db = new DBAdapter(this);
-        db.open();
-
         mPlayButton = (Button) findViewById(R.id.main_menu_play_button);
 
         TimerText = (TextView) findViewById(R.id.TimerText);
@@ -75,6 +72,10 @@ public class MainMenuActivity extends AppCompatActivity {
                         MainMenuActivity.this, dictionary);
                 startActivity(intent);
             }
+        Button playButton = (Button) findViewById(R.id.main_menu_play_button);
+        playButton.setOnClickListener(v -> {
+            Intent intent = new Intent (MainMenuActivity.this, SetSudokuSizeActivity.class);
+            startActivity(intent);
         });
 
         Toolbar toolbar = findViewById(R.id.toolbar);
@@ -126,7 +127,6 @@ public class MainMenuActivity extends AppCompatActivity {
     @Override
     public void onDestroy() {
         super.onDestroy();
-        db.close();
     }
 
     private void setupTutorialButton() {

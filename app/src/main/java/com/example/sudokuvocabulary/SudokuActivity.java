@@ -5,6 +5,9 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
+import android.os.Message;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
@@ -15,6 +18,9 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class SudokuActivity extends AppCompatActivity implements View.OnClickListener {
     private QuestionCardView mQuestionCard;
@@ -32,6 +38,14 @@ public class SudokuActivity extends AppCompatActivity implements View.OnClickLis
    // boolean timerStarted = false;
     private long startTime; //timer
    // private long endTime; //timer
+    private Handler mHandler;
+    TextView TimerText;
+
+    Timer timer;
+
+    TimerTask timerTask;
+
+    Double time = 0.0;
 
     @SuppressLint("ClickableViewAccessibility")
     @Override
@@ -44,6 +58,9 @@ public class SudokuActivity extends AppCompatActivity implements View.OnClickLis
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        TimerText = (TextView) findViewById(R.id.TimerText);
+        timer = new Timer();
 
         setupTutorialButton();
 
@@ -84,6 +101,7 @@ public class SudokuActivity extends AppCompatActivity implements View.OnClickLis
             }
             return isValid;
         });
+        startTimer();
     }
 
     @Override
@@ -186,4 +204,42 @@ public class SudokuActivity extends AppCompatActivity implements View.OnClickLis
         }
     }
 
+    private void startTimer() {
+        timerTask = new TimerTask() {
+            @Override
+            public void run() {
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        time++;
+                        //TimerText.setText(getTimerText());
+                        mHandler.obtainMessage(1).sendToTarget();
+                    }
+                });
+            }
+        };
+        timer.scheduleAtFixedRate(timerTask, 0, 1000);
+
+        mHandler = new Handler(Looper.myLooper()) {
+            public void handleMessage(Message msg) {
+                TimerText.setText(getTimerText());
+            }
+        };
+    }
+
+    private String getTimerText(){
+        int rounded = (int) Math.round(time);
+
+        int seconds = ((rounded % 86400) % 3600) % 60;
+        int hours = ((rounded % 86400) / 3600);
+        int minutes = ((rounded % 86400) % 3600) / 60;
+
+        return formatTime(seconds,minutes,hours);
+    }
+
+    private String formatTime(int seconds, int minutes, int hours) {
+        return String.format("%02d",hours) + " : " +
+                String.format("%02d",minutes) + " : " +
+                String.format("%02d", seconds);
+    }
 }

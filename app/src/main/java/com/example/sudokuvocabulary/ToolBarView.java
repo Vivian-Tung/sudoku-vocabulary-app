@@ -3,6 +3,7 @@ package com.example.sudokuvocabulary;
 import android.content.Context;
 import android.content.Intent;
 import android.util.AttributeSet;
+import android.view.LayoutInflater;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -12,7 +13,11 @@ public class ToolBarView extends Toolbar {
     public ToolBarView(@NonNull Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
 
-        Toolbar toolbar = findViewById(R.id.toolbar);
+        LayoutInflater inflater = (LayoutInflater) context.getSystemService(
+                Context.LAYOUT_INFLATER_SERVICE
+        );
+        inflater.inflate(R.layout.toolbar, this, true);
 
+        Toolbar toolbar = findViewById(R.id.toolbar);
     }
 }

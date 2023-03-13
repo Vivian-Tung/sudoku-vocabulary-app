@@ -9,6 +9,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -27,11 +28,18 @@ public class SudokuActivity extends AppCompatActivity implements View.OnClickLis
     private static final String KEY_NUM_OF_EMPTY_CELLS = "numOfCellsFilled";
     private static final String KEY_POPUP_VISIBLE = "popupVisible";
 
+   // boolean timerStarted = false;
+    private long startTime; //timer
+   // private long endTime; //timer
+
     @SuppressLint("ClickableViewAccessibility")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sudoku);
+
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -141,6 +149,11 @@ public class SudokuActivity extends AppCompatActivity implements View.OnClickLis
 
     @NonNull
     public Intent newIntent(Context packageContext, String[] words, String[] translations) {
+        startTime = System.currentTimeMillis();
+        Intent intent2 = new Intent(this, GameCompleteActivity.class);
+        intent2.putExtra("startTime",startTime);
+        startActivity(intent2);
+
         Intent intent = new Intent(packageContext, GameCompleteActivity.class);
         intent.putExtra(getString(R.string.words_key), words);
         intent.putExtra(getString(R.string.translations_key), translations);
@@ -160,4 +173,5 @@ public class SudokuActivity extends AppCompatActivity implements View.OnClickLis
             startActivity(intent);
         });
     }
+
 }

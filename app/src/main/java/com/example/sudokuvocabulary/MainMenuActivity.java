@@ -9,16 +9,40 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import androidx.appcompat.widget.Toolbar;
 
 import java.util.ArrayList;
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class MainMenuActivity extends AppCompatActivity {
 
     DBAdapter db;
     Button button1;
+
+    TextView TimerText;
+
+    Timer timer;
+
+    TimerTask timerTask;
+
+    Double time = 0.0;
     private Button mPlayButton;
+
+
+    boolean timerStarted = false;
+
+
+    public void playbuttonTapped(View view){
+        if(timerStarted == false){
+            timerStarted = true;
+
+            startTimer();
+
+        }
+    }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -28,6 +52,11 @@ public class MainMenuActivity extends AppCompatActivity {
         db.open();
 
         mPlayButton = (Button) findViewById(R.id.main_menu_play_button);
+
+        TimerText = (TextView) findViewById(R.id.TimerText);
+
+        //timer = new timer();
+
         mPlayButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -60,6 +89,39 @@ public class MainMenuActivity extends AppCompatActivity {
             startActivity(intent);
         });
     }
+
+    private void startTimer() {
+        timerTask = new TimerTask() {
+            @Override
+            public void run() {
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        time++;
+                        TimerText.setText(getTimertext());
+                    }
+                });
+            }
+        };
+        timer.scheduleAtFixedRate(timerTask, 0, 1000);
+    }
+    private String  getTimertext(){
+        int rounded = (int) Math.round(time);
+
+        int seconds = ((rounded % 86400) % 3600) % 60;
+        int hours = ((rounded % 86400) / 3600);
+        int minutes = ((rounded % 86400) % 3600) / 60;
+
+        return formatTime(seconds,minutes,hours);
+    }
+
+    private String formatTime(int seconds, int minutes, int hours) {
+
+        return String.format("%02d",hours) + " : " + String.format("%02d",minutes) + " : " + String.format("%02d");
+
+    }
+
+
 
     @Override
     public void onDestroy() {

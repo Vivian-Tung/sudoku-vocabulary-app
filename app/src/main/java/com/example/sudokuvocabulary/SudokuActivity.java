@@ -31,7 +31,8 @@ public class SudokuActivity extends AppCompatActivity implements View.OnClickLis
     private static final String KEY_SOLUTION_AS_ARRAY = "solutionArray";
     private static final String KEY_NUM_OF_EMPTY_CELLS = "numOfCellsFilled";
     private static final String KEY_POPUP_VISIBLE = "popupVisible";
-    //SwitchCompat mDarkSwitch;
+    SwitchCompat mDarkSwitch;
+    private PrefManager mPrefManager;
 
 
 
@@ -46,25 +47,31 @@ public class SudokuActivity extends AppCompatActivity implements View.OnClickLis
 
         setupTutorialButton();
 
-//        //check for dark or light mode
-//        mDarkSwitch = findViewById(R.id.darkSwitch);
-//
-//        mDarkSwitch.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                savePreferences("darkSwitch_Val", mDarkSwitch.isChecked());
-//                if (mDarkSwitch.isChecked()) {
-//                    AppCompatDelegate.setDefaultNightMode((AppCompatDelegate.MODE_NIGHT_YES));
-//                    savePreferences("darkSwitch_Val", true);
-//                } else {
-//                    AppCompatDelegate.setDefaultNightMode((AppCompatDelegate.MODE_NIGHT_NO));
-//                    savePreferences("darkSwitch_Val", false);
-//                }
-//            }
-//        });
-////        loadSavedPreferences();
+        mPrefManager = new PrefManager(this);
+        // Key containing dark mode switch boolean value
+        final String themeSwitchKey = getString(R.string.theme_value_key);
 
-        setupTutorialButton();
+
+        //check for dark or light mode
+        boolean themeSwitchState = mPrefManager.loadSavedPreferences(this, themeSwitchKey);
+        mDarkSwitch = findViewById(R.id.darkSwitch);
+        // Restore the switch value to the previous setting
+        mDarkSwitch.setChecked(themeSwitchState);
+
+        //ERROR: for some reason when i click toggle from the sudoku activity -> it brings me back to main menu then it crashes
+        mDarkSwitch.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (mDarkSwitch.isChecked()) {
+                    AppCompatDelegate.setDefaultNightMode((AppCompatDelegate.MODE_NIGHT_YES));
+                    mPrefManager.savePreferences(themeSwitchKey, true);
+                } else {
+                    AppCompatDelegate.setDefaultNightMode((AppCompatDelegate.MODE_NIGHT_NO));
+                    mPrefManager.savePreferences(themeSwitchKey, false);
+                }
+            }
+        });
+
 
 
 
@@ -191,8 +198,6 @@ public class SudokuActivity extends AppCompatActivity implements View.OnClickLis
         });
     }
 
-//    private void savePreferences(String key, boolean onDarkMode) {
-//        new PrefManager(this).savePreferences("dark_mode_val", onDarkMode);
-//    }
+
 
 }

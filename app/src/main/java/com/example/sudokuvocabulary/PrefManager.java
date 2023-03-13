@@ -39,19 +39,5 @@ public class PrefManager  {
         }
     }
 
-//    //switch listener
-//    public void switchListener() {
-//        SharedPreferences sharedPreferences = context.getSharedPreferences("darkSwitch_Val", Context.MODE_PRIVATE);
-//        boolean darkMode = sharedPreferences.getBoolean("value", false);
-//        if (darkMode) {
-//            AppCompatDelegate.setDefaultNightMode((AppCompatDelegate.MODE_NIGHT_YES));
-//            savePreferences("darkSwitch_Val", true);
-//        } else {
-//            AppCompatDelegate.setDefaultNightMode((AppCompatDelegate.MODE_NIGHT_NO));
-//            savePreferences("darkSwitch_Val", false);
-//        }
-//
-//    }
-
 
 }

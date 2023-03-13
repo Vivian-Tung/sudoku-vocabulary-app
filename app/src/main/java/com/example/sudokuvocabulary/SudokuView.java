@@ -17,7 +17,7 @@ public class SudokuView extends View {
     private int mCellHeight;
     private int mCellWidth;
     private int mGridLength = 9;
-    private int mSubGridLength = 3;
+    private int mSubGridWidth = 3;
     private int mSubGridHeight = 3; // To be used for drawing various sized grids
     private String[][] mWordsToDraw;
 
@@ -27,12 +27,17 @@ public class SudokuView extends View {
         TypedArray attributes = context.getTheme().obtainStyledAttributes(attrs,
                 R.styleable.SudokuGrid, 0, 0);
         try {
-            mGridColour = attributes.getInteger(R.styleable.SudokuGrid_gridColor, 0);
-            mCellItemFillColour = attributes.getInteger(R.styleable.SudokuGrid_cellItemFillColour, 0);
+            mGridColour = attributes.getInteger(
+                    R.styleable.SudokuGrid_gridColor,
+                    0
+            );
+            mCellItemFillColour = attributes.getInteger(
+                    R.styleable.SudokuGrid_cellItemFillColour,
+                    0
+            );
         } finally {
             attributes.recycle();
         }
-        mWordsToDraw = new String[mGridLength][mGridLength];
     }
 
     @Override
@@ -65,7 +70,14 @@ public class SudokuView extends View {
         drawCellItems(canvas);
     }
 
-    public void setInitialGrid(int[][] grid, String[] words, String[] translations) {
+    public void setSubGridDimensions(int subGridWidth, int subGridHeight) {
+        mSubGridWidth = subGridWidth;
+        mSubGridHeight = subGridHeight;
+    }
+
+    public void setInitialGrid(int[][] grid, String[] words) {
+        mGridLength = grid.length;
+        mWordsToDraw = new String[mGridLength][mGridLength];
         for (int i = 0; i < mGridLength* mGridLength; i++) {
             int row = i / mGridLength, column = i % mGridLength;
             // Set each cell to the english word specified by grid
@@ -134,7 +146,7 @@ public class SudokuView extends View {
 
         for (int line = 0; line < mGridLength +1; line++) {
             // Check if current line is a major line, draw a thicker line if so
-            if (line % mSubGridLength == 0) {
+            if (line % mSubGridWidth == 0) {
                 drawThickLine();
             } else {
                 drawThinLine();

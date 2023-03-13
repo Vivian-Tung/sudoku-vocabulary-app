@@ -44,7 +44,11 @@ public class SudokuActivity extends AppCompatActivity implements View.OnClickLis
 
         mSudokuModel = new SudokuModel();
         mSudokuView = findViewById(R.id.sudokuGridView);
-        mSudokuView.setInitialGrid(mSudokuModel.getGridAsMatrix(), mWords, mTranslations);
+
+        // Set the words to draw on the grid and the dimensions of the grid
+        mSudokuView.setInitialGrid(mSudokuModel.getGridAsMatrix(), mWords);
+        // SetSudokuSize needs to pass different values to this via intent
+        mSudokuView.setSubGridDimensions(3, 3);
 
         mQuestionCard = findViewById(R.id.questionCardView);
         mQuestionCard.hide();

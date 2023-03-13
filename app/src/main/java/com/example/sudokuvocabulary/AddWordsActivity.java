@@ -89,9 +89,9 @@ public class AddWordsActivity extends AppCompatActivity implements View.OnClickL
         Intent intent = null;
         switch (view.getId()) {
             case R.id.animal_category_play_button:
-                if (wordsAdded.getLength() != 9) {
+                if (wordsAdded.getLength() < 4) {
                     Toast.makeText(this,
-                            "Exactly nine words must be selected",
+                            "At least 4 words are needed!",
                             Toast.LENGTH_SHORT).show();
                 } else {
                     // Add the new word list to database

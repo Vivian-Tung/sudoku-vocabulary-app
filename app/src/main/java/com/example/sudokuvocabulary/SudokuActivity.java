@@ -3,7 +3,6 @@ package com.example.sudokuvocabulary;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
-import android.content.res.Configuration;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -16,11 +15,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-
-import java.util.Timer;
-import java.util.TimerTask;
 
 public class SudokuActivity extends AppCompatActivity implements View.OnClickListener {
     private QuestionCardView mQuestionCard;
@@ -35,22 +32,13 @@ public class SudokuActivity extends AppCompatActivity implements View.OnClickLis
     private static final String KEY_NUM_OF_EMPTY_CELLS = "numOfCellsFilled";
     private static final String KEY_POPUP_VISIBLE = "popupVisible";
 
-   // boolean timerStarted = false;
-    private long startTime; //timer
-   // private long endTime; //timer
-    private Handler mHandler;
     TextView TimerText;
-
-    Timer timer;
-
-    TimerTask timerTask;
-
-    Double time = 0.0;
+    TimerHelper timer;
+    double startTime = 0;
 
     @SuppressLint("ClickableViewAccessibility")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sudoku);
@@ -60,7 +48,16 @@ public class SudokuActivity extends AppCompatActivity implements View.OnClickLis
         setSupportActionBar(toolbar);
 
         TimerText = (TextView) findViewById(R.id.TimerText);
-        timer = new Timer();
+        if (savedInstanceState != null) {
+            startTime = savedInstanceState.getDouble(getString(R.string.time_key));
+        }
+        timer = new TimerHelper(startTime, new Handler(Looper.myLooper()) {
+            @Override
+            public void handleMessage(@Nullable Message msg) {
+                super.handleMessage(msg);
+                TimerText.setText(timer.getTimerText());
+            }
+        });
 
         setupTutorialButton();
 
@@ -101,7 +98,7 @@ public class SudokuActivity extends AppCompatActivity implements View.OnClickLis
             }
             return isValid;
         });
-        startTimer();
+        timer.start();
     }
 
     @Override
@@ -120,6 +117,7 @@ public class SudokuActivity extends AppCompatActivity implements View.OnClickLis
         mQuestionCard.setVisibility(View.GONE);
         Toast.makeText(this, toastMessage, Toast.LENGTH_SHORT).show();
         if (mSudokuModel.isGridFilled()) {
+            timer.stop();
             Intent intent = newIntent(
                     SudokuActivity.this, mWords, mTranslations);
             startActivity(intent);
@@ -134,6 +132,7 @@ public class SudokuActivity extends AppCompatActivity implements View.OnClickLis
         savedInstanceState.putInt(getString(R.string.cell_row_key), mCellRow);
         savedInstanceState.putInt(getString(R.string.cell_column_key), mCellColumn);
         savedInstanceState.putInt(getString(R.string.cell_value_key), mCellValue);
+        savedInstanceState.putDouble(getString(R.string.time_key), timer.getTime());
         savedInstanceState.putBoolean(KEY_POPUP_VISIBLE, (mQuestionCard.getVisibility() == View.VISIBLE));
         savedInstanceState.putStringArray(getString(R.string.words_key), mWords);
         savedInstanceState.putStringArray(getString(R.string.translations_key), mTranslations);
@@ -173,14 +172,10 @@ public class SudokuActivity extends AppCompatActivity implements View.OnClickLis
 
     @NonNull
     public Intent newIntent(Context packageContext, String[] words, String[] translations) {
-        startTime = System.currentTimeMillis();
-        Intent intent2 = new Intent(this, GameCompleteActivity.class);
-        intent2.putExtra("startTime",startTime);
-        startActivity(intent2);
-
         Intent intent = new Intent(packageContext, GameCompleteActivity.class);
         intent.putExtra(getString(R.string.words_key), words);
         intent.putExtra(getString(R.string.translations_key), translations);
+        intent.putExtra(getString(R.string.time_key), timer.getTime());
         return intent;
     }
 
@@ -202,44 +197,5 @@ public class SudokuActivity extends AppCompatActivity implements View.OnClickLis
         for (Button button: buttons) {
             button.setOnClickListener(this);
         }
-    }
-
-    private void startTimer() {
-        timerTask = new TimerTask() {
-            @Override
-            public void run() {
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        time++;
-                        //TimerText.setText(getTimerText());
-                        mHandler.obtainMessage(1).sendToTarget();
-                    }
-                });
-            }
-        };
-        timer.scheduleAtFixedRate(timerTask, 0, 1000);
-
-        mHandler = new Handler(Looper.myLooper()) {
-            public void handleMessage(Message msg) {
-                TimerText.setText(getTimerText());
-            }
-        };
-    }
-
-    private String getTimerText(){
-        int rounded = (int) Math.round(time);
-
-        int seconds = ((rounded % 86400) % 3600) % 60;
-        int hours = ((rounded % 86400) / 3600);
-        int minutes = ((rounded % 86400) % 3600) / 60;
-
-        return formatTime(seconds,minutes,hours);
-    }
-
-    private String formatTime(int seconds, int minutes, int hours) {
-        return String.format("%02d",hours) + " : " +
-                String.format("%02d",minutes) + " : " +
-                String.format("%02d", seconds);
     }
 }

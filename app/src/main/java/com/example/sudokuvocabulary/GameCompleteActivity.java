@@ -14,7 +14,6 @@ import java.util.concurrent.TimeUnit;
 public class GameCompleteActivity extends AppCompatActivity {
 
     private String[] mWords, mTranslations;
-    private long endTime;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,17 +36,20 @@ public class GameCompleteActivity extends AppCompatActivity {
                     GameCompleteActivity.this, mWords, mTranslations);
             startActivity(intent);
         });
-        long startTime = getIntent().getLongExtra("startTime", 0);
 
-        long duration = System.currentTimeMillis() - startTime;
+        long duration = (long) getIntent().getDoubleExtra(
+                getString(R.string.time_key), 0);
 
         TextView durationTextView = findViewById(R.id.duration_textview);
 
-        long minutes = (long)((duration / (1000*60)) % 60);
+        int minutes = (int)(duration / 60);
+        int seconds = (int) (duration % 60);
 
-       // long durationINminutes = TimeUnit.MILLISECONDS.toMinutes(duration);
+        String timeText = "Time taken to complete: ";
+        if (minutes > 0) timeText += minutes + " minutes ";
+        timeText += seconds + " seconds";
 
-        durationTextView.setText("Time taken to complete: " + minutes + " seconds ");
+        durationTextView.setText(timeText);
     }
     @NonNull
     public Intent newIntent(Context packageContext, String[] words, String[] translations) {

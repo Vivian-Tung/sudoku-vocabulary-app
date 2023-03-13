@@ -4,12 +4,20 @@ import android.content.Context;
 import android.content.Intent;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.Toolbar;
 
-public class ToolBarView extends Toolbar {
+public class ToolBarView extends Toolbar implements Toolbar.OnMenuItemClickListener {
+    Toolbar toolbar;
+
+    public ToolBarView(@NonNull Context context) {
+        this(context, null);
+    }
+
     public ToolBarView(@NonNull Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
 
@@ -18,6 +26,11 @@ public class ToolBarView extends Toolbar {
         );
         inflater.inflate(R.layout.toolbar, this, true);
 
-        Toolbar toolbar = findViewById(R.id.toolbar);
+        this.toolbar = findViewById(R.id.toolbar);
+    }
+
+    @Override
+    public boolean onMenuItemClick(MenuItem menuItem) {
+        return menuItem != null;
     }
 }

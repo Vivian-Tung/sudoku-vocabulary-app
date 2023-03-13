@@ -3,6 +3,7 @@ package com.example.sudokuvocabulary;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.notNullValue;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
 import android.content.Context;
@@ -51,12 +52,29 @@ public class MainMenuTest {
     }
 
     private boolean clickButton(UiSelector selector) throws UiObjectNotFoundException {
-        UiObject button = device.findObject(selector);
+        UiObject button = device.findObject(selector.className("android.widget.Button"));
         boolean buttonIsValid = button.exists() && button.isEnabled();
         if (buttonIsValid) {
             button.click();
         }
         return buttonIsValid;
+    }
+
+    private boolean doesTextViewExist(UiSelector selector) {
+        UiObject textView = device.findObject(selector.className("android.widget.TextView"));
+        return textView.exists();
+    }
+
+    private boolean sudokuBoardVisible(UiSelector selector) {
+        UiObject sudoku = device.findObject(selector
+                .resourceId(formatId("sudokuGridView"))
+        );
+        return sudoku.exists();
+    }
+
+    private void handleException(Exception e) {
+        e.printStackTrace();
+        assertNull(e);
     }
 
     private String formatId(String id) {
@@ -100,36 +118,58 @@ public class MainMenuTest {
     public void launchGameFromMainMenu() {
         setUp(); // Launch app and set UiDevice
 
-        boolean gameLaunched = false;
         try {
             // Attempt to find the play button to launch the next activity
             assertTrue(clickButton(new UiSelector()
                     .resourceId(formatId("main_menu_play_button"))
-                    .className("android.widget.Button")
             ));
+
             // Check that the SetSudokuSize activity has been opened
-            UiObject selectSizeText = device.findObject(new UiSelector()
+            assertTrue(doesTextViewExist(new UiSelector()
                     .text("Select Size")
-                    .className("android.widget.TextView")
-            );
-            assertTrue(selectSizeText.exists());
+            ));
 
             // Try to select the 9x9 size option
             assertTrue(clickButton(new UiSelector()
                     .textContains("9x9")
-                    .clickable(true)
-                    .className("android.widget.Button")
             ));
 
-            // Check that the SudokuView is visible
-            UiObject sudokuGrid = device.findObject(new UiSelector()
-                    .resourceId(formatId("sudokuGridView"))
-            );
-            assertTrue(sudokuGrid.exists());
-            gameLaunched = sudokuGrid.exists();
-        } catch (Exception e) {
-            e.printStackTrace();
+            // Check that the SudokuView is visible and working
+            assertTrue(sudokuBoardVisible(new UiSelector()));
+
+        } catch (Exception e) { // Somethings has gone very wrong
+            handleException(e);
         }
-        assertTrue(gameLaunched);
+    }
+
+    @Test
+    public void selectListFromWordBank() {
+        setUp(); // Initialize device, launch app
+
+        // Try navigating app, handle exceptions that
+        // occur when specific UI elements are not found
+        try {
+            // Try to find and click the word bank button
+            assertTrue(clickButton(new UiSelector()
+                    .textContains("Word Bank")
+            ));
+
+            // Check that the application has entered the word list activity
+            assertTrue(doesTextViewExist(new UiSelector()
+                    .textContains("word list")
+            ));
+
+            // Try to click the 'ANIMALS' list button
+            assertTrue(clickButton(new UiSelector()
+                    .textContains("animals")
+            ));
+
+            // Check that the sudoku game has launched
+            // and that the board is visible and working
+            assertTrue(sudokuBoardVisible(new UiSelector()));
+
+        } catch (Exception e) {
+            handleException(e);
+        }
     }
 }

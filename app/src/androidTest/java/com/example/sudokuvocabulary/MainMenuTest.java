@@ -275,6 +275,8 @@ public class MainMenuTest {
             selectListFromWordBank();
             testAddWordsActivity();
 
+            device.setOrientationNatural(); // Reset device to original position
+
         } catch (Exception e) { // Device has failed to rotate
             handleException(e);
         }

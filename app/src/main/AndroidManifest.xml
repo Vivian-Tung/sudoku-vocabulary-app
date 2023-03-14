@@ -31,6 +31,9 @@
             android:name=".SudokuActivity"
             android:exported="false" />
         <activity
+            android:name=".SetSudokuSizeActivity"
+            android:exported="false"/>
+        <activity
             android:name=".MainMenuActivity"
             android:exported="true">
             <intent-filter>
@@ -43,7 +46,7 @@
             android:name=".WordCategoryActivity"
             android:exported="false" />
         <activity
-            android:name=".AnimalCategoryActivity"
+            android:name=".AddWordsActivity"
             android:exported="false">
         </activity>
     </application>

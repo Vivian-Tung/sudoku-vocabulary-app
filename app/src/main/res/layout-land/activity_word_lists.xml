@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:gravity="center">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginVertical="20dp"
+        android:text="@string/activity_main_word_bank_text"
+        android:textSize="24sp"
+        android:textColor="@color/black"
+        android:textStyle="bold"></TextView>
+
+    <Button
+        android:id="@+id/create_new_word_list_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/activity_main_word_bank_create_new_list"></Button>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginVertical="20dp"
+        android:text="@string/activity_main_word_bank_existing_words"
+        android:textColor="@color/black"
+        android:textSize="15sp"
+        android:textStyle="bold"></TextView>
+
+    <HorizontalScrollView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        <com.example.sudokuvocabulary.WordListsView
+            android:id="@+id/existing_word_lists"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" >
+        </com.example.sudokuvocabulary.WordListsView>
+    </HorizontalScrollView>
+</LinearLayout>

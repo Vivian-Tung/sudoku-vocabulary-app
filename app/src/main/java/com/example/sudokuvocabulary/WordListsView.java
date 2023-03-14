@@ -1,6 +1,7 @@
 package com.example.sudokuvocabulary;
 
 import android.content.Context;
+import android.content.res.Configuration;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.widget.Button;
@@ -30,6 +31,9 @@ public class WordListsView extends ScrollView {
         LinearLayout parentLayout = (LinearLayout) getChildAt(0);
         ScrollView scrollView = (ScrollView) parentLayout.getChildAt(0);
         mButtonLayout = (LinearLayout) scrollView.getChildAt(0);
+        int orientation = getResources().getConfiguration().orientation;
+        mButtonLayout.setOrientation(orientation == Configuration.ORIENTATION_PORTRAIT ?
+                LinearLayout.VERTICAL : LinearLayout.HORIZONTAL);
     }
 
     @Override

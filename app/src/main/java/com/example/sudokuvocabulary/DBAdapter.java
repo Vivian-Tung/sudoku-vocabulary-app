@@ -342,6 +342,7 @@ public class DBAdapter {
                 contentValues.put(KEY_TRANSLATION, c.getString(1));
                 _db.insert(tableName, null, contentValues);
             }
+            c.close();
         }
     }
 }

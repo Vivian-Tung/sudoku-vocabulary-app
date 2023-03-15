@@ -33,13 +33,15 @@ import org.junit.runner.RunWith;
 @RunWith(AndroidJUnit4.class)
 @SdkSuppress(minSdkVersion = 18)
 public class MainMenuTest {
-
     private UiDevice device;
     private Context context;
-    private static final String APP_PACKAGE
-            = "com.example.sudokuvocabulary";
+    private static final String APP_PACKAGE = "com.example.sudokuvocabulary";
     private static final int LAUNCH_TIMEOUT = 5000;
 
+    /**
+     * Initializes the UiDevice and launches the main menu
+     * of the app
+     */
     @Before
     public void setUp() {
         // Initialize the test device
@@ -56,50 +58,10 @@ public class MainMenuTest {
         device.wait(Until.hasObject(By.pkg(APP_PACKAGE).depth(0)), LAUNCH_TIMEOUT);
     }
 
-    private boolean clickButton(UiSelector selector) throws UiObjectNotFoundException {
-        UiObject button = device.findObject(selector.className("android.widget.Button"));
-        boolean buttonIsValid = button.exists() && button.isEnabled();
-        if (buttonIsValid) {
-            button.click();
-        }
-        return buttonIsValid;
-    }
 
-    private boolean doesTextViewExist(UiSelector selector) {
-        UiObject textView = device.findObject(selector.className("android.widget.TextView"));
-        return textView.exists();
-    }
-
-    private UiObject findEditText(UiSelector selector) {
-        return device.findObject(selector.className("android.widget.EditText"));
-    }
-
-    private boolean fillEditText(UiSelector selector, String text) throws UiObjectNotFoundException
-    {
-        UiObject editable = findEditText(selector);
-        boolean doesExist = editable.exists();
-        if (doesExist) {
-            editable.setText(text);
-        }
-        return doesExist;
-    }
-
-    private boolean sudokuBoardIsActive(UiSelector selector) {
-        UiObject sudoku = device.findObject(selector
-                .resourceId(formatId("sudokuGridView"))
-        );
-        return sudoku.exists();
-    }
-
-    private void handleException(Exception e) {
-        e.printStackTrace();
-        assertNull(e);
-    }
-
-    private String formatId(String id) {
-        return APP_PACKAGE + ":id/" + id;
-    }
-
+    /**
+     * Example test of comparing app context
+     */
     @Test
     public void useAppContext() {
         // Context of the app under test.
@@ -107,6 +69,10 @@ public class MainMenuTest {
         assertEquals("com.example.sudokuvocabulary", appContext.getPackageName());
     }
 
+    /**
+     * Tests whether the app can be launched from the device's
+     * home menu
+     */
     @Test
     public void startAppFromHomeScreen() {
         device = UiDevice.getInstance(InstrumentationRegistry.getInstrumentation());
@@ -133,6 +99,10 @@ public class MainMenuTest {
                 LAUNCH_TIMEOUT);
     }
 
+    /**
+     * Tests the app's ability to launch a 9x9 sudoku game from
+     * the main menu through the 'Play' button.
+     */
     @Test
     public void launchGameFromMainMenu() {
         try {
@@ -159,6 +129,10 @@ public class MainMenuTest {
         }
     }
 
+    /**
+     * Test the app's ability to launch a game from the word list
+     * menu by selecting the default 'Animals' list.
+     */
     @Test
     public void selectListFromWordBank() {
         // Try navigating app, handle exceptions that
@@ -188,6 +162,11 @@ public class MainMenuTest {
         }
     }
 
+    /**
+     * Test the app's  ability to create new word lists by
+     * launching the menu for adding words, inputting a new
+     * table name, and selecting nine words.
+     */
     @Test public void testAddWordsActivity() {
         String listName = "foods"; // Name of new word list
         String category = "food"; // Word category to access
@@ -260,6 +239,10 @@ public class MainMenuTest {
         }
     }
 
+    /**
+     * Tests the app's menus in landscape by calling all other tests
+     * in landscape mode.
+     */
     @Test
     public void rotatedOrientationTest() {
         try {
@@ -277,5 +260,50 @@ public class MainMenuTest {
         } catch (Exception e) { // Device has failed to rotate
             handleException(e);
         }
+    }
+
+
+    private boolean clickButton(UiSelector selector) throws UiObjectNotFoundException {
+        UiObject button = device.findObject(selector.className("android.widget.Button"));
+        boolean buttonIsValid = button.exists() && button.isEnabled();
+        if (buttonIsValid) {
+            button.click();
+        }
+        return buttonIsValid;
+    }
+
+    private boolean doesTextViewExist(UiSelector selector) {
+        UiObject textView = device.findObject(selector.className("android.widget.TextView"));
+        return textView.exists();
+    }
+
+    private UiObject findEditText(UiSelector selector) {
+        return device.findObject(selector.className("android.widget.EditText"));
+    }
+
+    private boolean fillEditText(UiSelector selector, String text) throws UiObjectNotFoundException
+    {
+        UiObject editable = findEditText(selector);
+        boolean doesExist = editable.exists();
+        if (doesExist) {
+            editable.setText(text);
+        }
+        return doesExist;
+    }
+
+    private boolean sudokuBoardIsActive(UiSelector selector) {
+        UiObject sudoku = device.findObject(selector
+                .resourceId(formatId("sudokuGridView"))
+        );
+        return sudoku.exists();
+    }
+
+    private void handleException(Exception e) {
+        e.printStackTrace();
+        assertNull(e);
+    }
+
+    private String formatId(String id) {
+        return APP_PACKAGE + ":id/" + id;
     }
 }

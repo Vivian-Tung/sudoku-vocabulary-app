@@ -13,6 +13,8 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
+import java.util.ArrayList;
+
 @RunWith(AndroidJUnit4.class)
 public class DBAdapterTest {
 
@@ -36,18 +38,21 @@ public class DBAdapterTest {
     @Test
     public void newTable() {
         db.newTable(tableName);
-        Cursor c = db.getSQLiteDB().rawQuery(
+        try (Cursor c = db.getSQLiteDB().rawQuery(
                 "SELECT name FROM sqlite_master WHERE type='table' " +
                 "AND name='" + tableName + "'",
                 null
-        );
-        boolean tableNotFound = true;
-        while (c.moveToNext() && tableNotFound) {
-            if (c.getString(0).equals(tableName)) {
-                tableNotFound = false;
+        )) {
+            boolean tableNotFound = true;
+            while (c.moveToNext() && tableNotFound) {
+                if (c.getString(0).equals(tableName)) {
+                    tableNotFound = false;
+                }
             }
+            assertFalse(tableNotFound);
+        } catch (Exception e) {
+            e.printStackTrace();
         }
-        assertFalse(tableNotFound);
     }
 
     @Test
@@ -70,7 +75,6 @@ public class DBAdapterTest {
     public void getTableNames() {
         assertTrue(isTableInDB(tableName));
         assertTrue(isTableInDB("animals"));
-
     }
 
     @Test
@@ -83,6 +87,9 @@ public class DBAdapterTest {
 
     @Test
     public void getAllCategories() {
+        ArrayList<String> categories = db.getAllCategories();
+        assertTrue(categories.contains("animal"));
+        assertTrue(categories.contains("food"));
     }
 
     @Test
@@ -91,6 +98,9 @@ public class DBAdapterTest {
 
     @Test
     public void getWordsFromCategory() {
+        ArrayList<ArrayList<String>> words = db.getWordsFromCategory("animal");
+        assertTrue(words.get(0).contains("dog"));
+        assertTrue(words.get(0).contains("cat"));
     }
 
     @Test

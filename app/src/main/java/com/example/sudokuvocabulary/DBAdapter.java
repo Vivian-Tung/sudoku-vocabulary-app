@@ -11,7 +11,6 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 
@@ -26,11 +25,8 @@ public class DBAdapter {
 
     // DB Fields
     public static final String KEY_ROWID = "_id";
-    public static final int COL_ROWID = 0;
 
     // fields:
-    //public static final String KEY_LISTID = "listID";
-
     // Key to table containing all words and translations
     public static final String KEY_WORD_TABLE = "words";
     public static final String KEY_WORD = "word";
@@ -38,12 +34,6 @@ public class DBAdapter {
     public static final String KEY_CATEGORY = "category";
 
     // field numbers (0 = KEY_ROWID, 1=...)
-    //public static final int COL_LISTID = 1;
-    public static final int COL_WORD = 2;
-    public static final int COL_TRANSLATION= 3;
-
-
-    //public static final String[] ALL_KEYS = new String[] {KEY_ROWID, KEY_LISTID, KEY_WORD, KEY_TRANSLATION};
     public static final String[] ALL_KEYS = new String[] {KEY_ROWID, KEY_WORD, KEY_TRANSLATION};
 
     // DB info: it's name, and the table .
@@ -80,6 +70,17 @@ public class DBAdapter {
 
     public boolean isOpen() { return myDBHelper.getWritableDatabase().isOpen(); }
 
+    /**
+     * This method should only be called for testing and
+     * debugging, for normal operation use the methods
+     * provided by the adapter.
+     *
+     * @return the SQLiteDatabase object of the adapter
+     */
+    public SQLiteDatabase getSQLiteDB() {
+        return this.db;
+    }
+
     // Creates a new table with the given name
     public void newTable(String tableName) {
         db.execSQL(myDBHelper.createTableEntry(tableName));
@@ -90,10 +91,8 @@ public class DBAdapter {
     //public long insertRow(long listID, String word, String translation) {
     public long insertRow(SQLiteDatabase _db, String word, String translation, String table) {
 
-
         // Create row's data:
         ContentValues initialValues = new ContentValues();
-        //initialValues.put(KEY_LISTID, listID);
         initialValues.put(KEY_WORD, word);
         initialValues.put(KEY_TRANSLATION, translation);
 
@@ -103,10 +102,6 @@ public class DBAdapter {
 
     public long insertRow(String word, String translation, String table) {
         return insertRow(db, word, translation, table);
-    }
-
-    public long insertRow(String word, String translation) {
-        return insertRow(word, translation, ANIMAL_TABLE);
     }
 
     // Delete a row from the database, by rowId (primary key)
@@ -143,7 +138,7 @@ public class DBAdapter {
         return tableNames;
     }
 
-    // Return all data in the database.
+    // Return all words
     public Cursor getAllRows() {
         return getAllRows(ANIMAL_TABLE);
     }
@@ -316,10 +311,10 @@ public class DBAdapter {
         }
 
         /**
-         * <p>Initializes the specified table with nine words and translations from
-         * the 'animal' category in the 'words' table of the DB</p>
+         * Initializes the specified table with nine words and translations from
+         * the 'animal' category in the 'words' table of the DB
          *
-         * @param _db Database containing words
+         * @param _db Database containing pre-existing words
          * @param tableName The name of the new table
          */
         private void writeFromDB(SQLiteDatabase _db, String tableName) {

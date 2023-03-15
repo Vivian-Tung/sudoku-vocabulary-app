@@ -3,6 +3,7 @@ package com.example.sudokuvocabulary;
 import static org.junit.Assert.*;
 
 import android.content.Context;
+import android.database.Cursor;
 
 import androidx.test.core.app.ApplicationProvider;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
@@ -16,16 +17,15 @@ import org.junit.runner.RunWith;
 public class DBAdapterTest {
 
     private DBAdapter db;
+    private String tableName;
 
     @Before
     public void createDB() {
         Context context = ApplicationProvider.getApplicationContext();
         db = new DBAdapter(context);
-    }
-
-    @After
-    public void closeDB() {
-        db.close();
+        db.open();
+        tableName = "Food";
+        newTable();
     }
 
     @Test
@@ -35,18 +35,27 @@ public class DBAdapterTest {
 
     @Test
     public void newTable() {
+        db.newTable(tableName);
+        Cursor c = db.getSQLiteDB().rawQuery(
+                "SELECT name FROM sqlite_master WHERE type='table' " +
+                "AND name='" + tableName + "'",
+                null
+        );
+        boolean tableNotFound = true;
+        while (c.moveToNext() && tableNotFound) {
+            if (c.getString(0).equals(tableName)) {
+                tableNotFound = false;
+            }
+        }
+        assertFalse(tableNotFound);
     }
 
     @Test
     public void insertRow() {
-    }
-
-    @Test
-    public void testInsertRow() {
-    }
-
-    @Test
-    public void testInsertRow1() {
+        assertTrue(isTableInDB(tableName));
+        db.insertRow("apple", "pingguo", tableName);
+        assertTrue(isInTable(tableName, "word", "apple"));
+        assertTrue(isInTable(tableName, "translation", "pingguo"));
     }
 
     @Test
@@ -59,6 +68,9 @@ public class DBAdapterTest {
 
     @Test
     public void getTableNames() {
+        assertTrue(isTableInDB(tableName));
+        assertTrue(isTableInDB("animals"));
+
     }
 
     @Test
@@ -83,5 +95,41 @@ public class DBAdapterTest {
 
     @Test
     public void updateRow() {
+    }
+
+    @After
+    public void resetDB() {
+        db.getSQLiteDB().execSQL(
+                "DROP TABLE IF EXISTS " + tableName
+        );
+        db.close();
+    }
+
+    private boolean isTableInDB(String tableName) {
+        Cursor c = db.getSQLiteDB().rawQuery(
+                "SELECT name FROM sqlite_master WHERE type='table' " +
+                        "AND name='" + tableName + "'",
+                null
+        );
+        return c.moveToFirst();
+    }
+
+    private boolean isInTable(String table, String column, String value) {
+        // Define the search parameters
+        String[] columns = {column};
+        String where = column + "=?";
+        String[] selectionArgs = {value};
+
+        // Query the database for the given value
+        Cursor c = db.getSQLiteDB().query(
+                table,
+                columns,
+                where,
+                selectionArgs,
+                null,
+                null,
+                null
+        );
+        return c.moveToFirst();
     }
 }

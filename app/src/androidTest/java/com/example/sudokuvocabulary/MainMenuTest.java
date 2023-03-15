@@ -20,6 +20,8 @@ import androidx.test.uiautomator.UiObjectNotFoundException;
 import androidx.test.uiautomator.UiSelector;
 import androidx.test.uiautomator.Until;
 
+import org.junit.After;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
@@ -38,7 +40,8 @@ public class MainMenuTest {
             = "com.example.sudokuvocabulary";
     private static final int LAUNCH_TIMEOUT = 5000;
 
-    private void setUp() {
+    @Before
+    public void setUp() {
         // Initialize the test device
         device = UiDevice.getInstance(InstrumentationRegistry.getInstrumentation());
 
@@ -132,8 +135,6 @@ public class MainMenuTest {
 
     @Test
     public void launchGameFromMainMenu() {
-        setUp(); // Launch app and set UiDevice
-
         try {
             // Attempt to find the play button to launch the next activity
             assertTrue(clickButton(new UiSelector()
@@ -160,8 +161,6 @@ public class MainMenuTest {
 
     @Test
     public void selectListFromWordBank() {
-        setUp(); // Initialize device, launch app
-
         // Try navigating app, handle exceptions that
         // occur when specific UI elements are not found
         try {
@@ -190,8 +189,6 @@ public class MainMenuTest {
     }
 
     @Test public void testAddWordsActivity() {
-        setUp(); // Initialize device and launch app
-
         String listName = "foods"; // Name of new word list
         String category = "food"; // Word category to access
 
@@ -265,14 +262,14 @@ public class MainMenuTest {
 
     @Test
     public void rotatedOrientationTest() {
-        setUp(); // Initialize device and launch app
-
         try {
             device.setOrientationRight(); // Rotate the device right
 
             // Run all test cases in this orientation
             launchGameFromMainMenu();
+            setUp();
             selectListFromWordBank();
+            setUp();
             testAddWordsActivity();
 
             device.setOrientationNatural(); // Reset device to original position

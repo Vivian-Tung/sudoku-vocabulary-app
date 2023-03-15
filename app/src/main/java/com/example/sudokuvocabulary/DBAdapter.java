@@ -70,21 +70,6 @@ public class DBAdapter {
     // Open the database connection.
     public DBAdapter open() {
         db = myDBHelper.getWritableDatabase();
-
-        // Initialize the animal list table if it is empty,
-        // TODO: move this logic into the DatabaseHelper onCreate()
-        ArrayList<String> tables = getTableNames();
-        if (tables.contains("animals") && getAllRows("animals").getCount() == 0) {
-            insertRow("dog", "狗");
-            insertRow("cat", "猫");
-            insertRow("sheep", "羊");
-            insertRow("frog", "青蛙");
-            insertRow("pig", "猪");
-            insertRow("fish", "鱼");
-            insertRow("bird", "鸟");
-            insertRow("bear", "熊");
-            insertRow("wolf", "狼");
-        }
         return this;
     }
 
@@ -259,7 +244,8 @@ public class DBAdapter {
             String animalTable = createTableEntry(ANIMAL_TABLE);
             _db.execSQL(wordTable);
             _db.execSQL(animalTable);
-            writeCSVData(_db);
+            writeCSVData(_db); // Write data from csv to main word table
+            writeFromDB(_db, ANIMAL_TABLE);
         }
 
         @Override
@@ -326,6 +312,35 @@ public class DBAdapter {
             }  catch (IOException e){
                 Log.wtf("DBAdapter", "Error reading data file on line" + line, e);
                 e.printStackTrace();
+            }
+        }
+
+        /**
+         * <p>Initializes the specified table with nine words and translations from
+         * the 'animal' category in the 'words' table of the DB</p>
+         *
+         * @param _db Database containing words
+         * @param tableName The name of the new table
+         */
+        private void writeFromDB(SQLiteDatabase _db, String tableName) {
+            String[] columns = {KEY_WORD, KEY_TRANSLATION};
+            String where = KEY_CATEGORY + "=?";
+            String[] selectionArgs = {"animal"};
+            Cursor c = _db.query(
+                    KEY_WORD_TABLE,
+                    columns,
+                    where,
+                    selectionArgs,
+                    null,
+                    null,
+                    null
+            );
+            int index = 0;
+            while (c.moveToNext() && index++ < 9) {
+                ContentValues contentValues = new ContentValues();
+                contentValues.put(KEY_WORD, c.getString(0));
+                contentValues.put(KEY_TRANSLATION, c.getString(1));
+                _db.insert(tableName, null, contentValues);
             }
         }
     }

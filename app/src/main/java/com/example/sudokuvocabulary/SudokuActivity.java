@@ -11,6 +11,7 @@ import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.Toast;
 
@@ -32,7 +33,6 @@ public class SudokuActivity extends AppCompatActivity implements View.OnClickLis
     private static final String KEY_SOLUTION_AS_ARRAY = "solutionArray";
     private static final String KEY_NUM_OF_EMPTY_CELLS = "numOfCellsFilled";
     private static final String KEY_POPUP_VISIBLE = "popupVisible";
-    SwitchCompat mDarkSwitch;
     private PrefManager mPrefManager;
 
 
@@ -58,7 +58,7 @@ public class SudokuActivity extends AppCompatActivity implements View.OnClickLis
 
         //check for dark or light mode
         boolean themeSwitchState = mPrefManager.loadSavedPreferences(this, themeSwitchKey);
-        mDarkSwitch = findViewById(R.id.darkSwitch);
+        SwitchCompat mDarkSwitch = findViewById(R.id.darkSwitch);
         // Restore the switch value to the previous setting
         mDarkSwitch.setChecked(themeSwitchState);
 

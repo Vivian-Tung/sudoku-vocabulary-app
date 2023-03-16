@@ -17,7 +17,7 @@ public class MainMenuActivity extends AppCompatActivity {
 
     DBAdapter db;
     Button button1;
-    SwitchCompat mDarkSwitch;
+
     private PrefManager mPrefManager;
 
     @Override
@@ -42,11 +42,10 @@ public class MainMenuActivity extends AppCompatActivity {
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        mDarkSwitch = findViewById(R.id.darkSwitch);
+        SwitchCompat mDarkSwitch = findViewById(R.id.darkSwitch);
 
         //check for dark or light mode
         boolean themeSwitchState = mPrefManager.loadSavedPreferences(this, themeSwitchKey);
-        mDarkSwitch = findViewById(R.id.darkSwitch);
         // Restore the switch value to the previous setting
         mDarkSwitch.setChecked(themeSwitchState);
 

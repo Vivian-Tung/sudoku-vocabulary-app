@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CompoundButton;
 import android.widget.ImageView;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -28,6 +29,7 @@ public class MainMenuActivity extends AppCompatActivity {
         // Key containing dark mode switch boolean value
         final String themeSwitchKey = getString(R.string.theme_value_key);
 
+
         db = new DBAdapter(this);
         db.open();
 
@@ -40,16 +42,19 @@ public class MainMenuActivity extends AppCompatActivity {
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+        mDarkSwitch = findViewById(R.id.darkSwitch);
+
         //check for dark or light mode
         boolean themeSwitchState = mPrefManager.loadSavedPreferences(this, themeSwitchKey);
         mDarkSwitch = findViewById(R.id.darkSwitch);
         // Restore the switch value to the previous setting
         mDarkSwitch.setChecked(themeSwitchState);
 
-        mDarkSwitch.setOnClickListener(new View.OnClickListener() {
+        //trying to change the listener
+        mDarkSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
-            public void onClick(View view) {
-                if (mDarkSwitch.isChecked()) {
+            public void onCheckedChanged(CompoundButton compoundButton, boolean themeSwitchState) {
+                if (themeSwitchState) {
                     AppCompatDelegate.setDefaultNightMode((AppCompatDelegate.MODE_NIGHT_YES));
                     mPrefManager.savePreferences(themeSwitchKey, true);
                 } else {
@@ -80,5 +85,7 @@ public class MainMenuActivity extends AppCompatActivity {
             startActivity(intent);
         });
     }
+
+
 
 }

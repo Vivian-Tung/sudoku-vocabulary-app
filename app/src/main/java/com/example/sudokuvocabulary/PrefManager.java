@@ -1,5 +1,6 @@
 package com.example.sudokuvocabulary;
 
+import android.app.Application;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
@@ -9,11 +10,13 @@ import androidx.appcompat.app.AppCompatDelegate;
 import androidx.appcompat.widget.SwitchCompat;
 
 public class PrefManager  {
+
     private Context context;
 
     public PrefManager (Context context) {
         this.context = context;
     }
+
 
     //save preferences
 

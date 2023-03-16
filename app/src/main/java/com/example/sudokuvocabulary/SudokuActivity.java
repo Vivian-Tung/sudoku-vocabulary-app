@@ -62,7 +62,6 @@ public class SudokuActivity extends AppCompatActivity implements View.OnClickLis
         // Restore the switch value to the previous setting
         mDarkSwitch.setChecked(themeSwitchState);
 
-        //ERROR: for some reason when i click toggle from the sudoku activity -> it brings me back to main menu then it crashes
         mDarkSwitch.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -75,8 +74,6 @@ public class SudokuActivity extends AppCompatActivity implements View.OnClickLis
                 }
             }
         });
-
-
 
 
         mSudokuModel = new SudokuModel();

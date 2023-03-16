@@ -10,11 +10,16 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 
+import androidx.appcompat.app.AppCompatDelegate;
+import androidx.appcompat.widget.SwitchCompat;
 import androidx.appcompat.widget.Toolbar;
 
 public class SetSudokuSizeActivity extends AppCompatActivity implements View.OnClickListener{
 
     DBAdapter db;
+    SwitchCompat mDarkSwitch;
+    private PrefManager mPrefManager;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,6 +30,30 @@ public class SetSudokuSizeActivity extends AppCompatActivity implements View.OnC
         setSupportActionBar(toolbar);
 
         setupTutorialButton();
+
+        mPrefManager = new PrefManager(this);
+        // Key containing dark mode switch boolean value
+        final String themeSwitchKey = getString(R.string.theme_value_key);
+
+
+        //check for dark or light mode
+        boolean themeSwitchState = mPrefManager.loadSavedPreferences(this, themeSwitchKey);
+        mDarkSwitch = findViewById(R.id.darkSwitch);
+        // Restore the switch value to the previous setting
+        mDarkSwitch.setChecked(themeSwitchState);
+
+        mDarkSwitch.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (mDarkSwitch.isChecked()) {
+                    AppCompatDelegate.setDefaultNightMode((AppCompatDelegate.MODE_NIGHT_YES));
+                    mPrefManager.savePreferences(themeSwitchKey, true);
+                } else {
+                    AppCompatDelegate.setDefaultNightMode((AppCompatDelegate.MODE_NIGHT_NO));
+                    mPrefManager.savePreferences(themeSwitchKey, false);
+                }
+            }
+        });
 
         db = new DBAdapter(this);
         db.open();

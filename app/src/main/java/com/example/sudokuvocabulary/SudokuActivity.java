@@ -64,13 +64,16 @@ public class SudokuActivity extends AppCompatActivity implements View.OnClickLis
         mWords = getIntent().getStringArrayExtra(getString(R.string.words_key));
         mTranslations = getIntent().getStringArrayExtra(getString(R.string.translations_key));
 
-        mSudokuModel = new SudokuModel();
+        int subWidth = getIntent().getIntExtra(getString(R.string.sub_width_key), 3);
+        int subHeight = getIntent().getIntExtra(getString(R.string.sub_height_key), 3);
+
+        mSudokuModel = new SudokuModel(mWords.length, subWidth, subHeight, 5);
         mSudokuView = findViewById(R.id.sudokuGridView);
 
         // Set the words to draw on the grid and the dimensions of the grid
         mSudokuView.setInitialGrid(mSudokuModel.getGridAsMatrix(), mWords);
         // SetSudokuSize needs to pass different values to this via intent
-        mSudokuView.setSubGridDimensions(3, 3);
+        mSudokuView.setSubGridDimensions(subWidth, subHeight);
 
         mQuestionCard = findViewById(R.id.questionCardView);
         mQuestionCard.hide();

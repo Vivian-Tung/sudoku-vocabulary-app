@@ -3,7 +3,6 @@ package com.example.sudokuvocabulary;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -23,7 +22,6 @@ public class SetSudokuSizeActivity extends AppCompatActivity implements View.OnC
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        Log.d("SetSudokuSizeActivity", "onCreate Called!");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_set_sudoku_size);
 

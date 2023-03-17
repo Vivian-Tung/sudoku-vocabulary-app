@@ -2,6 +2,7 @@ package com.example.sudokuvocabulary;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
 import android.content.Context;
 import android.content.Intent;
@@ -9,6 +10,8 @@ import android.database.Cursor;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 
@@ -24,6 +27,12 @@ public class WordListsActivity extends AppCompatActivity implements View.OnClick
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_word_lists);
+
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        setupTutorialButton();
+        TextView timer = findViewById(R.id.TimerText);
+        timer.setVisibility(View.GONE);
 
         db = new DBAdapter(this);
         db.open();
@@ -82,5 +91,14 @@ public class WordListsActivity extends AppCompatActivity implements View.OnClick
     public void onDestroy() {
         super.onDestroy();
         db.close();
+    }
+
+    private void setupTutorialButton() {
+        ImageView tutorialBtn = findViewById(R.id.tutorialBtn);
+        tutorialBtn.setOnClickListener(view -> {
+
+            Intent intent = new Intent(WordListsActivity.this, TutorialActivity.class);
+            startActivity(intent);
+        });
     }
 }

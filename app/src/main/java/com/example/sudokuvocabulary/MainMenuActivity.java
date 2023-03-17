@@ -2,8 +2,10 @@ package com.example.sudokuvocabulary;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -23,8 +25,9 @@ public class MainMenuActivity extends AppCompatActivity {
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
         setupTutorialButton();
+        TextView timer = findViewById(R.id.TimerText);
+        timer.setVisibility(View.GONE);
 
         Button button1 = findViewById(R.id.main_menu_word_bank_button);
 

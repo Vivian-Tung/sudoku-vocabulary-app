@@ -1,7 +1,5 @@
 package com.example.sudokuvocabulary;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
@@ -10,7 +8,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 
-import androidx.appcompat.app.AppCompatDelegate;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SwitchCompat;
 import androidx.appcompat.widget.Toolbar;
 
@@ -20,38 +18,35 @@ public class SetSudokuSizeActivity extends AppCompatActivity implements View.OnC
     SwitchCompat mDarkSwitch;
     private PrefManager mPrefManager;
 
+    private String themeSwitchKey;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        Log.d("SetSudokuSizeActivity", "onCreate Called!");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_set_sudoku_size);
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
         setupTutorialButton();
 
         mPrefManager = new PrefManager(this);
-        // Key containing dark mode switch boolean value
-        final String themeSwitchKey = getString(R.string.theme_value_key);
 
+        // Key containing dark mode switch boolean value
+        themeSwitchKey = getString(R.string.theme_value_key);
 
         //check for dark or light mode
         boolean themeSwitchState = mPrefManager.loadSavedPreferences(this, themeSwitchKey);
-        mDarkSwitch = findViewById(R.id.darkSwitch);
+
         // Restore the switch value to the previous setting
+        mDarkSwitch = findViewById(R.id.darkSwitch);
         mDarkSwitch.setChecked(themeSwitchState);
 
-        mDarkSwitch.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (mDarkSwitch.isChecked()) {
-                    AppCompatDelegate.setDefaultNightMode((AppCompatDelegate.MODE_NIGHT_YES));
-                    mPrefManager.savePreferences(themeSwitchKey, true);
-                } else {
-                    AppCompatDelegate.setDefaultNightMode((AppCompatDelegate.MODE_NIGHT_NO));
-                    mPrefManager.savePreferences(themeSwitchKey, false);
-                }
+        mDarkSwitch.setOnCheckedChangeListener((compoundButton, themeSwitchState1) -> {
+            if (compoundButton.isPressed()) {
+                mPrefManager.savePreferences(themeSwitchKey, themeSwitchState1);
+                recreate();
             }
         });
 

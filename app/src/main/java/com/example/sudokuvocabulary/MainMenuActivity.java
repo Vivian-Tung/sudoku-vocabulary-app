@@ -3,19 +3,16 @@ package com.example.sudokuvocabulary;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
+import android.util.Log;
 import android.widget.Button;
-import android.widget.CompoundButton;
 import android.widget.ImageView;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.app.AppCompatDelegate;
 import androidx.appcompat.widget.SwitchCompat;
 import androidx.appcompat.widget.Toolbar;
 
 public class MainMenuActivity extends AppCompatActivity {
 
-    DBAdapter db;
     Button button1;
 
     private PrefManager mPrefManager;
@@ -29,9 +26,6 @@ public class MainMenuActivity extends AppCompatActivity {
         // Key containing dark mode switch boolean value
         final String themeSwitchKey = getString(R.string.theme_value_key);
 
-
-        db = new DBAdapter(this);
-        db.open();
 
         Button playButton = (Button) findViewById(R.id.main_menu_play_button);
         playButton.setOnClickListener(v -> {
@@ -50,16 +44,10 @@ public class MainMenuActivity extends AppCompatActivity {
         mDarkSwitch.setChecked(themeSwitchState);
 
         //trying to change the listener
-        mDarkSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton compoundButton, boolean themeSwitchState) {
-                if (themeSwitchState) {
-                    AppCompatDelegate.setDefaultNightMode((AppCompatDelegate.MODE_NIGHT_YES));
-                    mPrefManager.savePreferences(themeSwitchKey, true);
-                } else {
-                    AppCompatDelegate.setDefaultNightMode((AppCompatDelegate.MODE_NIGHT_NO));
-                    mPrefManager.savePreferences(themeSwitchKey, false);
-                }
+        mDarkSwitch.setOnCheckedChangeListener((compoundButton, themeSwitchState1) -> {
+            if (compoundButton.isPressed()) {
+                mPrefManager.savePreferences(themeSwitchKey, themeSwitchState1);
+                recreate();
             }
         });
 

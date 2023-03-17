@@ -55,26 +55,19 @@ public class SudokuActivity extends AppCompatActivity implements View.OnClickLis
         // Key containing dark mode switch boolean value
         final String themeSwitchKey = getString(R.string.theme_value_key);
 
-
         //check for dark or light mode
         boolean themeSwitchState = mPrefManager.loadSavedPreferences(this, themeSwitchKey);
         SwitchCompat mDarkSwitch = findViewById(R.id.darkSwitch);
+
         // Restore the switch value to the previous setting
         mDarkSwitch.setChecked(themeSwitchState);
 
-        mDarkSwitch.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (mDarkSwitch.isChecked()) {
-                    AppCompatDelegate.setDefaultNightMode((AppCompatDelegate.MODE_NIGHT_YES));
-                    mPrefManager.savePreferences(themeSwitchKey, true);
-                } else {
-                    AppCompatDelegate.setDefaultNightMode((AppCompatDelegate.MODE_NIGHT_NO));
-                    mPrefManager.savePreferences(themeSwitchKey, false);
-                }
+        mDarkSwitch.setOnCheckedChangeListener((compoundButton, switchState) -> {
+            if (compoundButton.isPressed()) {
+                mPrefManager.savePreferences(themeSwitchKey, switchState);
+                recreate();
             }
         });
-
 
         mSudokuModel = new SudokuModel();
         mSudokuView = findViewById(R.id.sudokuGridView);

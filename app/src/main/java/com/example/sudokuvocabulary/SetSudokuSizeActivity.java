@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SwitchCompat;
@@ -28,6 +29,8 @@ public class SetSudokuSizeActivity extends AppCompatActivity implements View.OnC
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         setupTutorialButton();
+        TextView timer = findViewById(R.id.TimerText);
+        timer.setVisibility(View.GONE);
 
         mPrefManager = new PrefManager(this);
 
@@ -109,5 +112,6 @@ public class SetSudokuSizeActivity extends AppCompatActivity implements View.OnC
         intent.putExtra(getString(R.string.sub_height_key), subHeight);
         startActivity(intent);
     }
+
 
 }

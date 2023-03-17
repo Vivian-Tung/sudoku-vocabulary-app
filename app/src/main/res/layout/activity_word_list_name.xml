@@ -1,39 +1,54 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:layout_gravity="center"
-    android:gravity="center"
     tools:context=".WordListNameActivity">
 
-    <TextView
-        android:id="@+id/add_word_text_view"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginVertical="20dp"
-        android:text="@string/activity_main_word_bank_text"
-        android:textSize="24sp"
-        android:textStyle="bold"/>
+    <include
+        android:id="@+id/toolbar"
+        layout="@layout/toolbar"/>
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/activity_word_list_name_prompt"/>
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:layout_gravity="center"
+        android:gravity="center"
+        tools:context=".WordListNameActivity">
 
-    <EditText
-        android:id="@+id/table_name_input"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:maxLines="1"
-        android:inputType="text"
-        android:hint="@string/activity_word_list_name_hint" />
+        <TextView
+            android:id="@+id/add_word_text_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginVertical="20dp"
+            android:text="@string/activity_main_word_bank_text"
+            android:textColor="@color/black"
+            android:textSize="24sp"
+            android:textStyle="bold"/>
 
-    <Button
-        android:id="@+id/confirm_name_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/activity_word_list_name_button" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/activity_word_list_name_prompt"
+            android:textColor="@color/black"/>
 
-</LinearLayout>
+        <EditText
+            android:id="@+id/table_name_input"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:maxLines="1"
+            android:inputType="text"
+            android:hint="@string/activity_word_list_name_hint" />
+
+        <Button
+            android:id="@+id/confirm_name_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/activity_word_list_name_button" />
+
+    </LinearLayout>
+
+</RelativeLayout>

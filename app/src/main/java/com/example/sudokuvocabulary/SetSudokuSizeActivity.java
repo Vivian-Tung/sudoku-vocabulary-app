@@ -76,20 +76,38 @@ public class SetSudokuSizeActivity extends AppCompatActivity implements View.OnC
 
     @Override
     public void onClick(View v) {
-        Cursor cursor  = db.getAllRows("animals");
-                WordDictionary dictionary = new WordDictionary();
-                while(!cursor.isAfterLast()) {
-                    String word = cursor.getString(
-                            cursor.getColumnIndexOrThrow("word"));
-                    String translation = cursor.getString(
-                            cursor.getColumnIndexOrThrow("translation"));
-                    dictionary.add(word, translation);
-                    cursor.moveToNext();
-                }
-                cursor.close();
-                Intent intent = WordListsActivity.newIntent(
-                        SetSudokuSizeActivity.this, dictionary);
-                startActivity(intent);
+        int size = 0;
+        switch (v.getId()) {
+            case R.id.btn_4x4:
+                size = 4;
+                break;
+            case R.id.btn_6x6:
+                size = 6;
+                break;
+            case R.id.btn_9x9:
+                size = 9;
+                break;
+            case R.id.btn_12x12:
+                size = 12;
+                break;
+        }
+        int subWidth = (int) Math.ceil(Math.sqrt(size));
+        int subHeight = (int) Math.floor(Math.sqrt(size));
+        Cursor cursor  = db.getAllRows("words");
+        WordDictionary dictionary = new WordDictionary();
+        while(cursor.moveToNext() && size-- > 0) {
+            String word = cursor.getString(
+                    cursor.getColumnIndexOrThrow("word"));
+            String translation = cursor.getString(
+                    cursor.getColumnIndexOrThrow("translation"));
+            dictionary.add(word, translation);
+        }
+        cursor.close();
+        Intent intent = WordListsActivity.newIntent(
+                SetSudokuSizeActivity.this, dictionary);
+        intent.putExtra(getString(R.string.sub_width_key), subWidth);
+        intent.putExtra(getString(R.string.sub_height_key), subHeight);
+        startActivity(intent);
     }
 
 }

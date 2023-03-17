@@ -59,16 +59,22 @@ public class WordListsActivity extends AppCompatActivity implements View.OnClick
         String tableName = (String) ((Button) view).getText();
         Cursor cursor  = db.getAllRows(tableName);
         WordDictionary dictionary = new WordDictionary();
-        while(!cursor.isAfterLast()) {
+        while(cursor.moveToNext()) {
             String word = cursor.getString(
                     cursor.getColumnIndexOrThrow("word"));
             String translation = cursor.getString(
                     cursor.getColumnIndexOrThrow("translation"));
             dictionary.add(word, translation);
-            cursor.moveToNext();
         }
         cursor.close();
         Intent intent = newIntent(WordListsActivity.this, dictionary);
+        intent.putExtra(getString(R.string.size_key), dictionary.getLength());
+        intent.putExtra(getString(R.string.sub_width_key),
+            (int) Math.ceil(Math.sqrt(dictionary.getLength()))
+        );
+        intent.putExtra(getString(R.string.sub_height_key),
+                (int) Math.floor(Math.sqrt(dictionary.getLength()))
+        );
         startActivity(intent);
     }
 

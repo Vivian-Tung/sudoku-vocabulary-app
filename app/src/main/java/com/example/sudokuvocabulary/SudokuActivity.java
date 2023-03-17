@@ -4,13 +4,18 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
+import android.os.Message;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SwitchCompat;
 import androidx.appcompat.widget.Toolbar;
@@ -31,14 +36,32 @@ public class SudokuActivity extends AppCompatActivity implements View.OnClickLis
 
 
 
+    TextView TimerText;
+    TimerHelper timer;
+    double startTime = 0;
+
     @SuppressLint("ClickableViewAccessibility")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sudoku);
 
+
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        TimerText = (TextView) findViewById(R.id.TimerText);
+        if (savedInstanceState != null) {
+            startTime = savedInstanceState.getDouble(getString(R.string.time_key));
+        }
+        timer = new TimerHelper(startTime, new Handler(Looper.myLooper()) {
+            @Override
+            public void handleMessage(@Nullable Message msg) {
+                super.handleMessage(msg);
+                TimerText.setText(timer.getTimerText());
+            }
+        });
 
         setupTutorialButton();
 
@@ -64,12 +87,16 @@ public class SudokuActivity extends AppCompatActivity implements View.OnClickLis
         });
 
         mSudokuModel = new SudokuModel();
+        int subWidth = getIntent().getIntExtra(getString(R.string.sub_width_key), 3);
+        int subHeight = getIntent().getIntExtra(getString(R.string.sub_height_key), 3);
+
+        mSudokuModel = new SudokuModel(mWords.length, subWidth, subHeight, 5);
         mSudokuView = findViewById(R.id.sudokuGridView);
 
         // Set the words to draw on the grid and the dimensions of the grid
         mSudokuView.setInitialGrid(mSudokuModel.getGridAsMatrix(), mWords);
         // SetSudokuSize needs to pass different values to this via intent
-        mSudokuView.setSubGridDimensions(3, 3);
+        mSudokuView.setSubGridDimensions(subWidth, subHeight);
 
         mQuestionCard = findViewById(R.id.questionCardView);
         mQuestionCard.hide();
@@ -97,6 +124,7 @@ public class SudokuActivity extends AppCompatActivity implements View.OnClickLis
             }
             return isValid;
         });
+        timer.start();
     }
 
     @Override
@@ -115,6 +143,7 @@ public class SudokuActivity extends AppCompatActivity implements View.OnClickLis
         mQuestionCard.setVisibility(View.GONE);
         Toast.makeText(this, toastMessage, Toast.LENGTH_SHORT).show();
         if (mSudokuModel.isGridFilled()) {
+            timer.stop();
             Intent intent = newIntent(
                     SudokuActivity.this, mWords, mTranslations);
             startActivity(intent);
@@ -129,6 +158,7 @@ public class SudokuActivity extends AppCompatActivity implements View.OnClickLis
         savedInstanceState.putInt(getString(R.string.cell_row_key), mCellRow);
         savedInstanceState.putInt(getString(R.string.cell_column_key), mCellColumn);
         savedInstanceState.putInt(getString(R.string.cell_value_key), mCellValue);
+        savedInstanceState.putDouble(getString(R.string.time_key), timer.getTime());
         savedInstanceState.putBoolean(KEY_POPUP_VISIBLE, (mQuestionCard.getVisibility() == View.VISIBLE));
         savedInstanceState.putStringArray(getString(R.string.words_key), mWords);
         savedInstanceState.putStringArray(getString(R.string.translations_key), mTranslations);
@@ -171,6 +201,7 @@ public class SudokuActivity extends AppCompatActivity implements View.OnClickLis
         Intent intent = new Intent(packageContext, GameCompleteActivity.class);
         intent.putExtra(getString(R.string.words_key), words);
         intent.putExtra(getString(R.string.translations_key), translations);
+        intent.putExtra(getString(R.string.time_key), timer.getTime());
         return intent;
     }
 

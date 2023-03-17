@@ -12,8 +12,6 @@ import androidx.appcompat.widget.Toolbar;
 
 public class MainMenuActivity extends AppCompatActivity {
 
-    Button button1;
-
     private PrefManager mPrefManager;
 
     @Override
@@ -52,6 +50,8 @@ public class MainMenuActivity extends AppCompatActivity {
 
         setupTutorialButton();
 
+        Button button1 = findViewById(R.id.main_menu_word_bank_button);
+
         button1=findViewById(R.id.main_menu_word_bank_button);
         button1.setOnClickListener(view -> {
             Intent intent = new Intent(MainMenuActivity.this, WordListsActivity.class);
@@ -71,7 +71,4 @@ public class MainMenuActivity extends AppCompatActivity {
             startActivity(intent);
         });
     }
-
-
-
 }

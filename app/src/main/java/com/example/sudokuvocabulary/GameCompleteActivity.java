@@ -4,9 +4,12 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Button;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+
+import java.util.concurrent.TimeUnit;
 
 public class GameCompleteActivity extends AppCompatActivity {
 
@@ -14,6 +17,7 @@ public class GameCompleteActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game_complete);
 
@@ -33,7 +37,19 @@ public class GameCompleteActivity extends AppCompatActivity {
             startActivity(intent);
         });
 
+        long duration = (long) getIntent().getDoubleExtra(
+                getString(R.string.time_key), 0);
 
+        TextView durationTextView = findViewById(R.id.duration_textview);
+
+        int minutes = (int)(duration / 60);
+        int seconds = (int) (duration % 60);
+
+        String timeText = "Time taken to complete: ";
+        if (minutes > 0) timeText += minutes + " minutes ";
+        timeText += seconds + " seconds";
+
+        durationTextView.setText(timeText);
     }
     @NonNull
     public Intent newIntent(Context packageContext, String[] words, String[] translations) {

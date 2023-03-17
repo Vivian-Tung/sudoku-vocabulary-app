@@ -32,6 +32,7 @@
     <string name="game_complete_home_button_text">Home</string>
     <string name="game_complete_restart_button_text">Play Again</string>
 
+    <string name="theme_value_key">"com.example.sudokuvocabulary.theme</string>
     <string name="new_table_name_key">com.example.android.sudokuvocabulary.listName</string>
     <string name="words_key">com.example.android.sudokuvocabulary.words</string>
     <string name="translations_key">com.example.android.sudokuvocabulary.translations</string>

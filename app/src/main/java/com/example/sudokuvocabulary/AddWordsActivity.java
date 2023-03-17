@@ -101,6 +101,13 @@ public class AddWordsActivity extends AppCompatActivity implements View.OnClickL
                     }
                     // Launch the sudoku game
                     intent = newIntent(AddWordsActivity.this, SudokuActivity.class);
+                    intent.putExtra(getString(R.string.size_key), wordsAdded.getLength());
+                    intent.putExtra(getString(R.string.sub_width_key),
+                            (int) Math.ceil(Math.sqrt(wordsAdded.getLength()))
+                    );
+                    intent.putExtra(getString(R.string.sub_height_key),
+                            (int) Math.floor(Math.sqrt(wordsAdded.getLength()))
+                    );
                 }
                 break;
             case R.id.display_list_button:

@@ -8,7 +8,9 @@ import static org.junit.Assert.assertTrue;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.Configuration;
 
+import androidx.appcompat.app.AppCompatDelegate;
 import androidx.test.core.app.ApplicationProvider;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 import androidx.test.filters.SdkSuppress;
@@ -265,6 +267,19 @@ public class MainMenuTest {
     @Test
     public void testDarkModeToggle() {
         try {
+            // Try to click the dark mode switch in main menu
+            assertTrue(clickSwitch(new UiSelector().resourceId(formatId("darkSwitch"))));
+
+            // Get the switch's current state
+            UiObject darkSwitch = device.findObject(new UiSelector()
+                    .resourceId(formatId("darkSwitch"))
+            );
+            boolean isChecked = darkSwitch.isChecked();
+
+            // Check if mode is correct
+            boolean isDark = AppCompatDelegate.getDefaultNightMode() ==
+                    AppCompatDelegate.MODE_NIGHT_YES;
+            assertEquals(isDark, isChecked);
         } catch (Exception e) {
             handleException(e);
         }
@@ -278,6 +293,14 @@ public class MainMenuTest {
             button.click();
         }
         return buttonIsValid;
+    }
+
+    private boolean clickSwitch(UiSelector selector) throws  UiObjectNotFoundException {
+        UiObject switchFound = device.findObject(selector);
+        if (switchFound.exists()) {
+            switchFound.click();
+        }
+        return switchFound.exists();
     }
 
     private boolean doesTextViewExist(UiSelector selector) {

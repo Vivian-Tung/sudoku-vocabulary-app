@@ -8,7 +8,6 @@ import static org.junit.Assert.assertTrue;
 
 import android.content.Context;
 import android.content.Intent;
-import android.content.res.Configuration;
 
 import androidx.appcompat.app.AppCompatDelegate;
 import androidx.test.core.app.ApplicationProvider;
@@ -22,7 +21,6 @@ import androidx.test.uiautomator.UiObjectNotFoundException;
 import androidx.test.uiautomator.UiSelector;
 import androidx.test.uiautomator.Until;
 
-import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;

@@ -144,13 +144,8 @@ public class DBAdapter {
     }
 
     public Cursor getAllRows(String tableName) {
-        String where = null;
-        Cursor c = 	db.query(true, tableName, ALL_KEYS,
-                where, null, null, null, null, null);
-        if (c != null) {
-            c.moveToFirst();
-        }
-        return c;
+        return db.query(true, tableName, ALL_KEYS,
+                null, null, null, null, null, null);
     }
 
     // Returns all available categories in word table as an ArrayList

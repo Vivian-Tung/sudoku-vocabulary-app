@@ -1,11 +1,15 @@
 package com.example.sudokuvocabulary;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.SwitchCompat;
+import androidx.appcompat.widget.Toolbar;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -15,6 +19,30 @@ public class DisplayListActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_display_list);
+
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        TextView timer = findViewById(R.id.TimerText);
+        timer.setVisibility(View.GONE);
+
+        PrefManager mPrefManager = new PrefManager(this);
+
+        // Key containing dark mode switch boolean value
+        String themeSwitchKey = getString(R.string.theme_value_key);
+
+        //check for dark or light mode
+        boolean themeSwitchState = mPrefManager.loadSavedPreferences(this, themeSwitchKey);
+
+        // Restore the switch value to the previous setting
+        SwitchCompat mDarkSwitch = findViewById(R.id.darkSwitch);
+        mDarkSwitch.setChecked(themeSwitchState);
+
+        mDarkSwitch.setOnCheckedChangeListener((compoundButton, themeSwitchState1) -> {
+            if (compoundButton.isPressed()) {
+                mPrefManager.savePreferences(themeSwitchKey, themeSwitchState1);
+                recreate();
+            }
+        });
 
         String tableName = getIntent().getStringExtra(getString(R.string.new_table_name_key));
         TextView activityTitle = findViewById(R.id.display_list_name_text);
@@ -26,7 +54,7 @@ public class DisplayListActivity extends AppCompatActivity {
                 getString(R.string.translations_key));
 
         WordDictionary dictionary = new WordDictionary(words, translations);
-        LinearLayout layout = findViewById(R.id.display_list_layout);
+        LinearLayout layout = findViewById(R.id.display_list_word_view);
 
         for (String word: dictionary.getWordsAsArray()) {
             TextView textView = new TextView(this);
@@ -34,14 +62,11 @@ public class DisplayListActivity extends AppCompatActivity {
                     ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
 
             textView.setText(word);
+            textView.setTextSize(24);
             layout.addView(textView);
         }
 
-        Button backButton = new Button(this);
-        backButton.setLayoutParams(new LinearLayout.LayoutParams(
-                ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
-        backButton.setText(getString(R.string.back_button_text));
-        layout.addView(backButton);
+        Button backButton = findViewById(R.id.display_list_back_button);
         backButton.setOnClickListener(view -> {
             String categoryKey = getString(R.string.category_key);
             Intent intent = new Intent(DisplayListActivity.this,

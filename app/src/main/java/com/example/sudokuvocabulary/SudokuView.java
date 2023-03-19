@@ -146,6 +146,17 @@ public class SudokuView extends View {
 
         for (int line = 0; line < mGridLength +1; line++) {
             // Check if current line is a major line, draw a thicker line if so
+            if (line % mSubGridHeight == 0) {
+                drawThickLine();
+            } else {
+                drawThinLine();
+            }
+            //Draw row lines
+            canvas.drawLine(0, mCellHeight *line, getWidth(), mCellHeight *line, mGridColourPaint);
+        }
+
+        for (int line = 0; line < mGridLength +1; line++) {
+            // Check if current line is a major line, draw a thicker line if so
             if (line % mSubGridWidth == 0) {
                 drawThickLine();
             } else {
@@ -153,8 +164,6 @@ public class SudokuView extends View {
             }
             // Draw column lines
             canvas.drawLine(mCellWidth *line, 0, mCellWidth * line, getHeight(), mGridColourPaint);
-            //Draw row lines
-            canvas.drawLine(0, mCellHeight *line, getWidth(), mCellHeight *line, mGridColourPaint);
         }
     }
 }

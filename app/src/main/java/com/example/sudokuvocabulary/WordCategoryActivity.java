@@ -5,8 +5,12 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.SwitchCompat;
+import androidx.appcompat.widget.Toolbar;
 
 import java.util.ArrayList;
 
@@ -20,6 +24,32 @@ public class WordCategoryActivity extends AppCompatActivity implements View.OnCl
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_word_category);
+
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        setupTutorialButton();
+        TextView timer = findViewById(R.id.TimerText);
+        timer.setVisibility(View.GONE);
+
+        PrefManager mPrefManager = new PrefManager(this);
+
+        // Key containing dark mode switch boolean value
+        String themeSwitchKey = getString(R.string.theme_value_key);
+
+        //check for dark or light mode
+        boolean themeSwitchState = mPrefManager.loadSavedPreferences(this, themeSwitchKey);
+
+        // Restore the switch value to the previous setting
+        SwitchCompat mDarkSwitch = findViewById(R.id.darkSwitch);
+        mDarkSwitch.setChecked(themeSwitchState);
+
+        mDarkSwitch.setOnCheckedChangeListener((compoundButton, themeSwitchState1) -> {
+            if (compoundButton.isPressed()) {
+                mPrefManager.savePreferences(themeSwitchKey, themeSwitchState1);
+                recreate();
+            }
+        });
+
         tableName = getIntent().getStringExtra(getString(R.string.new_table_name_key));
 
         db = new DBAdapter(this);
@@ -64,5 +94,14 @@ public class WordCategoryActivity extends AppCompatActivity implements View.OnCl
         categoryButton.setText(categoryName);
         categoryButton.setOnClickListener(this);
         buttonLayout.addView(categoryButton);
+    }
+
+    private void setupTutorialButton() {
+        ImageView tutorialBtn = findViewById(R.id.tutorialBtn);
+        tutorialBtn.setOnClickListener(view -> {
+
+            Intent intent = new Intent(WordCategoryActivity.this, TutorialActivity.class);
+            startActivity(intent);
+        });
     }
 }

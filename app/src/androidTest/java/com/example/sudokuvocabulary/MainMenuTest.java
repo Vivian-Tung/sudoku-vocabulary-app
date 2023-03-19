@@ -8,6 +8,7 @@ import static org.junit.Assert.assertTrue;
 
 import android.content.Context;
 import android.content.Intent;
+import android.view.accessibility.AccessibilityWindowInfo;
 
 import androidx.appcompat.app.AppCompatDelegate;
 import androidx.test.core.app.ApplicationProvider;
@@ -185,7 +186,7 @@ public class MainMenuTest {
             // Verify that we are in the word list name activity
             // by finding text input box and insert new word list name
             assertTrue(fillEditText(new UiSelector()
-                    .textContains("list name"),
+                    .resourceId(formatId("table_name_input")),
                     listName
             ));
 
@@ -312,6 +313,7 @@ public class MainMenuTest {
 
     private boolean fillEditText(UiSelector selector, String text) throws UiObjectNotFoundException
     {
+        device.pressBack();
         UiObject editable = findEditText(selector);
         boolean doesExist = editable.exists();
         if (doesExist) {
@@ -334,5 +336,14 @@ public class MainMenuTest {
 
     private String formatId(String id) {
         return APP_PACKAGE + ":id/" + id;
+    }
+
+    private boolean isKeyboardOpened() {
+        for (AccessibilityWindowInfo window: InstrumentationRegistry.getInstrumentation().getUiAutomation().getWindows()) {
+            if(window.getType()==AccessibilityWindowInfo.TYPE_INPUT_METHOD) {
+                return true;
+            }
+        }
+        return false;
     }
 }

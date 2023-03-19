@@ -262,6 +262,14 @@ public class MainMenuTest {
         }
     }
 
+    @Test
+    public void testDarkModeToggle() {
+        try {
+        } catch (Exception e) {
+            handleException(e);
+        }
+    }
+
 
     private boolean clickButton(UiSelector selector) throws UiObjectNotFoundException {
         UiObject button = device.findObject(selector.className("android.widget.Button"));

@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
@@ -13,6 +14,8 @@ import android.widget.ToggleButton;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.SwitchCompat;
+import androidx.appcompat.widget.Toolbar;
 
 import java.util.ArrayList;
 
@@ -29,6 +32,31 @@ public class AddWordsActivity extends AppCompatActivity implements View.OnClickL
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_words);
+
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        setupTutorialButton();
+        TextView timer = findViewById(R.id.TimerText);
+        timer.setVisibility(View.GONE);
+
+        PrefManager mPrefManager = new PrefManager(this);
+
+        // Key containing dark mode switch boolean value
+        String themeSwitchKey = getString(R.string.theme_value_key);
+
+        //check for dark or light mode
+        boolean themeSwitchState = mPrefManager.loadSavedPreferences(this, themeSwitchKey);
+
+        // Restore the switch value to the previous setting
+        SwitchCompat mDarkSwitch = findViewById(R.id.darkSwitch);
+        mDarkSwitch.setChecked(themeSwitchState);
+
+        mDarkSwitch.setOnCheckedChangeListener((compoundButton, themeSwitchState1) -> {
+            if (compoundButton.isPressed()) {
+                mPrefManager.savePreferences(themeSwitchKey, themeSwitchState1);
+                recreate();
+            }
+        });
 
         category = getIntent().getStringExtra(getString(R.string.category_key)).toLowerCase();
         TextView title = findViewById(R.id.category_title);
@@ -205,5 +233,14 @@ public class AddWordsActivity extends AppCompatActivity implements View.OnClickL
             }
         });
         return button;
+    }
+
+    private void setupTutorialButton() {
+        ImageView tutorialBtn = findViewById(R.id.tutorialBtn);
+        tutorialBtn.setOnClickListener(view -> {
+
+            Intent intent = new Intent(AddWordsActivity.this, TutorialActivity.class);
+            startActivity(intent);
+        });
     }
 }

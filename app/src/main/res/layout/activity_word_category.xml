@@ -22,7 +22,6 @@
             android:layout_height="wrap_content"
             android:layout_marginVertical="20dp"
             android:text="@string/activity_main_word_bank_text"
-            android:textColor="@color/black"
             android:textSize="24sp"
             android:textStyle="bold" />
 
@@ -32,7 +31,6 @@
             android:layout_height="wrap_content"
             android:layout_marginVertical="10dp"
             android:text="@string/activity_add_word_new_word_list"
-            android:textColor="@color/black"
             android:textSize="20sp"
             android:textStyle="bold" />
 

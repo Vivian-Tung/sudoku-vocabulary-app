@@ -51,6 +51,7 @@
     <string name="size_6x6">6x6</string>
     <string name="size_9x9">9x9</string>
     <string name="size_12x12">12x12</string>
+    <string name="display_list_label">List of words</string>
 
 
 </resources>

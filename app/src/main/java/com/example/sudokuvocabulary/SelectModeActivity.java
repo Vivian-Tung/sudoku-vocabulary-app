@@ -31,5 +31,14 @@ public class SelectModeActivity extends AppCompatActivity {
             );
             startActivity(intent);
         });
+
+        Button backButton = findViewById(R.id.select_mode_back_button);
+        backButton.setOnClickListener(view -> {
+            Intent intent = new Intent(
+                    SelectModeActivity.this,
+                    SetSudokuSizeActivity.class
+            );
+            startActivity(intent);
+        });
     }
 }

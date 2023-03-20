@@ -13,6 +13,9 @@ public class SelectModeActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_select_mode);
 
+        // Key to store mode selected,
+        // false = normal, true = listening
+        final String modeKey = getString(R.string.mode_key);
 
         Button normalMode = findViewById(R.id.select_mode_normal_button);
         normalMode.setOnClickListener(view -> {
@@ -20,6 +23,7 @@ public class SelectModeActivity extends AppCompatActivity {
                     SelectModeActivity.this,
                     SetSudokuSizeActivity.class
             );
+            intent.putExtra(modeKey, false);
             startActivity(intent);
         });
 
@@ -38,6 +42,7 @@ public class SelectModeActivity extends AppCompatActivity {
                     SelectModeActivity.this,
                     MainMenuActivity.class
             );
+            intent.putExtra(modeKey, true);
             startActivity(intent);
         });
     }

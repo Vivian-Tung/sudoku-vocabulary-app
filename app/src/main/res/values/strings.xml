@@ -51,6 +51,7 @@
     <string name="size_key">com.example.sudokuvocabulary.size</string>
     <string name="sub_width_key">com.example.sudokuvocabulary.subwidth</string>
     <string name="sub_height_key">com.example.sudokuvocabulary.subheight</string>
+    <string name="mode_key">com.example.sudokuvocabulary.mode</string>
 
     <string name="size_4x4">4x4</string>
     <string name="size_6x6">6x6</string>

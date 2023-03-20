@@ -18,7 +18,7 @@ public class SelectModeActivity extends AppCompatActivity {
         normalMode.setOnClickListener(view -> {
             Intent intent = new Intent(
                     SelectModeActivity.this,
-                    SudokuActivity.class
+                    SetSudokuSizeActivity.class
             );
             startActivity(intent);
         });
@@ -27,7 +27,7 @@ public class SelectModeActivity extends AppCompatActivity {
         listenMode.setOnClickListener(view -> {
             Intent intent = new Intent(
                     SelectModeActivity.this,
-                    SudokuActivity.class
+                    SetSudokuSizeActivity.class
             );
             startActivity(intent);
         });
@@ -36,7 +36,7 @@ public class SelectModeActivity extends AppCompatActivity {
         backButton.setOnClickListener(view -> {
             Intent intent = new Intent(
                     SelectModeActivity.this,
-                    SetSudokuSizeActivity.class
+                    MainMenuActivity.class
             );
             startActivity(intent);
         });

@@ -6,10 +6,12 @@ import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.Toolbar;
+import android.content.Context;
 
 public class ToolBarView extends Toolbar implements Toolbar.OnMenuItemClickListener {
     Toolbar toolbar;
@@ -31,6 +33,14 @@ public class ToolBarView extends Toolbar implements Toolbar.OnMenuItemClickListe
 
     @Override
     public boolean onMenuItemClick(MenuItem menuItem) {
+        //handle the actions
+        switch(menuItem.getItemId()) {
+            case R.id.tutorialBtn:
+                return true;
+
+        }
+
+
         return menuItem != null;
     }
 }

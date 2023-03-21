@@ -3,16 +3,21 @@ package com.example.sudokuvocabulary;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
-import android.content.res.Configuration;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
+import android.os.Message;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.SwitchCompat;
 import androidx.appcompat.widget.Toolbar;
 
 public class SudokuActivity extends AppCompatActivity implements View.OnClickListener {
@@ -27,49 +32,84 @@ public class SudokuActivity extends AppCompatActivity implements View.OnClickLis
     private static final String KEY_SOLUTION_AS_ARRAY = "solutionArray";
     private static final String KEY_NUM_OF_EMPTY_CELLS = "numOfCellsFilled";
     private static final String KEY_POPUP_VISIBLE = "popupVisible";
+    private PrefManager mPrefManager;
+
+
+
+    TextView TimerText;
+    TimerHelper timer;
+    double startTime = 0;
 
     @SuppressLint("ClickableViewAccessibility")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sudoku);
 
+
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        TimerText = (TextView) findViewById(R.id.TimerText);
+        if (savedInstanceState != null) {
+            startTime = savedInstanceState.getDouble(getString(R.string.time_key));
+        }
+        timer = new TimerHelper(startTime, new Handler(Looper.myLooper()) {
+            @Override
+            public void handleMessage(@Nullable Message msg) {
+                super.handleMessage(msg);
+                TimerText.setText(timer.getTimerText());
+            }
+        });
 
         setupTutorialButton();
 
         mWords = getIntent().getStringArrayExtra(getString(R.string.words_key));
         mTranslations = getIntent().getStringArrayExtra(getString(R.string.translations_key));
 
+        mPrefManager = new PrefManager(this);
+        // Key containing dark mode switch boolean value
+        final String themeSwitchKey = getString(R.string.theme_value_key);
+
+        //check for dark or light mode
+        boolean themeSwitchState = mPrefManager.loadSavedPreferences(this, themeSwitchKey);
+        SwitchCompat mDarkSwitch = findViewById(R.id.darkSwitch);
+
+        // Restore the switch value to the previous setting
+        mDarkSwitch.setChecked(themeSwitchState);
+
+        mDarkSwitch.setOnCheckedChangeListener((compoundButton, switchState) -> {
+            if (compoundButton.isPressed()) {
+                mPrefManager.savePreferences(themeSwitchKey, switchState);
+                recreate();
+            }
+        });
+
         mSudokuModel = new SudokuModel();
+        int subWidth = getIntent().getIntExtra(getString(R.string.sub_width_key), 3);
+        int subHeight = getIntent().getIntExtra(getString(R.string.sub_height_key), 3);
+
+        mSudokuModel = new SudokuModel(mWords.length, subWidth, subHeight, 5);
         mSudokuView = findViewById(R.id.sudokuGridView);
-        mSudokuView.setInitialGrid(mSudokuModel.getGridAsMatrix(), mWords, mTranslations);
+
+        // Set the words to draw on the grid and the dimensions of the grid
+        mSudokuView.setInitialGrid(mSudokuModel.getGridAsMatrix(), mWords);
+        // SetSudokuSize needs to pass different values to this via intent
+        mSudokuView.setSubGridDimensions(subWidth, subHeight);
 
         mQuestionCard = findViewById(R.id.questionCardView);
-        mQuestionCard.setNumberOfChoices(mSudokuModel.getGridLength());
-        mQuestionCard.setVisibility(View.GONE);
-
-        Button[] wordChoiceButtons = mQuestionCard.getWordChoiceButtons();
-        for (Button choice: wordChoiceButtons) {
-            choice.setOnClickListener(this);
-        }
+        mQuestionCard.hide();
 
         mSudokuView.setOnTouchListener((view, motionEvent) -> {
             boolean isValid = false;
             if (motionEvent.getAction() == MotionEvent.ACTION_DOWN
-                    && mQuestionCard.getVisibility() == View.GONE) {
-                int orientation = getResources().getConfiguration().orientation;
+                    && !mQuestionCard.isVisible()) {
 
-                if (orientation == Configuration.ORIENTATION_PORTRAIT) {
-                    mCellRow = (int) (Math.ceil(motionEvent.getY() / mSudokuView.getCellSize())) - 1;
-                    mCellColumn = (int) (Math.ceil(motionEvent.getX() / mSudokuView.getCellSize())) - 1;
-                } else if (orientation == Configuration.ORIENTATION_LANDSCAPE) {
-                    mCellRow = (int) (Math.ceil(motionEvent.getY() / mSudokuView.getCellSize())) - 1;
-                    mCellColumn = (int) ((Math.ceil(motionEvent.getX()) / mSudokuView.getCellSize()));
-                }
-
+                mCellRow = (int) (Math.ceil(motionEvent.getY() / mSudokuView.getCellHeight())) - 1;
+                mCellColumn = (int) ((Math.ceil(motionEvent.getX()) / mSudokuView.getCellWidth()));
                 mCellValue = mSudokuModel.getSolutionAt(mCellRow, mCellColumn);
+
                 if (mSudokuModel.cellNotEmpty(mCellRow, mCellColumn)) {
                     Toast.makeText(this, mWords[mCellValue-1], Toast.LENGTH_SHORT).show();
                     return true;
@@ -78,14 +118,13 @@ public class SudokuActivity extends AppCompatActivity implements View.OnClickLis
                 isValid = true;
 
                 mWordPrompt = mWords[mSudokuModel.getSolutionAt(mCellRow, mCellColumn)-1];
-                mQuestionCard.setWordPrompt(mWordPrompt);
-                mQuestionCard.setWordChoiceButtonsText(mTranslations);
-
-                mQuestionCard.invalidate();
-                mQuestionCard.setVisibility(View.VISIBLE);
+                mQuestionCard.setCard(mWordPrompt, mTranslations);
+                setButtonListeners(mQuestionCard.getWordChoiceButtons());
+                mQuestionCard.show();
             }
             return isValid;
         });
+        timer.start();
     }
 
     @Override
@@ -104,6 +143,7 @@ public class SudokuActivity extends AppCompatActivity implements View.OnClickLis
         mQuestionCard.setVisibility(View.GONE);
         Toast.makeText(this, toastMessage, Toast.LENGTH_SHORT).show();
         if (mSudokuModel.isGridFilled()) {
+            timer.stop();
             Intent intent = newIntent(
                     SudokuActivity.this, mWords, mTranslations);
             startActivity(intent);
@@ -115,6 +155,10 @@ public class SudokuActivity extends AppCompatActivity implements View.OnClickLis
         savedInstanceState.putIntArray(KEY_GRID_AS_ARRAY, mSudokuModel.getGridAsArray());
         savedInstanceState.putIntArray(KEY_SOLUTION_AS_ARRAY, mSudokuModel.getSolutionAsArray());
         savedInstanceState.putInt(KEY_NUM_OF_EMPTY_CELLS, mSudokuModel.getNumberOfEmptyCells());
+        savedInstanceState.putInt(getString(R.string.cell_row_key), mCellRow);
+        savedInstanceState.putInt(getString(R.string.cell_column_key), mCellColumn);
+        savedInstanceState.putInt(getString(R.string.cell_value_key), mCellValue);
+        savedInstanceState.putDouble(getString(R.string.time_key), timer.getTime());
         savedInstanceState.putBoolean(KEY_POPUP_VISIBLE, (mQuestionCard.getVisibility() == View.VISIBLE));
         savedInstanceState.putStringArray(getString(R.string.words_key), mWords);
         savedInstanceState.putStringArray(getString(R.string.translations_key), mTranslations);
@@ -142,12 +186,14 @@ public class SudokuActivity extends AppCompatActivity implements View.OnClickLis
                 savedInstanceState.getStringArray(getString(R.string.word_grid_key)));
         mSudokuView.setWordsToDraw(wordsToDraw);
 
+        mCellRow = savedInstanceState.getInt(getString(R.string.cell_row_key));
+        mCellColumn = savedInstanceState.getInt(getString(R.string.cell_column_key));
+        mCellValue = savedInstanceState.getInt(getString(R.string.cell_value_key));
+
         mQuestionCard = findViewById(R.id.questionCardView);
-        mQuestionCard.setWordPrompt(mWordPrompt);
-        mQuestionCard.setNumberOfChoices(mSudokuModel.getGridLength());
-        mQuestionCard.setWordChoiceButtonsText(mTranslations);
-        mQuestionCard.setVisibility(
-                (savedInstanceState.getBoolean(KEY_POPUP_VISIBLE))? View.VISIBLE:View.GONE);
+        mQuestionCard.setCard(mWordPrompt, mTranslations);
+        setButtonListeners(mQuestionCard.getWordChoiceButtons());
+        mQuestionCard.setVisibility(savedInstanceState.getBoolean(KEY_POPUP_VISIBLE));
     }
 
     @NonNull
@@ -155,6 +201,7 @@ public class SudokuActivity extends AppCompatActivity implements View.OnClickLis
         Intent intent = new Intent(packageContext, GameCompleteActivity.class);
         intent.putExtra(getString(R.string.words_key), words);
         intent.putExtra(getString(R.string.translations_key), translations);
+        intent.putExtra(getString(R.string.time_key), timer.getTime());
         return intent;
     }
 
@@ -170,5 +217,11 @@ public class SudokuActivity extends AppCompatActivity implements View.OnClickLis
             Intent intent = new Intent(SudokuActivity.this, TutorialActivity.class);
             startActivity(intent);
         });
+    }
+
+    private void setButtonListeners(Button[] buttons) {
+        for (Button button: buttons) {
+            button.setOnClickListener(this);
+        }
     }
 }

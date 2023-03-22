@@ -80,6 +80,7 @@ public class GameCompleteActivity extends AppCompatActivity {
 
         durationTextView.setText(timeText);
     }
+    // TODO: Configure newIntent to be able to launch both normal and listening mode
     @NonNull
     public Intent newIntent(Context packageContext, String[] words, String[] translations) {
         Intent intent = new Intent(packageContext, SudokuActivity.class);

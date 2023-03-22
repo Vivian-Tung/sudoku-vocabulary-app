@@ -52,6 +52,10 @@
     <string name="sub_width_key">com.example.sudokuvocabulary.subwidth</string>
     <string name="sub_height_key">com.example.sudokuvocabulary.subheight</string>
     <string name="mode_key">com.example.sudokuvocabulary.mode</string>
+    <string name="current_grid_key">com.example.sudokuvocabulary.gridAsArray</string>
+    <string name="solution_grid_key">com.example.sudokuvocabulary.solution</string>
+    <string name="cells_empty_key">com.example.sudokuvocabulary.cellsEmpty</string>
+    <string name="popup_visibility_key">com.example.sudokuvocabulary.popupVisible</string>
 
     <string name="size_4x4">4x4</string>
     <string name="size_6x6">6x6</string>

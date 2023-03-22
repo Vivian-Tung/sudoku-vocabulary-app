@@ -33,6 +33,7 @@ public class SelectModeActivity extends AppCompatActivity {
                     SelectModeActivity.this,
                     SetSudokuSizeActivity.class
             );
+            intent.putExtra(modeKey, true);
             startActivity(intent);
         });
 

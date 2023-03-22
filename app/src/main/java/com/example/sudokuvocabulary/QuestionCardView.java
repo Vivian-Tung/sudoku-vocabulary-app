@@ -77,6 +77,10 @@ public class QuestionCardView extends CardView {
 
     public Button[] getWordChoiceButtons() { return mWordChoiceButtons; }
 
+    public String getWordPrompt(){
+        return mQuestionPromptView.getText().toString();
+    }
+
     public void setNumberOfChoices(int numberOfChoices) {
         mNumberOfChoices = numberOfChoices;
     }

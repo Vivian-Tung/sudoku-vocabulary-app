@@ -19,7 +19,7 @@ import androidx.appcompat.widget.Toolbar;
 
 import java.util.ArrayList;
 
-public class AddWordsActivity extends AppCompatActivity implements View.OnClickListener {
+public class AddWordsActivity extends MenuForAllActivity implements View.OnClickListener {
     private static int NUM_ROWS = 8;
     private static final int NUM_COLS = 3;
     private WordDictionary words = new WordDictionary();
@@ -35,28 +35,28 @@ public class AddWordsActivity extends AppCompatActivity implements View.OnClickL
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        setupTutorialButton();
-        TextView timer = findViewById(R.id.TimerText);
-        timer.setVisibility(View.GONE);
-
-        PrefManager mPrefManager = new PrefManager(this);
-
-        // Key containing dark mode switch boolean value
-        String themeSwitchKey = getString(R.string.theme_value_key);
-
-        //check for dark or light mode
-        boolean themeSwitchState = mPrefManager.loadSavedPreferences(this, themeSwitchKey);
-
-        // Restore the switch value to the previous setting
-        SwitchCompat mDarkSwitch = findViewById(R.id.darkSwitch);
-        mDarkSwitch.setChecked(themeSwitchState);
-
-        mDarkSwitch.setOnCheckedChangeListener((compoundButton, themeSwitchState1) -> {
-            if (compoundButton.isPressed()) {
-                mPrefManager.savePreferences(themeSwitchKey, themeSwitchState1);
-                recreate();
-            }
-        });
+//        setupTutorialButton();
+//        TextView timer = findViewById(R.id.TimerText);
+//        timer.setVisibility(View.GONE);
+//
+//        PrefManager mPrefManager = new PrefManager(this);
+//
+//        // Key containing dark mode switch boolean value
+//        String themeSwitchKey = getString(R.string.theme_value_key);
+//
+//        //check for dark or light mode
+//        boolean themeSwitchState = mPrefManager.loadSavedPreferences(this, themeSwitchKey);
+//
+//        // Restore the switch value to the previous setting
+//        SwitchCompat mDarkSwitch = findViewById(R.id.darkSwitch);
+//        mDarkSwitch.setChecked(themeSwitchState);
+//
+//        mDarkSwitch.setOnCheckedChangeListener((compoundButton, themeSwitchState1) -> {
+//            if (compoundButton.isPressed()) {
+//                mPrefManager.savePreferences(themeSwitchKey, themeSwitchState1);
+//                recreate();
+//            }
+//        });
 
         category = getIntent().getStringExtra(getString(R.string.category_key)).toLowerCase();
         TextView title = findViewById(R.id.category_title);
@@ -235,12 +235,12 @@ public class AddWordsActivity extends AppCompatActivity implements View.OnClickL
         return button;
     }
 
-    private void setupTutorialButton() {
-        ImageView tutorialBtn = findViewById(R.id.tutorialBtn);
-        tutorialBtn.setOnClickListener(view -> {
-
-            Intent intent = new Intent(AddWordsActivity.this, TutorialActivity.class);
-            startActivity(intent);
-        });
-    }
+//    private void setupTutorialButton() {
+//        ImageView tutorialBtn = findViewById(R.id.tutorialBtn);
+//        tutorialBtn.setOnClickListener(view -> {
+//
+//            Intent intent = new Intent(AddWordsActivity.this, TutorialActivity.class);
+//            startActivity(intent);
+//        });
+//    }
 }

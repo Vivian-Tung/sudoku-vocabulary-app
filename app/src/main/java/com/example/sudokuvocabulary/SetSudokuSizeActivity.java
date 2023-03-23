@@ -12,7 +12,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SwitchCompat;
 import androidx.appcompat.widget.Toolbar;
 
-public class SetSudokuSizeActivity extends AppCompatActivity implements View.OnClickListener{
+public class SetSudokuSizeActivity extends MenuForAllActivity implements View.OnClickListener{
 
     DBAdapter db;
     SwitchCompat mDarkSwitch;
@@ -28,28 +28,28 @@ public class SetSudokuSizeActivity extends AppCompatActivity implements View.OnC
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        setupTutorialButton();
-        TextView timer = findViewById(R.id.TimerText);
-        timer.setVisibility(View.GONE);
-
-        mPrefManager = new PrefManager(this);
-
-        // Key containing dark mode switch boolean value
-        themeSwitchKey = getString(R.string.theme_value_key);
-
-        //check for dark or light mode
-        boolean themeSwitchState = mPrefManager.loadSavedPreferences(this, themeSwitchKey);
-
-        // Restore the switch value to the previous setting
-        mDarkSwitch = findViewById(R.id.darkSwitch);
-        mDarkSwitch.setChecked(themeSwitchState);
-
-        mDarkSwitch.setOnCheckedChangeListener((compoundButton, themeSwitchState1) -> {
-            if (compoundButton.isPressed()) {
-                mPrefManager.savePreferences(themeSwitchKey, themeSwitchState1);
-                recreate();
-            }
-        });
+//        setupTutorialButton();
+//        TextView timer = findViewById(R.id.TimerText);
+//        timer.setVisibility(View.GONE);
+//
+//        mPrefManager = new PrefManager(this);
+//
+//        // Key containing dark mode switch boolean value
+//        themeSwitchKey = getString(R.string.theme_value_key);
+//
+//        //check for dark or light mode
+//        boolean themeSwitchState = mPrefManager.loadSavedPreferences(this, themeSwitchKey);
+//
+//        // Restore the switch value to the previous setting
+//        mDarkSwitch = findViewById(R.id.darkSwitch);
+//        mDarkSwitch.setChecked(themeSwitchState);
+//
+//        mDarkSwitch.setOnCheckedChangeListener((compoundButton, themeSwitchState1) -> {
+//            if (compoundButton.isPressed()) {
+//                mPrefManager.savePreferences(themeSwitchKey, themeSwitchState1);
+//                recreate();
+//            }
+//        });
 
         db = new DBAdapter(this);
         db.open();
@@ -68,14 +68,14 @@ public class SetSudokuSizeActivity extends AppCompatActivity implements View.OnC
 
     }
 
-    private void setupTutorialButton() {
-        ImageView tutorialBtn = findViewById(R.id.tutorialBtn);
-        tutorialBtn.setOnClickListener(view -> {
-
-            Intent intent = new Intent(SetSudokuSizeActivity.this, TutorialActivity.class);
-            startActivity(intent);
-        });
-    }
+//    private void setupTutorialButton() {
+//        ImageView tutorialBtn = findViewById(R.id.tutorialBtn);
+//        tutorialBtn.setOnClickListener(view -> {
+//
+//            Intent intent = new Intent(SetSudokuSizeActivity.this, TutorialActivity.class);
+//            startActivity(intent);
+//        });
+//    }
 
     @Override
     public void onClick(View v) {

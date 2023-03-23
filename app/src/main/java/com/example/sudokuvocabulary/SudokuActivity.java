@@ -32,8 +32,6 @@ public class SudokuActivity extends MenuForAllActivity implements View.OnClickLi
     private static final String KEY_SOLUTION_AS_ARRAY = "solutionArray";
     private static final String KEY_NUM_OF_EMPTY_CELLS = "numOfCellsFilled";
     private static final String KEY_POPUP_VISIBLE = "popupVisible";
-    private PrefManager mPrefManager;
-
 
 
     TextView TimerText;
@@ -63,28 +61,9 @@ public class SudokuActivity extends MenuForAllActivity implements View.OnClickLi
 //            }
 //        });
 //
-//        setupTutorialButton();
 
         mWords = getIntent().getStringArrayExtra(getString(R.string.words_key));
         mTranslations = getIntent().getStringArrayExtra(getString(R.string.translations_key));
-
-//        mPrefManager = new PrefManager(this);
-//        // Key containing dark mode switch boolean value
-//        final String themeSwitchKey = getString(R.string.theme_value_key);
-//
-//        //check for dark or light mode
-//        boolean themeSwitchState = mPrefManager.loadSavedPreferences(this, themeSwitchKey);
-//        SwitchCompat mDarkSwitch = findViewById(R.id.darkSwitch);
-//
-//        // Restore the switch value to the previous setting
-//        mDarkSwitch.setChecked(themeSwitchState);
-//
-//        mDarkSwitch.setOnCheckedChangeListener((compoundButton, switchState) -> {
-//            if (compoundButton.isPressed()) {
-//                mPrefManager.savePreferences(themeSwitchKey, switchState);
-//                recreate();
-//            }
-//        });
 
         mSudokuModel = new SudokuModel();
         int subWidth = getIntent().getIntExtra(getString(R.string.sub_width_key), 3);
@@ -209,15 +188,6 @@ public class SudokuActivity extends MenuForAllActivity implements View.OnClickLi
         return mChoicePicked.equals(
                 mTranslations[mSudokuModel.getSolutionAt(mCellRow, mCellColumn)-1]);
     }
-
-//    private void setupTutorialButton() {
-//        ImageView tutorialBtn = findViewById(R.id.tutorialBtn);
-//        tutorialBtn.setOnClickListener(view -> {
-//
-//            Intent intent = new Intent(SudokuActivity.this, TutorialActivity.class);
-//            startActivity(intent);
-//        });
-//    }
 
     private void setButtonListeners(Button[] buttons) {
         for (Button button: buttons) {

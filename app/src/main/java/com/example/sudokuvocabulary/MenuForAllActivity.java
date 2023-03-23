@@ -1,5 +1,6 @@
 package com.example.sudokuvocabulary;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -14,6 +15,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SwitchCompat;
 
 public class MenuForAllActivity extends AppCompatActivity {
+    private Activity mCurrentActivity = null;
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater menuInflater = getMenuInflater();
@@ -22,6 +25,8 @@ public class MenuForAllActivity extends AppCompatActivity {
         menu.findItem(R.id.sunImg).setEnabled(false);
         menu.findItem(R.id.moonImg).setEnabled(false);
         menu.findItem(R.id.TimerText).setEnabled(false);
+
+        //hide tutorial when on the activity?TO-DO
 
         //handling dark switch action
         PrefManager mPrefManager = new PrefManager(this);
@@ -33,13 +38,14 @@ public class MenuForAllActivity extends AppCompatActivity {
         boolean themeSwitchState = mPrefManager.loadSavedPreferences(this, themeSwitchKey);
 
         // Restore the switch value to the previous setting
-        //MenuItem itemSwitch = menu.findItem(R.id.action_darkSwitch);
-        //itemSwitch.setActionView(R.layout.switch_item); //switch item layout;
+        MenuItem itemSwitch = menu.findItem(R.id.action_darkSwitch);
+        itemSwitch.setActionView(R.layout.switch_item); //switch item layout;
 
-        final Switch darkSwitch = (Switch) menu.findItem(R.id.action_darkSwitch).getActionView().findViewById(R.id.switchTemplate); //removed final
+        final Switch darkSwitch = (Switch) menu.findItem(R.id.action_darkSwitch).getActionView().findViewById(R.id.switchTemplate);
         darkSwitch.setChecked(themeSwitchState);
 
         //listener
+        // TO-DO: it switches it twice
         darkSwitch.setOnCheckedChangeListener((compoundButton, themeSwitchState1) -> {
             if (compoundButton.isPressed()) {
                 displayMessage("Switch is kinda janky");
@@ -47,7 +53,6 @@ public class MenuForAllActivity extends AppCompatActivity {
                 recreate();
             }
         });
-
         return true;
     }
 
@@ -56,13 +61,21 @@ public class MenuForAllActivity extends AppCompatActivity {
         switch (item.getItemId())
         {
             case R.id.action_tutorialBtn:
-                displayMessage("tutorial button clicked");
+                setupTutorialButton();
                 return true;
+
 
             default:
                 return super.onOptionsItemSelected(item);
         }
     }
+
+    //set up tutorial button
+    private void setupTutorialButton() {
+        Intent intent = new Intent(this, TutorialActivity.class);
+        startActivity(intent);
+    }
+
 
     //for testing out
     private void displayMessage(String message)
@@ -70,13 +83,4 @@ public class MenuForAllActivity extends AppCompatActivity {
         Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
     }
 
-    //to set up tutorial button
-//    private void setupTutorialButton() {
-//        ImageView tutorialBtn = findViewById(R.id.action_tutorialBtn);
-//        tutorialBtn.setOnClickListener(view -> {
-//
-//            Intent intent = new Intent(WordListNameActivity.this, TutorialActivity.class);
-//            startActivity(intent);
-//        });
-//    }
 }

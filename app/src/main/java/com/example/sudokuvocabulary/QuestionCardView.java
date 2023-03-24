@@ -54,8 +54,8 @@ public class QuestionCardView extends CardView {
             mWordChoiceButtons = newButtonArray(mNumberOfChoices);
             mButtonColumns = numberOfColumns(mNumberOfChoices);
             setTable();
-            setWordChoiceButtonsText(choices);
         }
+        setWordChoiceButtonsText(choices);
         this.invalidate();
     }
 

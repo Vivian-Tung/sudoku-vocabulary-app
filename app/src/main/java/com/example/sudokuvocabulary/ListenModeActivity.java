@@ -31,13 +31,10 @@ public class ListenModeActivity extends BaseSudokuActivity {
             String toastMessage;
 
             if (isCorrect()) {
-                if (mQuestionCard.getWordPrompt() == null) {
-                    mSudokuModel.setNumberOfEmptyCells(mSudokuModel.getNumberOfEmptyCells()-1);
-                } else {
+                if (mSudokuModel.getValueAt(mCellRow, mCellColumn) == 0) {
                     mSudokuModel.checkAndFillCellAt(mCellRow, mCellColumn, mCellValue);
                 }
                 mSudokuView.setWordToDrawAt(mCellRow, mCellColumn, mWords[mCellValue-1]);
-                mSudokuView.invalidate();
                 toastMessage = getString(R.string.game_correct_toast_text);
             } else {
                 toastMessage = getString(R.string.game_incorrect_toast_text);
@@ -65,7 +62,8 @@ public class ListenModeActivity extends BaseSudokuActivity {
 
     @Override
     protected boolean isCorrect() {
-        return mWords[mCellValue-1].equals(mChoicePicked);
+        String[] wordsToCompare = (mSudokuModel.getValueAt(mCellRow, mCellColumn) != 0) ? mWords : mTranslations;
+        return wordsToCompare[mCellValue-1].equals(mChoicePicked);
     }
 
     @Override

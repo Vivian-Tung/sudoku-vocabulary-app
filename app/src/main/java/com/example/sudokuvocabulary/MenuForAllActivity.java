@@ -1,6 +1,5 @@
 package com.example.sudokuvocabulary;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -9,13 +8,13 @@ import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.Switch;
 import android.widget.Toast;
+import android.widget.Toolbar;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SwitchCompat;
 
 public class MenuForAllActivity extends AppCompatActivity {
-    private Activity mCurrentActivity = null;
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -24,9 +23,7 @@ public class MenuForAllActivity extends AppCompatActivity {
         //disable these icons (bc not actual buttons)
         menu.findItem(R.id.sunImg).setEnabled(false);
         menu.findItem(R.id.moonImg).setEnabled(false);
-        menu.findItem(R.id.TimerText).setEnabled(false);
-
-        //hide tutorial when on the activity?TO-DO
+        //menu.findItem(R.id.TimerText).setEnabled(false);
 
         //handling dark switch action
         PrefManager mPrefManager = new PrefManager(this);
@@ -41,11 +38,11 @@ public class MenuForAllActivity extends AppCompatActivity {
         MenuItem itemSwitch = menu.findItem(R.id.action_darkSwitch);
         itemSwitch.setActionView(R.layout.switch_item); //switch item layout;
 
-        final Switch darkSwitch = (Switch) menu.findItem(R.id.action_darkSwitch).getActionView().findViewById(R.id.switchTemplate);
+        final Switch darkSwitch = (Switch) menu.findItem(R.id.action_darkSwitch).getActionView().findViewById(R.id.switchTemplate); //removed final
         darkSwitch.setChecked(themeSwitchState);
 
         //listener
-        // TO-DO: it switches it twice
+        //TODO: need to fix the switch, keeps switching twice
         darkSwitch.setOnCheckedChangeListener((compoundButton, themeSwitchState1) -> {
             if (compoundButton.isPressed()) {
                 displayMessage("Switch is kinda janky");
@@ -53,6 +50,7 @@ public class MenuForAllActivity extends AppCompatActivity {
                 recreate();
             }
         });
+
         return true;
     }
 
@@ -61,26 +59,22 @@ public class MenuForAllActivity extends AppCompatActivity {
         switch (item.getItemId())
         {
             case R.id.action_tutorialBtn:
-                setupTutorialButton();
+                displayMessage("tutorial button clicked");
+                Intent intent = new Intent(this, TutorialActivity.class);
+                startActivity(intent);
+                invalidateOptionsMenu();
                 return true;
-
 
             default:
                 return super.onOptionsItemSelected(item);
         }
     }
 
-    //set up tutorial button
-    private void setupTutorialButton() {
-        Intent intent = new Intent(this, TutorialActivity.class);
-        startActivity(intent);
-    }
-
-
     //for testing out
     private void displayMessage(String message)
     {
         Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
     }
+
 
 }

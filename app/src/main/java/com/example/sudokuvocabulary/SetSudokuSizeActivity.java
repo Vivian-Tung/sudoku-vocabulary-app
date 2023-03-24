@@ -16,7 +16,6 @@ public class SetSudokuSizeActivity extends MenuForAllActivity implements View.On
 
     DBAdapter db;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -24,9 +23,6 @@ public class SetSudokuSizeActivity extends MenuForAllActivity implements View.On
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-//        setupTutorialButton();
-//        TextView timer = findViewById(R.id.TimerText);
-//        timer.setVisibility(View.GONE);
 
         db = new DBAdapter(this);
         db.open();
@@ -44,15 +40,6 @@ public class SetSudokuSizeActivity extends MenuForAllActivity implements View.On
         btn_12x12.setOnClickListener(this);
 
     }
-
-//    private void setupTutorialButton() {
-//        ImageView tutorialBtn = findViewById(R.id.tutorialBtn);
-//        tutorialBtn.setOnClickListener(view -> {
-//
-//            Intent intent = new Intent(SetSudokuSizeActivity.this, TutorialActivity.class);
-//            startActivity(intent);
-//        });
-//    }
 
     @Override
     public void onClick(View v) {

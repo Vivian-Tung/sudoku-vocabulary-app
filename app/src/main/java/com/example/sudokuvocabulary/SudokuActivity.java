@@ -32,6 +32,8 @@ public class SudokuActivity extends MenuForAllActivity implements View.OnClickLi
     private static final String KEY_SOLUTION_AS_ARRAY = "solutionArray";
     private static final String KEY_NUM_OF_EMPTY_CELLS = "numOfCellsFilled";
     private static final String KEY_POPUP_VISIBLE = "popupVisible";
+    //private PrefManager mPrefManager;
+
 
 
     TextView TimerText;
@@ -49,18 +51,19 @@ public class SudokuActivity extends MenuForAllActivity implements View.OnClickLi
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-//        TimerText = (TextView) findViewById(R.id.TimerText);
-//        if (savedInstanceState != null) {
-//            startTime = savedInstanceState.getDouble(getString(R.string.time_key));
-//        }
-//        timer = new TimerHelper(startTime, new Handler(Looper.myLooper()) {
-//            @Override
-//            public void handleMessage(@Nullable Message msg) {
-//                super.handleMessage(msg);
-//                TimerText.setText(timer.getTimerText());
-//            }
-//        });
-//
+        TimerText = (TextView) findViewById(R.id.TimerText);
+        if (savedInstanceState != null) {
+            startTime = savedInstanceState.getDouble(getString(R.string.time_key));
+        }
+        timer = new TimerHelper(startTime, new Handler(Looper.myLooper()) {
+            @Override
+            public void handleMessage(@Nullable Message msg) {
+                super.handleMessage(msg);
+                TimerText.setText(timer.getTimerText());
+            }
+        });
+
+//        setupTutorialButton();
 
         mWords = getIntent().getStringArrayExtra(getString(R.string.words_key));
         mTranslations = getIntent().getStringArrayExtra(getString(R.string.translations_key));
@@ -188,6 +191,7 @@ public class SudokuActivity extends MenuForAllActivity implements View.OnClickLi
         return mChoicePicked.equals(
                 mTranslations[mSudokuModel.getSolutionAt(mCellRow, mCellColumn)-1]);
     }
+
 
     private void setButtonListeners(Button[] buttons) {
         for (Button button: buttons) {

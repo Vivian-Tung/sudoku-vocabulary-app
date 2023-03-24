@@ -3,13 +3,6 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
-        android:id="@+id/TimerText"
-        android:title="TimerText"
-        android:text="00:00:00"
-        android:textSize="30sp"
-        app:showAsAction="always"/>
-
-    <item
         android:id="@+id/sunImg"
         android:title="sun"
         android:icon="@drawable/ic_baseline_wb_sunny_24"

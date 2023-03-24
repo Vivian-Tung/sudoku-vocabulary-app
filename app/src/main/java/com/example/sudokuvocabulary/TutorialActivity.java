@@ -21,9 +21,9 @@ public class TutorialActivity extends MenuForAllActivity {
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-//        TextView timer = findViewById(R.id.TimerText);
-//        timer.setVisibility(View.GONE);
+        //TODO: try to hide the question mark icon when we are IN the tutorial activity to prevent endless stacks of tutorial activity
 
     }
+
 
 }

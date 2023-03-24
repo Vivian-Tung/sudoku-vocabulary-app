@@ -31,10 +31,6 @@ public class WordListsActivity extends MenuForAllActivity implements View.OnClic
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-//        TextView timer = findViewById(R.id.TimerText);
-//        timer.setVisibility(View.GONE);
-//
-
 
         db = new DBAdapter(this);
         db.open();
@@ -94,4 +90,5 @@ public class WordListsActivity extends MenuForAllActivity implements View.OnClic
         super.onDestroy();
         db.close();
     }
+
 }

@@ -44,6 +44,7 @@ public class ListenModeActivity extends BaseSudokuActivity {
             if (mSudokuModel.isGridFilled()) {
                 timer.stop();
                 Intent intent = newIntent(view.getContext(), mWords, mTranslations);
+                intent.putExtra(getString(R.string.mode_key), true);
                 startActivity(intent);
             }
         };

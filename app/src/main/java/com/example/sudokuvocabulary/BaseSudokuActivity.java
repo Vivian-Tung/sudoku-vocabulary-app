@@ -85,7 +85,6 @@ public abstract class BaseSudokuActivity extends AppCompatActivity implements Vi
 
         // Set the words to draw on the grid and the dimensions of the grid
         initializeGrid();
-        // SetSudokuSize needs to pass different values to this via intent
         mSudokuView.setSubGridDimensions(subWidth, subHeight);
 
         mQuestionCard = findViewById(R.id.questionCardView);

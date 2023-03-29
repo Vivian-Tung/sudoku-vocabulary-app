@@ -10,23 +10,19 @@ import android.os.Message;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.SwitchCompat;
 import androidx.appcompat.widget.Toolbar;
 
-public abstract class BaseSudokuActivity extends AppCompatActivity implements View.OnTouchListener {
+public abstract class BaseSudokuActivity extends MenuForAllActivity implements View.OnTouchListener {
     protected QuestionCardView mQuestionCard;
     protected SudokuView mSudokuView;
     protected SudokuModel mSudokuModel;
     protected String[] mWords, mTranslations;
     protected int mCellRow=0, mCellColumn=0, mCellValue=0;
     protected String mWordPrompt, mChoicePicked;
-    protected PrefManager mPrefManager;
     protected TextView TimerText;
     protected TimerHelper timer;
     protected double startTime = 0;
@@ -53,28 +49,8 @@ public abstract class BaseSudokuActivity extends AppCompatActivity implements Vi
             }
         });
 
-        setupTutorialButton(this);
-
         mWords = getIntent().getStringArrayExtra(getString(R.string.words_key));
         mTranslations = getIntent().getStringArrayExtra(getString(R.string.translations_key));
-
-        mPrefManager = new PrefManager(this);
-        // Key containing dark mode switch boolean value
-        final String themeSwitchKey = getString(R.string.theme_value_key);
-
-        //check for dark or light mode
-        boolean themeSwitchState = mPrefManager.loadSavedPreferences(this, themeSwitchKey);
-        SwitchCompat mDarkSwitch = findViewById(R.id.darkSwitch);
-
-        // Restore the switch value to the previous setting
-        mDarkSwitch.setChecked(themeSwitchState);
-
-        mDarkSwitch.setOnCheckedChangeListener((compoundButton, switchState) -> {
-            if (compoundButton.isPressed()) {
-                mPrefManager.savePreferences(themeSwitchKey, switchState);
-                recreate();
-            }
-        });
 
         mSudokuModel = new SudokuModel();
         int subWidth = getIntent().getIntExtra(getString(R.string.sub_width_key), 3);
@@ -177,15 +153,6 @@ public abstract class BaseSudokuActivity extends AppCompatActivity implements Vi
     protected abstract boolean isCorrect();
 
     protected abstract void onCellNotEmpty(int cellValue);
-
-    protected void setupTutorialButton(Context context) {
-        ImageView tutorialBtn = findViewById(R.id.tutorialBtn);
-        tutorialBtn.setOnClickListener(view -> {
-
-            Intent intent = new Intent(context, TutorialActivity.class);
-            startActivity(intent);
-        });
-    }
 
     private void setButtonListeners(Button[] buttons) {
         for (Button button: buttons) {

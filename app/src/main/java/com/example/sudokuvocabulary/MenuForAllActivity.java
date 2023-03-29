@@ -16,6 +16,7 @@ import androidx.appcompat.widget.SwitchCompat;
 
 public class MenuForAllActivity extends AppCompatActivity {
 
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater menuInflater = getMenuInflater();
@@ -51,18 +52,19 @@ public class MenuForAllActivity extends AppCompatActivity {
             }
         });
 
+
+
         return true;
     }
+
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId())
         {
             case R.id.action_tutorialBtn:
-                displayMessage("tutorial button clicked");
                 Intent intent = new Intent(this, TutorialActivity.class);
                 startActivity(intent);
-                invalidateOptionsMenu();
                 return true;
 
             default:

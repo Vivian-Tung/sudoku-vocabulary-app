@@ -7,6 +7,9 @@ import androidx.appcompat.widget.Toolbar;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -15,15 +18,21 @@ import android.widget.TextView;
 public class TutorialActivity extends MenuForAllActivity {
 
     @Override
+    public boolean onPrepareOptionsMenu(Menu menu) {
+        super.onPrepareOptionsMenu(menu);
+        if (menu.findItem(R.id.action_tutorialBtn) != null) {
+            menu.findItem(R.id.action_tutorialBtn).setVisible(false);
+            return true;
+        }
+        return false;
+    }
+
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.tutorial);
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        //TODO: try to hide the question mark icon when we are IN the tutorial activity to prevent endless stacks of tutorial activity
-
     }
-
-
 }

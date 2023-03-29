@@ -107,13 +107,15 @@ public class MainMenuTest {
      * the main menu through the 'Play' button.
      */
     @Test
-    @Ignore // TODO: fix this test to work with new mode select menu
     public void launchGameFromMainMenu() {
         try {
             // Attempt to find the play button to launch the next activity
             assertTrue(clickButton(new UiSelector()
                     .resourceId(formatId("main_menu_play_button"))
             ));
+
+            // Try to click the normal mode button
+            assertTrue(clickButton(new UiSelector().textContains("normal")));
 
             // Check that the SetSudokuSize activity has been opened
             assertTrue(doesTextViewExist(new UiSelector()

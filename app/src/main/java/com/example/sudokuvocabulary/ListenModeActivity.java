@@ -71,6 +71,8 @@ public class ListenModeActivity extends BaseSudokuActivity {
     protected void onCellNotEmpty(int cellValue) {
         // Checks if the cell has already been solved
         if (Character.isLetter(mSudokuView.getWordToDrawAt(mCellRow, mCellColumn).charAt(0))) {
+            // Show a toast with the full word
+            Toast.makeText(this, mWords[cellValue-1], Toast.LENGTH_SHORT).show();
             return;
         }
         mQuestionCard.setCard(null, mWords);

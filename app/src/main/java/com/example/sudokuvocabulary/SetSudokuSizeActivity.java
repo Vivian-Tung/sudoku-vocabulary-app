@@ -70,8 +70,15 @@ public class SetSudokuSizeActivity extends MenuForAllActivity implements View.On
             dictionary.add(word, translation);
         }
         cursor.close();
-        Intent intent = WordListsActivity.newIntent(
-                SetSudokuSizeActivity.this, dictionary);
+        Intent intent;
+        if (getIntent().getBooleanExtra(getString(R.string.mode_key), false)) {
+            intent = new Intent(this, ListenModeActivity.class);
+            intent.putExtra(getString(R.string.words_key), dictionary.getWordsAsArray());
+            intent.putExtra(getString(R.string.translations_key), dictionary.getTranslationsAsArray());
+        } else {
+            intent = WordListsActivity.newIntent(
+                    SetSudokuSizeActivity.this, dictionary);
+        }
         intent.putExtra(getString(R.string.sub_width_key), subWidth);
         intent.putExtra(getString(R.string.sub_height_key), subHeight);
         startActivity(intent);

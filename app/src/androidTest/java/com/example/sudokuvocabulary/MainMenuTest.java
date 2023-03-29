@@ -287,6 +287,25 @@ public class MainMenuTest {
         }
     }
 
+    @Test
+    public void testListeningComprehensionMode() {
+        try {
+            // Try to click the play button in the main menu
+            assertTrue(clickButton(new UiSelector().textContains("Play")));
+
+            // Try to click the listening mode button
+            assertTrue(clickButton(new UiSelector().textContains("Listen")));
+
+            // Try to select the 9x9 size button
+            assertTrue(clickButton(new UiSelector().textContains("9x9")));
+
+            // Check that the Sudoku board is open
+            assertTrue(sudokuBoardIsActive(new UiSelector()));
+        } catch (Exception e) {
+            handleException(e);
+        }
+    }
+
 
     private boolean clickButton(UiSelector selector) throws UiObjectNotFoundException {
         UiObject button = device.findObject(selector.className("android.widget.Button"));

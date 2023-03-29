@@ -53,16 +53,22 @@ public class GameCompleteActivity extends AppCompatActivity {
         mWords = getIntent().getStringArrayExtra(getString(R.string.words_key));
         mTranslations = getIntent().getStringArrayExtra(getString(R.string.translations_key));
 
-        Button homeButton = (Button) findViewById(R.id.home_button);
+        Button homeButton = findViewById(R.id.home_button);
         homeButton.setOnClickListener(view -> {
             Intent intent = new Intent(GameCompleteActivity.this, MainMenuActivity.class);
             startActivity(intent);
         });
 
-        Button restartButton = (Button) findViewById(R.id.restart_button);
+        Button restartButton = findViewById(R.id.restart_button);
         restartButton.setOnClickListener(view -> {
-            Intent intent = newIntent(
-                    GameCompleteActivity.this, mWords, mTranslations);
+            Intent intent;
+            if (getIntent().getBooleanExtra(getString(R.string.mode_key), false)) {
+                intent = new Intent(this, ListenModeActivity.class);
+            } else {
+                intent = new Intent(GameCompleteActivity.this, SudokuActivity.class);
+            }
+            intent.putExtra(getString(R.string.words_key), mWords);
+            intent.putExtra(getString(R.string.translations_key), mTranslations);
             startActivity(intent);
         });
 
@@ -80,6 +86,7 @@ public class GameCompleteActivity extends AppCompatActivity {
 
         durationTextView.setText(timeText);
     }
+    // TODO: Configure newIntent to be able to launch both normal and listening mode
     @NonNull
     public Intent newIntent(Context packageContext, String[] words, String[] translations) {
         Intent intent = new Intent(packageContext, SudokuActivity.class);

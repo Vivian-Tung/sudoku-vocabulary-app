@@ -107,6 +107,7 @@ public class SudokuView extends View {
 
     public void setWordToDrawAt(int row, int column, String word) {
         mWordsToDraw[row][column] = word;
+        this.invalidate();
     }
 
     public void setWordsToDraw(String[][] wordsToDraw) {

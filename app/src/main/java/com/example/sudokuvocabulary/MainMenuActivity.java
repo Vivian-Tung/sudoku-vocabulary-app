@@ -18,9 +18,9 @@ public class MainMenuActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_menu);
 
-        Button playButton = (Button) findViewById(R.id.main_menu_play_button);
+        Button playButton = findViewById(R.id.main_menu_play_button);
         playButton.setOnClickListener(v -> {
-            Intent intent = new Intent (MainMenuActivity.this, SetSudokuSizeActivity.class);
+            Intent intent = new Intent (MainMenuActivity.this, SelectModeActivity.class);
             startActivity(intent);
         });
 

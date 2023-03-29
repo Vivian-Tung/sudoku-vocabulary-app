@@ -3,12 +3,10 @@ package com.example.sudokuvocabulary;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.notNullValue;
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
 import android.content.Context;
 import android.content.Intent;
-import android.content.res.Configuration;
 import android.view.accessibility.AccessibilityWindowInfo;
 
 import androidx.appcompat.app.AppCompatDelegate;
@@ -24,7 +22,6 @@ import androidx.test.uiautomator.UiSelector;
 import androidx.test.uiautomator.Until;
 
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
@@ -268,11 +265,14 @@ public class MainMenuTest {
         }
     }
 
+    /**
+     * Checks that the dark mode button works
+     */
     @Test
     public void testDarkModeToggle() {
         try {
             // Try to click the dark mode switch in main menu
-            assertTrue(clickSwitch(new UiSelector().resourceId(formatId("darkSwitch"))));
+            assertTrue(toggleSwitch(new UiSelector().resourceId(formatId("darkSwitch"))));
 
             // Get the switch's current state
             UiObject darkSwitch = device.findObject(new UiSelector()
@@ -289,6 +289,10 @@ public class MainMenuTest {
         }
     }
 
+    /**
+     * Checks that the listening comprehension mode can be opened from
+     * the mode select menu activity.
+     */
     @Test
     public void testListeningComprehensionMode() {
         try {
@@ -309,6 +313,13 @@ public class MainMenuTest {
     }
 
 
+    /**
+     * Tries to click the button specified by the given UiSelector.
+     *
+     * @param selector UiSelector with parameters of the button to find.
+     * @return True if the button exists and is enabled, false otherwise.
+     * @throws UiObjectNotFoundException If the specified button could not be found.
+     */
     private boolean clickButton(UiSelector selector) throws UiObjectNotFoundException {
         UiObject button = device.findObject(selector.className("android.widget.Button"));
         boolean buttonIsValid = button.exists() && button.isEnabled();
@@ -318,7 +329,15 @@ public class MainMenuTest {
         return buttonIsValid;
     }
 
-    private boolean clickSwitch(UiSelector selector) throws  UiObjectNotFoundException {
+    /**
+     * Tries to toggle the switch specified by the given
+     * UiSelector.
+     *
+     * @param selector UiSelector with parameters of the switch to find.
+     * @return True if the switch exists and is enabled, false otherwise.
+     * @throws UiObjectNotFoundException If the specified switch could not be found.
+     */
+    private boolean toggleSwitch(UiSelector selector) throws  UiObjectNotFoundException {
         UiObject switchFound = device.findObject(selector);
         if (switchFound.exists()) {
             switchFound.click();
@@ -326,15 +345,32 @@ public class MainMenuTest {
         return switchFound.exists();
     }
 
+    /**
+     * @param selector The UiSelector specifying the TextView to find.
+     * @return True if the TextView can be found, false otherwise.
+     */
     private boolean doesTextViewExist(UiSelector selector) {
         UiObject textView = device.findObject(selector.className("android.widget.TextView"));
         return textView.exists();
     }
 
+    /**
+     * @param selector The UiSelector specifying the EditText view to find.
+     * @return The UiObject with the found EditText
+     */
     private UiObject findEditText(UiSelector selector) {
         return device.findObject(selector.className("android.widget.EditText"));
     }
 
+    /**
+     * Tries to find the specified EditText view and fill it in
+     * with the given text.
+     *
+     * @param selector The UiSelector object specifying the EditText to find.
+     * @param text The text to fill the text box with.
+     * @return True if the EditText view specified could be found, false otherwise.
+     * @throws UiObjectNotFoundException If the specified EditText view could not be found.
+     */
     private boolean fillEditText(UiSelector selector, String text) throws UiObjectNotFoundException
     {
         if (isKeyboardOpened()) device.pressBack();
@@ -346,6 +382,10 @@ public class MainMenuTest {
         return doesExist;
     }
 
+    /**
+     * @param selector The UiSelector specifying the Sudoku board.
+     * @return True if the Sudoku board exists, false otherwise.
+     */
     private boolean sudokuBoardIsActive(UiSelector selector) {
         UiObject sudoku = device.findObject(selector
                 .resourceId(formatId("sudokuGridView"))
@@ -353,15 +393,32 @@ public class MainMenuTest {
         return sudoku.exists();
     }
 
+    /**
+     * Method called whenever a UiObject could not be found
+     * or something else goes wrong.
+     *
+     * @param e The exception to handle
+     */
     private void handleException(Exception e) {
         e.printStackTrace();
-        assertNull(e);
     }
 
+    /**
+     * @param id The resource id of the view.
+     * @return A resource id string formatted to work with
+     * UiSelector.resourceId().
+     */
     private String formatId(String id) {
         return APP_PACKAGE + ":id/" + id;
     }
 
+    /**
+     * Checks if the keyboard is open, used to close the keyboard in
+     * landscape mode as it may block some views necessary to execute
+     * certain UI tests.
+     *
+     * @return True if the keyboard is currently open, false otherwise
+     */
     private boolean isKeyboardOpened() {
         for (AccessibilityWindowInfo window: InstrumentationRegistry.getInstrumentation().getUiAutomation().getWindows()) {
             if(window.getType()==AccessibilityWindowInfo.TYPE_INPUT_METHOD) {

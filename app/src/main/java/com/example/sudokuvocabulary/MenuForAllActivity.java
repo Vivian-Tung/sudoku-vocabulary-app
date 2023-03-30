@@ -39,7 +39,7 @@ public class MenuForAllActivity extends AppCompatActivity {
         MenuItem itemSwitch = menu.findItem(R.id.action_darkSwitch);
         itemSwitch.setActionView(R.layout.switch_item); //switch item layout;
 
-        final Switch darkSwitch = (Switch) menu.findItem(R.id.action_darkSwitch).getActionView().findViewById(R.id.switchTemplate); //removed final
+        final Switch darkSwitch = (Switch) menu.findItem(R.id.action_darkSwitch).getActionView().findViewById(R.id.switchTemplate);
         darkSwitch.setChecked(themeSwitchState);
 
         //listener

@@ -14,10 +14,15 @@
         <!-- Status bar color. -->
         <item name="android:statusBarColor">?attr/colorPrimaryVariant</item>
         <!-- Customize your theme here. -->
-
-
+        <item name="android:actionButtonStyle">@style/ActionButton</item>
     </style>
 
+    <!-- styling the toolbar -->
+    <style name="ActionButton" parent="@android:style/Widget.ActionButton">
+        <item name="android:paddingStart">0dp</item>
+        <item name="android:paddingEnd">0dp</item>
+        <item name="android:minWidth">0dp</item>
+    </style>
 
 
 

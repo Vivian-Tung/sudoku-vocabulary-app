@@ -6,7 +6,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.LinearLayout;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
@@ -14,6 +13,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.cardview.widget.CardView;
+import androidx.constraintlayout.widget.ConstraintLayout;
 
 import java.util.Random;
 
@@ -37,15 +37,15 @@ public class QuestionCardView extends CardView {
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         cardInflater.inflate(R.layout.question_card_layout, this, true);
 
-        LinearLayout parentLayout = (LinearLayout) getChildAt(0);
+        ConstraintLayout parentLayout = findViewById(R.id.questionCardLayout);
         mQuestionPromptView = (TextView) parentLayout.getChildAt(1);
-        mQuestionChoices = (TableLayout) parentLayout.getChildAt(2);
+        mQuestionChoices = findViewById(R.id.questionButtonLayout);
     }
 
     @Override
     public void onMeasure(int width, int height) {
-        super.onMeasure(width, height);
         setMeasuredDimension(width, height);
+        super.onMeasure(width, height);
     }
 
     public void setCard(String prompt, String[] choices) {
@@ -89,7 +89,6 @@ public class QuestionCardView extends CardView {
 
     public void setWordPrompt(String prompt) {
         mQuestionPromptView.setText(prompt);
-        mQuestionPromptView.setTextSize(36);
     }
 
     public void setWordChoiceButtonsText(String[] choices) {
@@ -107,6 +106,7 @@ public class QuestionCardView extends CardView {
         }
         for (Button button: mWordChoiceButtons) {
             button.setText(shuffledChoices[buttonNum++]);
+            button.setTextSize(32);
         }
     }
 

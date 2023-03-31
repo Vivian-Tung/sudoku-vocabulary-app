@@ -1,10 +1,14 @@
 package com.example.sudokuvocabulary;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.TextView;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
 public class SelectModeActivity extends AppCompatActivity {
 
@@ -12,6 +16,12 @@ public class SelectModeActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_select_mode);
+
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        setupTutorialButton();
+        TextView timer = findViewById(R.id.TimerText);
+        timer.setVisibility(View.GONE);
 
         // Key to store mode selected,
         // false = normal, true = listening
@@ -44,6 +54,15 @@ public class SelectModeActivity extends AppCompatActivity {
                     MainMenuActivity.class
             );
             intent.putExtra(modeKey, true);
+            startActivity(intent);
+        });
+    }
+
+    private void setupTutorialButton() {
+        ImageView tutorialBtn = findViewById(R.id.tutorialBtn);
+        tutorialBtn.setOnClickListener(view -> {
+
+            Intent intent = new Intent(this, TutorialActivity.class);
             startActivity(intent);
         });
     }

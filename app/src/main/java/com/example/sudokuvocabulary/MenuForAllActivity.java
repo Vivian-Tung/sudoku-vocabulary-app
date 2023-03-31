@@ -1,9 +1,13 @@
 package com.example.sudokuvocabulary;
 
+import static androidx.constraintlayout.helper.widget.MotionEffect.TAG;
+
 import android.content.Intent;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.Switch;
@@ -12,9 +16,12 @@ import android.widget.Toolbar;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
 import androidx.appcompat.widget.SwitchCompat;
 
 public class MenuForAllActivity extends AppCompatActivity {
+
+    boolean isNightModeOn;
 
 
     @Override
@@ -27,32 +34,60 @@ public class MenuForAllActivity extends AppCompatActivity {
         //menu.findItem(R.id.TimerText).setEnabled(false);
 
         //handling dark switch action
-        PrefManager mPrefManager = new PrefManager(this);
-
-        // Key containing dark mode switch boolean value
-        String themeSwitchKey = getString(R.string.theme_value_key);
-
-        //check for dark or light mode
-        boolean themeSwitchState = mPrefManager.loadSavedPreferences(this, themeSwitchKey);
-
-        // Restore the switch value to the previous setting
         MenuItem itemSwitch = menu.findItem(R.id.action_darkSwitch);
         itemSwitch.setActionView(R.layout.switch_item); //switch item layout;
+        SwitchCompat darkSwitch = (SwitchCompat) menu.findItem(R.id.action_darkSwitch).getActionView().findViewById(R.id.switchTemplate);
 
-        final Switch darkSwitch = (Switch) menu.findItem(R.id.action_darkSwitch).getActionView().findViewById(R.id.switchTemplate);
-        darkSwitch.setChecked(themeSwitchState);
+        //TODO: not sure why it starts off with checked even tho i put false in xml
+        //check for dark or light mode
+        if (AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_NO) {
+            isNightModeOn = false;
+        } else {
+            isNightModeOn = true;
+        }
+        darkSwitch.setChecked(isNightModeOn);
 
         //listener
-        //TODO: need to fix the switch, keeps switching twice
-        darkSwitch.setOnCheckedChangeListener((compoundButton, themeSwitchState1) -> {
-            if (compoundButton.isPressed()) {
-                displayMessage("Switch is kinda janky");
-                mPrefManager.savePreferences(themeSwitchKey, themeSwitchState1);
-                recreate();
+        darkSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean isNightModeOn) {
+                if (isNightModeOn) {
+                    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+                } else {
+                    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+                }
+                displayMessage("dark switch pressed!");
             }
         });
 
 
+//
+//        PrefManager mPrefManager = new PrefManager(this);
+//
+//        // Key containing dark mode switch boolean value
+//        String themeSwitchKey = getString(R.string.theme_value_key);
+//
+//        //check for dark or light mode
+//        boolean themeSwitchState = mPrefManager.loadSavedPreferences(this, themeSwitchKey);
+//
+//        // Restore the switch value to the previous setting
+//        MenuItem itemSwitch = menu.findItem(R.id.action_darkSwitch);
+//        itemSwitch.setActionView(R.layout.switch_item); //switch item layout;
+//
+//        final SwitchCompat darkSwitch = (SwitchCompat) menu.findItem(R.id.action_darkSwitch).getActionView().findViewById(R.id.switchTemplate);
+//        darkSwitch.setChecked(themeSwitchState);
+//
+//        //listener
+//        darkSwitch.setOnCheckedChangeListener((compoundButton, themeSwitchState1) -> {
+//            if (compoundButton.isPressed()) {
+//                displayMessage("Switch is kinda janky");
+//                Log.d(TAG,"darkmode jank");
+//                mPrefManager.savePreferences(themeSwitchKey, themeSwitchState1);
+//                recreate();
+//
+//
+//            }
+//        });
 
         return true;
     }
@@ -77,6 +112,7 @@ public class MenuForAllActivity extends AppCompatActivity {
     {
         Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
     }
+
 
 
 }

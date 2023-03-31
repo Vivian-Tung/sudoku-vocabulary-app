@@ -26,6 +26,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textColor="#808080"
+        android:textSize="28sp"
         app:layout_constraintTop_toBottomOf="@id/questionCardTextView"
         app:layout_constraintBottom_toTopOf="@id/questionButtonLayout"
         app:layout_constraintEnd_toEndOf="parent"

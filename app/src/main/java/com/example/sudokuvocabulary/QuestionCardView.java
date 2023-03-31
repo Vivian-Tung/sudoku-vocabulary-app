@@ -15,6 +15,8 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.cardview.widget.CardView;
 
+import java.util.Random;
+
 public class QuestionCardView extends CardView {
     private Context mContext;
     private TableLayout mQuestionChoices;
@@ -92,8 +94,19 @@ public class QuestionCardView extends CardView {
 
     public void setWordChoiceButtonsText(String[] choices) {
         int buttonNum = 0;
+        String[] shuffledChoices = choices.clone();
+        int index;
+        String temp;
+        Random random = new Random();
+        for (int i = shuffledChoices.length - 1; i > 0; i--)
+        {
+            index = random.nextInt(i + 1);
+            temp = shuffledChoices[index];
+            shuffledChoices[index] = shuffledChoices[i];
+            shuffledChoices[i] = temp;
+        }
         for (Button button: mWordChoiceButtons) {
-            button.setText(choices[buttonNum++]);
+            button.setText(shuffledChoices[buttonNum++]);
         }
     }
 

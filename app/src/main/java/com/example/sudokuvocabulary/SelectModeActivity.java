@@ -1,17 +1,21 @@
 package com.example.sudokuvocabulary;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Button;
 
-public class SelectModeActivity extends AppCompatActivity {
+public class SelectModeActivity extends MenuForAllActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_select_mode);
+
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
 
         // Key to store mode selected,
         // false = normal, true = listening

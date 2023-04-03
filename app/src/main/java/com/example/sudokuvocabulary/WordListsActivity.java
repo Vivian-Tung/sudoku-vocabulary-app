@@ -16,7 +16,7 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 
-public class WordListsActivity extends AppCompatActivity implements View.OnClickListener {
+public class WordListsActivity extends MenuForAllActivity implements View.OnClickListener {
 
     private DBAdapter db;
 
@@ -31,28 +31,6 @@ public class WordListsActivity extends AppCompatActivity implements View.OnClick
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        setupTutorialButton();
-        TextView timer = findViewById(R.id.TimerText);
-        timer.setVisibility(View.GONE);
-
-        PrefManager mPrefManager = new PrefManager(this);
-
-        // Key containing dark mode switch boolean value
-        String themeSwitchKey = getString(R.string.theme_value_key);
-
-        //check for dark or light mode
-        boolean themeSwitchState = mPrefManager.loadSavedPreferences(this, themeSwitchKey);
-
-        // Restore the switch value to the previous setting
-        SwitchCompat mDarkSwitch = findViewById(R.id.darkSwitch);
-        mDarkSwitch.setChecked(themeSwitchState);
-
-        mDarkSwitch.setOnCheckedChangeListener((compoundButton, themeSwitchState1) -> {
-            if (compoundButton.isPressed()) {
-                mPrefManager.savePreferences(themeSwitchKey, themeSwitchState1);
-                recreate();
-            }
-        });
 
         db = new DBAdapter(this);
         db.open();
@@ -113,12 +91,4 @@ public class WordListsActivity extends AppCompatActivity implements View.OnClick
         db.close();
     }
 
-    private void setupTutorialButton() {
-        ImageView tutorialBtn = findViewById(R.id.tutorialBtn);
-        tutorialBtn.setOnClickListener(view -> {
-
-            Intent intent = new Intent(WordListsActivity.this, TutorialActivity.class);
-            startActivity(intent);
-        });
-    }
 }

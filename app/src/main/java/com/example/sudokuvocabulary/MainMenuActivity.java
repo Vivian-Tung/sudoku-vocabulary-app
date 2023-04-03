@@ -26,8 +26,6 @@ public class MainMenuActivity extends MenuForAllActivity {
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        TextView timer = findViewById(R.id.TimerText);
-        timer.setVisibility(View.GONE);
 
         Button button1 = findViewById(R.id.main_menu_word_bank_button);
 

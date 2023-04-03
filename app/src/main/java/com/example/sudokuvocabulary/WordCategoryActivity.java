@@ -27,8 +27,6 @@ public class WordCategoryActivity extends MenuForAllActivity implements View.OnC
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        TextView timer = findViewById(R.id.TimerText);
-        timer.setVisibility(View.GONE);
 
         tableName = getIntent().getStringExtra(getString(R.string.new_table_name_key));
 

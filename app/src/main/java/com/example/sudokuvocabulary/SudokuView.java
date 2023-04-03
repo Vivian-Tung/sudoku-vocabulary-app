@@ -58,7 +58,7 @@ public class SudokuView extends View {
         mGridColourPaint.setAntiAlias(true);
 
         mCellItemFillColourPaint.setStyle(Paint.Style.FILL);
-        mCellItemFillColourPaint.setTextSize((int) (getCellHeight()/2));
+        mCellItemFillColourPaint.setTextSize((int) (getCellWidth()/3));
         mCellItemFillColourPaint.setColor(mCellItemFillColour);
         mCellItemFillColourPaint.setAntiAlias(true);
         mCellItemFillColourPaint.setTextAlign(Paint.Align.CENTER);

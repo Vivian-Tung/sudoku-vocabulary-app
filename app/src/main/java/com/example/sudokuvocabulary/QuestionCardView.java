@@ -50,7 +50,7 @@ public class QuestionCardView extends CardView {
 
     public void setCard(String prompt, String[] choices) {
         // Methods must be called in this order
-        setWordPrompt(prompt);
+        //setWordPrompt(prompt);
         setNumberOfChoices(choices.length);
         if (mWordChoiceButtons == null) {
             mWordChoiceButtons = newButtonArray(mNumberOfChoices);
@@ -106,7 +106,7 @@ public class QuestionCardView extends CardView {
         }
         for (Button button: mWordChoiceButtons) {
             button.setText(shuffledChoices[buttonNum++]);
-            button.setTextSize(32);
+            button.setTextSize(24);
         }
     }
 

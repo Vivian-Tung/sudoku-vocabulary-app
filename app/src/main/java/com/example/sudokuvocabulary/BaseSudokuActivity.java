@@ -80,7 +80,7 @@ public abstract class BaseSudokuActivity extends AppCompatActivity implements Vi
         int subWidth = getIntent().getIntExtra(getString(R.string.sub_width_key), 3);
         int subHeight = getIntent().getIntExtra(getString(R.string.sub_height_key), 3);
 
-        mSudokuModel = new SudokuModel(mWords.length, subWidth, subHeight, 5);
+        mSudokuModel = new SudokuModel(mWords.length, subWidth, subHeight, (mWords.length*mWords.length)/2);
         mSudokuView = findViewById(R.id.sudokuGridView);
 
         // Set the words to draw on the grid and the dimensions of the grid
@@ -159,6 +159,12 @@ public abstract class BaseSudokuActivity extends AppCompatActivity implements Vi
         mQuestionCard.setCard(mWordPrompt, mTranslations);
         setButtonListeners(mQuestionCard.getWordChoiceButtons());
         mQuestionCard.setVisibility(savedInstanceState.getBoolean(getString(R.string.popup_visibility_key)));
+    }
+
+    @Override
+    public void onBackPressed() {
+        Intent intent = new Intent(BaseSudokuActivity.this, MainMenuActivity.class);
+        startActivity(intent);
     }
 
     @NonNull

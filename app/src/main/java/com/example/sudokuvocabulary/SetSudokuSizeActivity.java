@@ -23,6 +23,8 @@ public class SetSudokuSizeActivity extends MenuForAllActivity implements View.On
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        TextView timer = findViewById(R.id.TimerText);
+        timer.setVisibility(View.GONE);
 
         db = new DBAdapter(this);
         db.open();

@@ -22,6 +22,8 @@ public class WordListNameActivity extends MenuForAllActivity {
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        TextView timer = findViewById(R.id.TimerText);
+        timer.setVisibility(View.GONE);
 
         EditText text = findViewById(R.id.table_name_input);
         Button confirmButton = findViewById(R.id.confirm_name_button);

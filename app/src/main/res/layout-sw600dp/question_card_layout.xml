@@ -15,7 +15,7 @@
         android:layout_marginTop="8dp"
         android:text="@string/game_popup_question_text"
         android:textColor="#808080"
-        android:textSize="24sp"
+        android:textSize="32sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -26,11 +26,11 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textColor="#808080"
-        android:textSize="28sp"
         app:layout_constraintTop_toBottomOf="@id/questionCardTextView"
         app:layout_constraintBottom_toTopOf="@id/questionButtonLayout"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        android:textSize="42sp"/>
 
     <TableLayout
         android:id="@+id/questionButtonLayout"

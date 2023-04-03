@@ -5,36 +5,33 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".BaseSudokuActivity">
+
     <include
         android:id="@+id/toolbar"
-        layout="@layout/toolbar"/>
+        layout="@layout/toolbar" />
 
     <com.example.sudokuvocabulary.QuestionCardView
         android:id="@+id/questionCardView"
-        tools:layout_editor_absoluteX="47dp"
-        tools:layout_editor_absoluteY="32dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:cardElevation="10dp"
         app:cardCornerRadius="20dp"
+        app:cardElevation="10dp"
         app:cardPreventCornerOverlap="true"
         app:cardUseCompatPadding="true"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" >
-    </com.example.sudokuvocabulary.QuestionCardView>
+        app:layout_constraintTop_toBottomOf="@id/toolbar" />
 
     <com.example.sudokuvocabulary.SudokuView
         android:id="@+id/sudokuGridView"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        app:layout_constraintDimensionRatio="1:1"
-        app:gridColor="#808080"
         app:cellItemFillColour="#808080"
+        app:gridColor="#808080"
         app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintDimensionRatio="1:1"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" >
-    </com.example.sudokuvocabulary.SudokuView>
+        app:layout_constraintTop_toTopOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>

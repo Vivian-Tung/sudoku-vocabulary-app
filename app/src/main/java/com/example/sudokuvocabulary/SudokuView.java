@@ -19,7 +19,7 @@ public class SudokuView extends View {
     private int mGridLength = 9;
     private int mSubGridWidth = 3;
     private int mSubGridHeight = 3; // To be used for drawing various sized grids
-    private String[][] mWordsToDraw;
+    private String[][] mWordsToDraw = null;
 
     public SudokuView(Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
@@ -116,6 +116,7 @@ public class SudokuView extends View {
     }
 
     public void drawCellItems(Canvas canvas) {
+        if (mWordsToDraw == null) return;
         for (int i = 0; i < mGridLength*mGridLength; i++) {
             int row = i / mGridLength, column = i % mGridLength;
             String word = mWordsToDraw[row][column];

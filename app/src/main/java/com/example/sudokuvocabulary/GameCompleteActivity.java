@@ -43,6 +43,7 @@ public class GameCompleteActivity extends MenuForAllActivity {
         Button restartButton = findViewById(R.id.restart_button);
         restartButton.setOnClickListener(view -> {
             Intent intent;
+            // Check which mode the game is currently in
             if (getIntent().getBooleanExtra(getString(R.string.mode_key), false)) {
                 intent = new Intent(this, ListenModeActivity.class);
             } else {
@@ -67,13 +68,4 @@ public class GameCompleteActivity extends MenuForAllActivity {
 
         durationTextView.setText(timeText);
     }
-    // TODO: Configure newIntent to be able to launch both normal and listening mode
-    @NonNull
-    public Intent newIntent(Context packageContext, String[] words, String[] translations) {
-        Intent intent = new Intent(packageContext, SudokuActivity.class);
-        intent.putExtra(getString(R.string.words_key), words);
-        intent.putExtra(getString(R.string.translations_key), translations);
-        return intent;
-    }
-
 }

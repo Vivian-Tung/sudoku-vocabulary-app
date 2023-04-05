@@ -1,4 +1,4 @@
-package com.example.sudokuvocabulary;
+package com.example.sudokuvocabulary.activites;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -9,6 +9,9 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.appcompat.widget.Toolbar;
+
+import com.example.sudokuvocabulary.R;
+import com.example.sudokuvocabulary.models.WordDictionaryModel;
 
 public class DisplayListActivity extends MenuForAllActivity {
 
@@ -40,7 +43,7 @@ public class DisplayListActivity extends MenuForAllActivity {
         translations = getIntent().getStringArrayExtra(
                 getString(R.string.translations_key));
 
-        WordDictionary dictionary = new WordDictionary(words, translations);
+        WordDictionaryModel dictionary = new WordDictionaryModel(words, translations);
         LinearLayout layout = findViewById(R.id.display_list_word_view);
 
         for (String word: dictionary.getWordsAsArray()) {

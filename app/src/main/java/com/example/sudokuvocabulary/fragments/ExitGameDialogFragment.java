@@ -1,22 +1,19 @@
-package com.example.sudokuvocabulary;
+package com.example.sudokuvocabulary.fragments;
 
 import android.app.Dialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.DialogFragment;
-import androidx.fragment.app.Fragment;
 
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
+import com.example.sudokuvocabulary.activites.MainMenuActivity;
+import com.example.sudokuvocabulary.R;
 
 public class ExitGameDialogFragment extends DialogFragment {
 
-    static ExitGameDialogFragment newInstance(int num) {
+    public static ExitGameDialogFragment newInstance(int num) {
         ExitGameDialogFragment f = new ExitGameDialogFragment();
 
         // Supply num input as an argument.

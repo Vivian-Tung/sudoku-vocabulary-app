@@ -1,4 +1,6 @@
-package com.example.sudokuvocabulary;
+package com.example.sudokuvocabulary.models;
+
+import com.example.sudokuvocabulary.models.SudokuModel;
 
 import java.util.Random;
 

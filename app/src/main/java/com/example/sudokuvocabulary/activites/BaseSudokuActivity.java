@@ -1,4 +1,4 @@
-package com.example.sudokuvocabulary;
+package com.example.sudokuvocabulary.activites;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -19,6 +19,13 @@ import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
+import com.example.sudokuvocabulary.fragments.ExitGameDialogFragment;
+import com.example.sudokuvocabulary.views.QuestionCardView;
+import com.example.sudokuvocabulary.R;
+import com.example.sudokuvocabulary.models.SudokuModel;
+import com.example.sudokuvocabulary.views.SudokuView;
+import com.example.sudokuvocabulary.models.TimerModel;
+
 public abstract class BaseSudokuActivity extends MenuForAllActivity implements View.OnTouchListener {
     protected QuestionCardView mQuestionCard;
     protected SudokuView mSudokuView;
@@ -27,7 +34,7 @@ public abstract class BaseSudokuActivity extends MenuForAllActivity implements V
     protected int mCellRow=0, mCellColumn=0, mCellValue=0;
     protected String mWordPrompt, mChoicePicked;
     protected TextView TimerText;
-    protected TimerHelper timer;
+    protected TimerModel timer;
     protected double startTime = 0;
     protected int mStackLevel = 0;
 
@@ -40,14 +47,16 @@ public abstract class BaseSudokuActivity extends MenuForAllActivity implements V
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setDisplayShowHomeEnabled(true);
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            getSupportActionBar().setDisplayShowHomeEnabled(true);
+        }
 
         TimerText = findViewById(R.id.TimerText);
         if (savedInstanceState != null) {
             startTime = savedInstanceState.getDouble(getString(R.string.time_key));
         }
-        timer = new TimerHelper(startTime, new Handler(Looper.myLooper()) {
+        timer = new TimerModel(startTime, new Handler(Looper.myLooper()) {
             @Override
             public void handleMessage(@Nullable Message msg) {
                 super.handleMessage(msg);

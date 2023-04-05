@@ -1,4 +1,4 @@
-package com.example.sudokuvocabulary;
+package com.example.sudokuvocabulary.activites;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
@@ -10,6 +10,8 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
 import androidx.appcompat.widget.SwitchCompat;
+
+import com.example.sudokuvocabulary.R;
 
 public class MenuForAllActivity extends AppCompatActivity {
 

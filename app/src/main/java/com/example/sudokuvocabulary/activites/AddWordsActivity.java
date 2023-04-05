@@ -1,4 +1,4 @@
-package com.example.sudokuvocabulary;
+package com.example.sudokuvocabulary.activites;
 
 import android.content.Context;
 import android.content.Intent;
@@ -14,13 +14,18 @@ import android.widget.ToggleButton;
 import androidx.annotation.NonNull;
 import androidx.appcompat.widget.Toolbar;
 
+import com.example.sudokuvocabulary.adapters.DBAdapter;
+import com.example.sudokuvocabulary.R;
+import com.example.sudokuvocabulary.models.WordDictionaryModel;
+import com.example.sudokuvocabulary.models.WordSampleModel;
+
 import java.util.ArrayList;
 
 public class AddWordsActivity extends MenuForAllActivity implements View.OnClickListener {
     private static int NUM_ROWS = 8;
     private static final int NUM_COLS = 3;
-    private WordDictionary words = new WordDictionary();
-    private WordDictionary wordsAdded;
+    private WordDictionaryModel words = new WordDictionaryModel();
+    private WordDictionaryModel wordsAdded;
     private DBAdapter db;
     private String category;
     private String tableName;
@@ -54,7 +59,7 @@ public class AddWordsActivity extends MenuForAllActivity implements View.OnClick
 
         // Retrieve the words for the given category
         ArrayList<ArrayList<String>> words = db.getWordsFromCategory(category);
-        this.words = new WordDictionary(words.get(0), words.get(1));
+        this.words = new WordDictionaryModel(words.get(0), words.get(1));
 
         // Check if activity was returned to from other activity
         // Restore existing values if so
@@ -63,9 +68,9 @@ public class AddWordsActivity extends MenuForAllActivity implements View.OnClick
                     .getStringArrayExtra(getString(R.string.words_key));
             String[] translationsArray = getIntent()
                     .getStringArrayExtra(getString(R.string.translations_key));
-            wordsAdded = new WordDictionary(wordsArray, translationsArray);
+            wordsAdded = new WordDictionaryModel(wordsArray, translationsArray);
         } else {
-            wordsAdded = new WordDictionary();
+            wordsAdded = new WordDictionaryModel();
         }
         tableName = getIntent().getStringExtra(getString(R.string.new_table_name_key));
 
@@ -106,8 +111,8 @@ public class AddWordsActivity extends MenuForAllActivity implements View.OnClick
                 } else {
                     // Add the new word list to database
                     db.newTable(tableName);
-                    for (WordSample wordSample : wordsAdded.getWords()) {
-                        db.insertRow(wordSample.getWord(), wordSample.getTranslation(), tableName);
+                    for (WordSampleModel wordSampleModel : wordsAdded.getWords()) {
+                        db.insertRow(wordSampleModel.getWord(), wordSampleModel.getTranslation(), tableName);
                     }
                     // Launch the sudoku game
                     intent = newIntent(AddWordsActivity.this, SudokuActivity.class);

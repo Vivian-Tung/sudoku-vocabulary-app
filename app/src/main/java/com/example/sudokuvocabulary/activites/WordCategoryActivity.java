@@ -1,4 +1,4 @@
-package com.example.sudokuvocabulary;
+package com.example.sudokuvocabulary.activites;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -8,6 +8,9 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.appcompat.widget.Toolbar;
+
+import com.example.sudokuvocabulary.R;
+import com.example.sudokuvocabulary.adapters.DBAdapter;
 
 import java.util.ArrayList;
 

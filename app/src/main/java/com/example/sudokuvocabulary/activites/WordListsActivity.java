@@ -1,4 +1,4 @@
-package com.example.sudokuvocabulary;
+package com.example.sudokuvocabulary.activites;
 
 import android.content.Context;
 import android.content.Intent;
@@ -10,6 +10,11 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.widget.Toolbar;
+
+import com.example.sudokuvocabulary.R;
+import com.example.sudokuvocabulary.views.WordListsView;
+import com.example.sudokuvocabulary.adapters.DBAdapter;
+import com.example.sudokuvocabulary.models.WordDictionaryModel;
 
 public class WordListsActivity extends MenuForAllActivity implements View.OnClickListener {
 
@@ -48,7 +53,7 @@ public class WordListsActivity extends MenuForAllActivity implements View.OnClic
     }
 
     @NonNull
-    public static Intent newIntent(Context packageContext, WordDictionary words) {
+    public static Intent newIntent(Context packageContext, WordDictionaryModel words) {
         Intent intent = new Intent(packageContext, SudokuActivity.class);
         intent.putExtra(packageContext.getString(R.string.words_key), words.getWordsAsArray());
         intent.putExtra(packageContext.getString(
@@ -60,7 +65,7 @@ public class WordListsActivity extends MenuForAllActivity implements View.OnClic
     public void onClick(View view) {
         String tableName = (String) ((Button) view).getText();
         Cursor cursor  = db.getAllRows(tableName);
-        WordDictionary dictionary = new WordDictionary();
+        WordDictionaryModel dictionary = new WordDictionaryModel();
         while(cursor.moveToNext()) {
             String word = cursor.getString(
                     cursor.getColumnIndexOrThrow("word"));

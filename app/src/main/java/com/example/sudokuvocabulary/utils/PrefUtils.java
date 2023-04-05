@@ -1,15 +1,15 @@
-package com.example.sudokuvocabulary;
+package com.example.sudokuvocabulary.utils;
 
 import android.content.Context;
 import android.content.SharedPreferences;
 
 import androidx.appcompat.app.AppCompatDelegate;
 
-public class PrefManager  {
+public class PrefUtils {
 
     private final Context context;
 
-    public PrefManager (Context context) {
+    public PrefUtils(Context context) {
         this.context = context;
     }
 

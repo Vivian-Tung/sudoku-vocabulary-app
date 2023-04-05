@@ -34,6 +34,8 @@ public class TutorialActivity extends MenuForAllActivity {
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
         TextView timer = findViewById(R.id.TimerText);
         timer.setVisibility(View.GONE);
     }

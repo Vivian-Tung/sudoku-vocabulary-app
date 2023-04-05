@@ -15,6 +15,9 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.Toolbar;
+import androidx.fragment.app.DialogFragment;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 
 public abstract class BaseSudokuActivity extends MenuForAllActivity implements View.OnTouchListener {
     protected QuestionCardView mQuestionCard;
@@ -26,6 +29,7 @@ public abstract class BaseSudokuActivity extends MenuForAllActivity implements V
     protected TextView TimerText;
     protected TimerHelper timer;
     protected double startTime = 0;
+    protected int mStackLevel = 0;
 
     @SuppressLint("ClickableViewAccessibility")
     @Override
@@ -36,6 +40,8 @@ public abstract class BaseSudokuActivity extends MenuForAllActivity implements V
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
 
         TimerText = findViewById(R.id.TimerText);
         if (savedInstanceState != null) {
@@ -137,6 +143,11 @@ public abstract class BaseSudokuActivity extends MenuForAllActivity implements V
         mQuestionCard.setVisibility(savedInstanceState.getBoolean(getString(R.string.popup_visibility_key)));
     }
 
+    @Override
+    public void onBackPressed() {
+        showExitDialog();
+    }
+
     @NonNull
     public Intent newIntent(Context packageContext, String[] words, String[] translations) {
         Intent intent = new Intent(packageContext, GameCompleteActivity.class);
@@ -158,5 +169,20 @@ public abstract class BaseSudokuActivity extends MenuForAllActivity implements V
         for (Button button: buttons) {
             button.setOnClickListener(onClick());
         }
+    }
+
+    private void showExitDialog() {
+        mStackLevel++;
+        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+        Fragment prev = getSupportFragmentManager().findFragmentByTag("dialog");
+        if (prev != null) {
+            ft.remove(prev);
+        }
+        ft.addToBackStack(null);
+
+        // Create and show the dialog.
+        DialogFragment newFragment = ExitGameDialogFragment.newInstance(mStackLevel);
+        newFragment.show(ft, "dialog");
+
     }
 }

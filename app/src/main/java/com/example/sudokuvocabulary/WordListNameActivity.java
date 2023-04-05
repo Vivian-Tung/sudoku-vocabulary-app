@@ -1,17 +1,14 @@
 package com.example.sudokuvocabulary;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.SwitchCompat;
-import androidx.appcompat.widget.Toolbar;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.appcompat.widget.Toolbar;
 
 public class WordListNameActivity extends MenuForAllActivity {
 
@@ -22,6 +19,11 @@ public class WordListNameActivity extends MenuForAllActivity {
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            getSupportActionBar().setDisplayShowHomeEnabled(true);
+        }
+
         TextView timer = findViewById(R.id.TimerText);
         timer.setVisibility(View.GONE);
 
@@ -31,20 +33,19 @@ public class WordListNameActivity extends MenuForAllActivity {
         confirmButton.setOnClickListener(view -> {
             String listName = text.getText().toString();
 
-            if (listName.length() == 0) {
-                Toast.makeText(this,
-                        "List name cannot be empty",
-                        Toast.LENGTH_SHORT).show();
-
-            } else if (listName.contains(" ")) {
-                Toast.makeText(this,
-                        "List name cannot have spaces",
-                        Toast.LENGTH_SHORT).show();
-            } else {
+            if (listName.matches("[A-Za-z0-9]+")) {
                 Intent intent = new Intent(
                         WordListNameActivity.this, WordCategoryActivity.class);
                 intent.putExtra(getString(R.string.new_table_name_key), listName);
                 startActivity(intent);
+            } else if (listName.length() == 0) {
+                Toast.makeText(this,
+                        "List name cannot be empty",
+                        Toast.LENGTH_SHORT).show();
+            } else {
+                Toast.makeText(this,
+                        "List name cannot have spaces or special characters",
+                        Toast.LENGTH_SHORT).show();
             }
         });
     }

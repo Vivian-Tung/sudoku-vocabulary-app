@@ -10,7 +10,11 @@ import android.widget.Toast;
 
 import androidx.appcompat.widget.Toolbar;
 
+import java.util.Locale;
+
 public class WordListNameActivity extends MenuForAllActivity {
+
+    DBAdapter db;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,7 +37,13 @@ public class WordListNameActivity extends MenuForAllActivity {
         confirmButton.setOnClickListener(view -> {
             String listName = text.getText().toString();
 
-            if (listName.matches("[A-Za-z0-9]+")) {
+            db = new DBAdapter(this);
+            db.open();
+            if (db.getTableNames().contains(listName.toLowerCase(Locale.ROOT))) {
+                Toast.makeText(this,
+                        "List name already used",
+                        Toast.LENGTH_SHORT).show();
+            } else if (listName.matches("[A-Za-z0-9]+")) {
                 Intent intent = new Intent(
                         WordListNameActivity.this, WordCategoryActivity.class);
                 intent.putExtra(getString(R.string.new_table_name_key), listName);
@@ -49,5 +59,12 @@ public class WordListNameActivity extends MenuForAllActivity {
             }
         });
     }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        db.close();
+    }
+
 
 }

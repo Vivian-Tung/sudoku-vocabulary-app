@@ -10,7 +10,7 @@ import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
-public class SelectModeActivity extends AppCompatActivity {
+public class SelectModeActivity extends MenuForAllActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -19,7 +19,8 @@ public class SelectModeActivity extends AppCompatActivity {
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        setupTutorialButton();
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
         TextView timer = findViewById(R.id.TimerText);
         timer.setVisibility(View.GONE);
 
@@ -58,12 +59,4 @@ public class SelectModeActivity extends AppCompatActivity {
         });
     }
 
-    private void setupTutorialButton() {
-        ImageView tutorialBtn = findViewById(R.id.tutorialBtn);
-        tutorialBtn.setOnClickListener(view -> {
-
-            Intent intent = new Intent(this, TutorialActivity.class);
-            startActivity(intent);
-        });
-    }
 }

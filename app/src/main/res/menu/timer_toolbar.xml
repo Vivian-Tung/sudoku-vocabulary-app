@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+<!--    <item-->
+<!--        android:id="@+id/TimerText"-->
+<!--        android:title="TimerText"-->
+<!--        android:text="00:00:00"-->
+<!--        android:textSize="30sp"-->
+<!--        app:showAsAction="always"/>-->
+
+
+</menu>

@@ -13,7 +13,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-public class DisplayListActivity extends AppCompatActivity {
+public class DisplayListActivity extends MenuForAllActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,25 +24,6 @@ public class DisplayListActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         TextView timer = findViewById(R.id.TimerText);
         timer.setVisibility(View.GONE);
-
-        PrefManager mPrefManager = new PrefManager(this);
-
-        // Key containing dark mode switch boolean value
-        String themeSwitchKey = getString(R.string.theme_value_key);
-
-        //check for dark or light mode
-        boolean themeSwitchState = mPrefManager.loadSavedPreferences(this, themeSwitchKey);
-
-        // Restore the switch value to the previous setting
-        SwitchCompat mDarkSwitch = findViewById(R.id.darkSwitch);
-        mDarkSwitch.setChecked(themeSwitchState);
-
-        mDarkSwitch.setOnCheckedChangeListener((compoundButton, themeSwitchState1) -> {
-            if (compoundButton.isPressed()) {
-                mPrefManager.savePreferences(themeSwitchKey, themeSwitchState1);
-                recreate();
-            }
-        });
 
         String tableName = getIntent().getStringExtra(getString(R.string.new_table_name_key));
         TextView activityTitle = findViewById(R.id.display_list_name_text);

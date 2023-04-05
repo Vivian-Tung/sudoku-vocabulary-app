@@ -1,28 +1,19 @@
 package com.example.sudokuvocabulary;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.SwitchCompat;
-import androidx.appcompat.widget.Toolbar;
-
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.TextView;
 
-import java.util.ArrayList;
+import androidx.annotation.NonNull;
+import androidx.appcompat.widget.Toolbar;
 
 public class WordListsActivity extends MenuForAllActivity implements View.OnClickListener {
 
     private DBAdapter db;
-
-    private Button new_word_list_button;
-
-    private ArrayList<String> mLists;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,15 +22,17 @@ public class WordListsActivity extends MenuForAllActivity implements View.OnClic
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        if(getSupportActionBar() != null) {
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            getSupportActionBar().setDisplayShowHomeEnabled(true);
+        }
         TextView timer = findViewById(R.id.TimerText);
         timer.setVisibility(View.GONE);
 
         db = new DBAdapter(this);
         db.open();
 
-        mLists = db.getTableNames();
-
-        new_word_list_button = (Button) findViewById(R.id.create_new_word_list_button);
+        Button new_word_list_button = (Button) findViewById(R.id.create_new_word_list_button);
 
         new_word_list_button.setOnClickListener(view -> {
             Intent intent = new Intent(
@@ -48,7 +41,7 @@ public class WordListsActivity extends MenuForAllActivity implements View.OnClic
         });
 
         WordListsView existingWordLists = findViewById(R.id.existing_word_lists);
-        existingWordLists.setWordListText(mLists);
+        existingWordLists.setWordListText(db.getTableNames());
         for (Button button: existingWordLists.getListButtons()) {
             button.setOnClickListener(this);
         }

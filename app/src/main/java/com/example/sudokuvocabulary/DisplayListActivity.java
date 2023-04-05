@@ -1,19 +1,21 @@
 package com.example.sudokuvocabulary;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.SwitchCompat;
-import androidx.appcompat.widget.Toolbar;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import androidx.appcompat.widget.Toolbar;
+
 public class DisplayListActivity extends MenuForAllActivity {
+
+    private String tableName;
+    private String[] words;
+    private String[] translations;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -22,16 +24,20 @@ public class DisplayListActivity extends MenuForAllActivity {
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            getSupportActionBar().setDisplayShowHomeEnabled(true);
+        }
         TextView timer = findViewById(R.id.TimerText);
         timer.setVisibility(View.GONE);
 
-        String tableName = getIntent().getStringExtra(getString(R.string.new_table_name_key));
+        tableName = getIntent().getStringExtra(getString(R.string.new_table_name_key));
         TextView activityTitle = findViewById(R.id.display_list_name_text);
         activityTitle.setText(tableName);
 
-        String[] words = getIntent().getStringArrayExtra(
+        words = getIntent().getStringArrayExtra(
                 getString(R.string.words_key));
-        String[] translations = getIntent().getStringArrayExtra(
+        translations = getIntent().getStringArrayExtra(
                 getString(R.string.translations_key));
 
         WordDictionary dictionary = new WordDictionary(words, translations);
@@ -48,15 +54,18 @@ public class DisplayListActivity extends MenuForAllActivity {
         }
 
         Button backButton = findViewById(R.id.display_list_back_button);
-        backButton.setOnClickListener(view -> {
-            String categoryKey = getString(R.string.category_key);
-            Intent intent = new Intent(DisplayListActivity.this,
-                    AddWordsActivity.class);
-            intent.putExtra(getString(R.string.new_table_name_key), tableName);
-            intent.putExtra(getString(R.string.words_key), words);
-            intent.putExtra(getString(R.string.translations_key), translations);
-            intent.putExtra(categoryKey, getIntent().getStringExtra(categoryKey));
-            startActivity(intent);
-        });
+        backButton.setOnClickListener(view -> onBackPressed());
+    }
+
+    @Override
+    public void onBackPressed() {
+        String categoryKey = getString(R.string.category_key);
+        Intent intent = new Intent(DisplayListActivity.this,
+                AddWordsActivity.class);
+        intent.putExtra(getString(R.string.new_table_name_key), tableName);
+        intent.putExtra(getString(R.string.words_key), words);
+        intent.putExtra(getString(R.string.translations_key), translations);
+        intent.putExtra(categoryKey, getIntent().getStringExtra(categoryKey));
+        startActivity(intent);
     }
 }

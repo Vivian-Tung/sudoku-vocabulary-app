@@ -5,6 +5,7 @@ import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
 import android.widget.Button;
 import android.widget.TableLayout;
 import android.widget.TableRow;
@@ -18,8 +19,8 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import java.util.Random;
 
 public class QuestionCardView extends CardView {
-    private Context mContext;
-    private TableLayout mQuestionChoices;
+    private final Context mContext;
+    private final TableLayout mQuestionChoices;
     private int mNumberOfChoices = 9;
     private final TextView mQuestionPromptView;
     private Button[] mWordChoiceButtons;
@@ -48,17 +49,15 @@ public class QuestionCardView extends CardView {
         super.onMeasure(width, height);
     }
 
-    public void setCard(String prompt, String[] choices) {
-        // Methods must be called in this order
-        //setWordPrompt(prompt);
+    public void setCard(String[] choices) {
         setNumberOfChoices(choices.length);
+        mButtonColumns = numberOfColumns(mNumberOfChoices);
         if (mWordChoiceButtons == null) {
             mWordChoiceButtons = newButtonArray(mNumberOfChoices);
-            mButtonColumns = numberOfColumns(mNumberOfChoices);
             setTable();
         }
         setWordChoiceButtonsText(choices);
-        this.invalidate();
+        this.postInvalidate();
     }
 
     public void show() {
@@ -87,10 +86,6 @@ public class QuestionCardView extends CardView {
         mNumberOfChoices = numberOfChoices;
     }
 
-    public void setWordPrompt(String prompt) {
-        mQuestionPromptView.setText(prompt);
-    }
-
     public void setWordChoiceButtonsText(String[] choices) {
         int buttonNum = 0;
         String[] shuffledChoices = choices.clone();
@@ -106,7 +101,18 @@ public class QuestionCardView extends CardView {
         }
         for (Button button: mWordChoiceButtons) {
             button.setText(shuffledChoices[buttonNum++]);
-            button.setTextSize(24);
+            ViewTreeObserver viewTreeObserver = button.getViewTreeObserver();
+            if (viewTreeObserver.isAlive()) {
+                viewTreeObserver.addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+                    @Override
+                    public void onGlobalLayout() {
+                        button.getViewTreeObserver().removeOnGlobalLayoutListener(this);
+                        if (getResources().getBoolean(R.bool.isTablet)) {
+                            button.setTextSize((float) (button.getHeight() * 0.75));
+                        }
+                    }
+                });
+            }
         }
     }
 
@@ -133,6 +139,7 @@ public class QuestionCardView extends CardView {
     }
 
     private void setTable() {
+        mQuestionChoices.removeAllViews();
         TableRow row = newTableRow(mContext);
         int buttonNum = 0;
         for (Button button: mWordChoiceButtons) {

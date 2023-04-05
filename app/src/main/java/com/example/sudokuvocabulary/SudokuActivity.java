@@ -53,7 +53,13 @@ public class SudokuActivity extends BaseSudokuActivity {
 
     @Override
     protected void onCellNotEmpty(int cellValue) {
-        mQuestionCard.setCard(mWordPrompt, mWords);
+        mQuestionCard.setCard(mWords);
         Toast.makeText(this, mWords[cellValue-1], Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    protected void onCardRestore() {
+        mQuestionCard = findViewById(R.id.questionCardView);
+        mQuestionCard.setCard(mTranslations);
     }
 }

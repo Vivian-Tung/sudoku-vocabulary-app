@@ -90,7 +90,7 @@ public abstract class BaseSudokuActivity extends MenuForAllActivity implements V
             onCellNotEmpty(mCellValue);
         } else {
             mWordPrompt = mWords[mSudokuModel.getSolutionAt(mCellRow, mCellColumn) - 1];
-            mQuestionCard.setCard(mWordPrompt, mTranslations);
+            mQuestionCard.setCard(mTranslations);
             mQuestionCard.show();
         }
         setButtonListeners(mQuestionCard.getWordChoiceButtons());
@@ -137,8 +137,8 @@ public abstract class BaseSudokuActivity extends MenuForAllActivity implements V
         mCellColumn = savedInstanceState.getInt(getString(R.string.cell_column_key));
         mCellValue = savedInstanceState.getInt(getString(R.string.cell_value_key));
 
-        mQuestionCard = findViewById(R.id.questionCardView);
-        mQuestionCard.setCard(mWordPrompt, mTranslations);
+        onCardRestore();
+
         setButtonListeners(mQuestionCard.getWordChoiceButtons());
         mQuestionCard.setVisibility(savedInstanceState.getBoolean(getString(R.string.popup_visibility_key)));
     }
@@ -164,6 +164,8 @@ public abstract class BaseSudokuActivity extends MenuForAllActivity implements V
     protected abstract boolean isCorrect();
 
     protected abstract void onCellNotEmpty(int cellValue);
+
+    protected abstract void onCardRestore();
 
     private void setButtonListeners(Button[] buttons) {
         for (Button button: buttons) {

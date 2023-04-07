@@ -1,14 +1,12 @@
-package com.example.sudokuvocabulary.activites;
+package com.example.sudokuvocabulary.activities;
 
 import android.content.Intent;
-import android.os.Bundle;
 import android.speech.tts.TextToSpeech;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
 import com.example.sudokuvocabulary.R;
-import com.example.sudokuvocabulary.activites.BaseSudokuActivity;
 
 import java.util.Locale;
 
@@ -17,10 +15,10 @@ public class ListenModeActivity extends BaseSudokuActivity {
     private TextToSpeech mTextToSpeech;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+    protected void onStart() {
+        super.onStart();
         mTextToSpeech = new TextToSpeech(this, status -> {
-            if (status != TextToSpeech.ERROR) {
+            if (status == TextToSpeech.SUCCESS) {
                 mTextToSpeech.setLanguage(Locale.CHINESE);
             }
         });
@@ -94,8 +92,8 @@ public class ListenModeActivity extends BaseSudokuActivity {
     }
 
     @Override
-    public void onDestroy() {
+    public void onStop() {
+        super.onStop();
         mTextToSpeech.shutdown();
-        super.onDestroy();
     }
 }

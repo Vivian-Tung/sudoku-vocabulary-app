@@ -1,4 +1,4 @@
-package com.example.sudokuvocabulary.activites;
+package com.example.sudokuvocabulary.activities;
 
 import android.content.Context;
 import android.content.Intent;

@@ -1,4 +1,4 @@
-package com.example.sudokuvocabulary.activites;
+package com.example.sudokuvocabulary.activities;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;

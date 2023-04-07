@@ -1,4 +1,4 @@
-package com.example.sudokuvocabulary.activites;
+package com.example.sudokuvocabulary.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -19,8 +19,10 @@ public class SelectModeActivity extends MenuForAllActivity {
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setDisplayShowHomeEnabled(true);
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            getSupportActionBar().setDisplayShowHomeEnabled(true);
+        }
         TextView timer = findViewById(R.id.TimerText);
         timer.setVisibility(View.GONE);
 

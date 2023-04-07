@@ -1,4 +1,4 @@
-package com.example.sudokuvocabulary.activites;
+package com.example.sudokuvocabulary.activities;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
@@ -8,7 +8,6 @@ import android.widget.Button;
 import android.widget.Toast;
 
 import com.example.sudokuvocabulary.R;
-import com.example.sudokuvocabulary.activites.BaseSudokuActivity;
 
 public class SudokuActivity extends BaseSudokuActivity {
 

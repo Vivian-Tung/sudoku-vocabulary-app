@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".activites.WordListNameActivity">
+    tools:context=".activities.WordListNameActivity">
 
     <include
         android:id="@+id/toolbar"
@@ -15,7 +15,7 @@
         android:orientation="vertical"
         android:layout_gravity="center"
         android:gravity="center"
-        tools:context=".activites.WordListNameActivity">
+        tools:context=".activities.WordListNameActivity">
 
         <TextView
             android:id="@+id/add_word_text_view"

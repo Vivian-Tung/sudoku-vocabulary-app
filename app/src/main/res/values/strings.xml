@@ -67,5 +67,6 @@
     <string name="size_12x12">12x12</string>
     <string name="display_list_label">List of words</string>
 
-
+    <string name="save_game_file">save.ser</string>
+    <string name="save_game_key">save</string>
 </resources>

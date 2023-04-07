@@ -1,4 +1,4 @@
-package com.example.sudokuvocabulary.activites;
+package com.example.sudokuvocabulary.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -9,6 +9,7 @@ import android.widget.TextView;
 import androidx.appcompat.widget.Toolbar;
 
 import com.example.sudokuvocabulary.R;
+import com.example.sudokuvocabulary.utils.PrefUtils;
 
 public class GameCompleteActivity extends MenuForAllActivity {
 
@@ -28,6 +29,9 @@ public class GameCompleteActivity extends MenuForAllActivity {
 
         mWords = getIntent().getStringArrayExtra(getString(R.string.words_key));
         mTranslations = getIntent().getStringArrayExtra(getString(R.string.translations_key));
+
+        // Tell the app to not enable the current save file as game is complete
+        PrefUtils.saveBoolPreference(this, getString(R.string.save_game_key), false);
 
         Button homeButton = findViewById(R.id.home_button);
         homeButton.setOnClickListener(view -> {

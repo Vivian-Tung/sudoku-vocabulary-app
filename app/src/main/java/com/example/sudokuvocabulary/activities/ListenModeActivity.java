@@ -1,24 +1,24 @@
-package com.example.sudokuvocabulary;
+package com.example.sudokuvocabulary.activities;
 
 import android.content.Intent;
-import android.os.Bundle;
 import android.speech.tts.TextToSpeech;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
+import com.example.sudokuvocabulary.R;
+
 import java.util.Locale;
 
 public class ListenModeActivity extends BaseSudokuActivity {
 
-    private String[] mNumbers;
     private TextToSpeech mTextToSpeech;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+    protected void onStart() {
+        super.onStart();
         mTextToSpeech = new TextToSpeech(this, status -> {
-            if (status != TextToSpeech.ERROR) {
+            if (status == TextToSpeech.SUCCESS) {
                 mTextToSpeech.setLanguage(Locale.CHINESE);
             }
         });
@@ -52,13 +52,13 @@ public class ListenModeActivity extends BaseSudokuActivity {
 
     @Override
     protected void initializeGrid() {
-        mNumbers  = new String[mSudokuModel.getGridLength()];
+        String[] numbers  = new String[mSudokuModel.getGridLength()];
         int[] numbersToCopy = mSudokuModel.getNumberArray();
         int index = 0;
         for (int number: numbersToCopy) {
-            mNumbers[index++] = Integer.toString(number);
+            numbers[index++] = Integer.toString(number);
         }
-        mSudokuView.setInitialGrid(mSudokuModel.getGridAsMatrix(), mNumbers);
+        mSudokuView.setInitialGrid(mSudokuModel.getGridAsMatrix(), numbers);
     }
 
     @Override
@@ -75,7 +75,7 @@ public class ListenModeActivity extends BaseSudokuActivity {
             Toast.makeText(this, mWords[cellValue-1], Toast.LENGTH_SHORT).show();
             return;
         }
-        mQuestionCard.setCard(null, mWords);
+        mQuestionCard.setCard(mWords);
         mTextToSpeech.speak(
                 mTranslations[cellValue-1],
                 TextToSpeech.QUEUE_FLUSH,
@@ -86,8 +86,14 @@ public class ListenModeActivity extends BaseSudokuActivity {
     }
 
     @Override
-    public void onDestroy() {
+    protected void onCardRestore() {
+        mQuestionCard = findViewById(R.id.questionCardView);
+        mQuestionCard.setCard(mWords);
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
         mTextToSpeech.shutdown();
-        super.onDestroy();
     }
 }

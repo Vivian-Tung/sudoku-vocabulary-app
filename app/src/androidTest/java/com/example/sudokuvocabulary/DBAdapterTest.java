@@ -8,6 +8,8 @@ import android.database.Cursor;
 import androidx.test.core.app.ApplicationProvider;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 
+import com.example.sudokuvocabulary.adapters.DBAdapter;
+
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;

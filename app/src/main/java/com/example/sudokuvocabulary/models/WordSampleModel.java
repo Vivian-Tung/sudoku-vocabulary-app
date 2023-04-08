@@ -1,16 +1,16 @@
-package com.example.sudokuvocabulary;
+package com.example.sudokuvocabulary.models;
 
-public class WordSample {
+public class WordSampleModel {
     //private long listID;
     private String word;
     private String translation;
 
-    public WordSample(String word, String translation) {
+    public WordSampleModel(String word, String translation) {
        this.word = word;
        this.translation = translation;
     }
 
-    public WordSample() {
+    public WordSampleModel() {
         this(null, null);
     }
 

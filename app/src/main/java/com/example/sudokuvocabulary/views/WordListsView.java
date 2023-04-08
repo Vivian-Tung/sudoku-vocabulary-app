@@ -1,4 +1,4 @@
-package com.example.sudokuvocabulary;
+package com.example.sudokuvocabulary.views;
 
 import android.content.Context;
 import android.content.res.Configuration;
@@ -10,6 +10,8 @@ import android.widget.ScrollView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+
+import com.example.sudokuvocabulary.R;
 
 import java.util.ArrayList;
 

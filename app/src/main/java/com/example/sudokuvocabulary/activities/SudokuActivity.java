@@ -1,4 +1,4 @@
-package com.example.sudokuvocabulary;
+package com.example.sudokuvocabulary.activities;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
@@ -6,6 +6,8 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
+
+import com.example.sudokuvocabulary.R;
 
 public class SudokuActivity extends BaseSudokuActivity {
 
@@ -53,6 +55,13 @@ public class SudokuActivity extends BaseSudokuActivity {
 
     @Override
     protected void onCellNotEmpty(int cellValue) {
+        mQuestionCard.setCard(mWords);
         Toast.makeText(this, mWords[cellValue-1], Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    protected void onCardRestore() {
+        mQuestionCard = findViewById(R.id.questionCardView);
+        mQuestionCard.setCard(mTranslations);
     }
 }

@@ -1,9 +1,12 @@
-package com.example.sudokuvocabulary;
+package com.example.sudokuvocabulary.models;
 
 import java.io.Serializable;
 import java.util.Random;
 
 public class SudokuModel implements Serializable {
+
+    // Serialization UID
+    private static final long serialVersionUID = 2;
 
     // Height of each sub grid
     private final int mSubGridRows;

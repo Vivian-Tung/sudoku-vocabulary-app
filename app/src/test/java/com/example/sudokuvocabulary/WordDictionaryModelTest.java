@@ -2,14 +2,14 @@ package com.example.sudokuvocabulary;
 
 import static org.junit.Assert.*;
 
+import com.example.sudokuvocabulary.models.WordDictionaryModel;
+import com.example.sudokuvocabulary.models.WordSampleModel;
+
 import org.junit.Test;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 
-public class WordDictionaryTest {
+public class WordDictionaryModelTest {
 
     String[][] words1 = {{"lamb", "beef", "chicken"}, {"羊肉", "牛肉", "鸡肉"}};
     String[][] words2 = {
@@ -23,7 +23,7 @@ public class WordDictionaryTest {
     @Test
     public void getLength() {
         for (String[][] testCase: testCases) {
-            WordDictionary test = new WordDictionary(testCase[0], testCase[1]);
+            WordDictionaryModel test = new WordDictionaryModel(testCase[0], testCase[1]);
             assertEquals(testCase[0].length, test.getLength());
         }
     }
@@ -31,8 +31,8 @@ public class WordDictionaryTest {
     @Test
     public void getWords() {
         for (String[][] testCase : testCases) {
-            WordDictionary test = new WordDictionary(testCase[0], testCase[1]);
-            ArrayList<WordSample> samples = test.getWords();
+            WordDictionaryModel test = new WordDictionaryModel(testCase[0], testCase[1]);
+            ArrayList<WordSampleModel> samples = test.getWords();
             for (int index = 0; index < testCase[0].length; index++) {
                 assertEquals(testCase[0][index], samples.get(index).getWord());
                 assertEquals(testCase[1][index], samples.get(index).getTranslation());
@@ -43,7 +43,7 @@ public class WordDictionaryTest {
     @Test
     public void setFromArrays() {
         for (String[][] testCase: testCases) {
-            WordDictionary test = new WordDictionary();
+            WordDictionaryModel test = new WordDictionaryModel();
             test.setFromArrays(testCase[0], testCase[1]);
             assertArrayEquals(testCase[0], test.getWordsAsArray());
             assertArrayEquals(testCase[1], test.getTranslationsAsArray());
@@ -53,7 +53,7 @@ public class WordDictionaryTest {
     @Test
     public void getWordsAsArray() {
         for (String[][] testCase: testCases) {
-            WordDictionary test = new WordDictionary(testCase[0], testCase[1]);
+            WordDictionaryModel test = new WordDictionaryModel(testCase[0], testCase[1]);
             assertArrayEquals(testCase[0], test.getWordsAsArray());
         }
     }
@@ -61,7 +61,7 @@ public class WordDictionaryTest {
     @Test
     public void getTranslationsAsArray() {
         for (String[][] testCase: testCases) {
-            WordDictionary test = new WordDictionary(testCase[0], testCase[1]);
+            WordDictionaryModel test = new WordDictionaryModel(testCase[0], testCase[1]);
             assertArrayEquals(testCase[1], test.getTranslationsAsArray());
         }
     }
@@ -69,7 +69,7 @@ public class WordDictionaryTest {
     @Test
     public void getWord() {
         for (String[][] testCase: testCases) {
-            WordDictionary test = new WordDictionary(testCase[0], testCase[1]);
+            WordDictionaryModel test = new WordDictionaryModel(testCase[0], testCase[1]);
             for (int index = 0; index < testCase[0].length; index++) {
                 assertEquals(testCase[0][index], test.getWord(index));
             }
@@ -79,7 +79,7 @@ public class WordDictionaryTest {
     @Test
     public void getTranslation() {
         for (String[][] testCase: testCases) {
-            WordDictionary test = new WordDictionary(testCase[0], testCase[1]);
+            WordDictionaryModel test = new WordDictionaryModel(testCase[0], testCase[1]);
             for (int index = 0; index < testCase[1].length; index++) {
                 assertEquals(testCase[1][index], test.getTranslation(index));
             }
@@ -89,7 +89,7 @@ public class WordDictionaryTest {
     @Test
     public void add() {
         for (String[][] testCase: testCases) {
-            WordDictionary test = new WordDictionary();
+            WordDictionaryModel test = new WordDictionaryModel();
             for (int index = 0; index < testCase[0].length; index++) {
                 test.add(testCase[0][index], testCase[1][index]);
             }
@@ -101,7 +101,7 @@ public class WordDictionaryTest {
     @Test
     public void remove() {
         for (String[][] testCase: testCases) {
-            WordDictionary test = new WordDictionary(testCase[0], testCase[1]);
+            WordDictionaryModel test = new WordDictionaryModel(testCase[0], testCase[1]);
             for (int index = 0; index < testCase[0].length; index++) {
                 test.remove(testCase[0][index]);
                 assertFalse(test.contains(testCase[0][index]));
@@ -112,9 +112,9 @@ public class WordDictionaryTest {
     @Test
     public void findSample() {
         for (String[][] testCase: testCases) {
-            WordDictionary test = new WordDictionary(testCase[0], testCase[1]);
+            WordDictionaryModel test = new WordDictionaryModel(testCase[0], testCase[1]);
             for (int index = 0; index < testCase[0].length; index++) {
-                WordSample sample = test.findSample(testCase[0][index]);
+                WordSampleModel sample = test.findSample(testCase[0][index]);
                 assertEquals(testCase[0][index], sample.getWord());
                 assertEquals(testCase[1][index], sample.getTranslation());
             }
@@ -124,7 +124,7 @@ public class WordDictionaryTest {
     @Test
     public void findTranslation() {
         for (String[][] testCase: testCases) {
-            WordDictionary test = new WordDictionary(testCase[0], testCase[1]);
+            WordDictionaryModel test = new WordDictionaryModel(testCase[0], testCase[1]);
             for (int index = 0; index < testCase[0].length; index++) {
                 String translation = test.findTranslation(testCase[0][index]);
                 assertEquals(testCase[1][index], translation);
@@ -135,7 +135,7 @@ public class WordDictionaryTest {
     @Test
     public void contains() {
         for (String[][] testCase: testCases) {
-            WordDictionary test = new WordDictionary(testCase[0], testCase[1]);
+            WordDictionaryModel test = new WordDictionaryModel(testCase[0], testCase[1]);
             for (String word: testCase[0]) {
                 assertTrue(test.contains(word));
             }

@@ -1,4 +1,4 @@
-package com.example.sudokuvocabulary;
+package com.example.sudokuvocabulary.activites;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -15,6 +15,16 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.Toolbar;
+import androidx.fragment.app.DialogFragment;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
+
+import com.example.sudokuvocabulary.fragments.ExitGameDialogFragment;
+import com.example.sudokuvocabulary.views.QuestionCardView;
+import com.example.sudokuvocabulary.R;
+import com.example.sudokuvocabulary.models.SudokuModel;
+import com.example.sudokuvocabulary.views.SudokuView;
+import com.example.sudokuvocabulary.models.TimerModel;
 
 public abstract class BaseSudokuActivity extends MenuForAllActivity implements View.OnTouchListener {
     protected QuestionCardView mQuestionCard;
@@ -24,8 +34,9 @@ public abstract class BaseSudokuActivity extends MenuForAllActivity implements V
     protected int mCellRow=0, mCellColumn=0, mCellValue=0;
     protected String mWordPrompt, mChoicePicked;
     protected TextView TimerText;
-    protected TimerHelper timer;
+    protected TimerModel timer;
     protected double startTime = 0;
+    protected int mStackLevel = 0;
 
     @SuppressLint("ClickableViewAccessibility")
     @Override
@@ -36,12 +47,16 @@ public abstract class BaseSudokuActivity extends MenuForAllActivity implements V
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            getSupportActionBar().setDisplayShowHomeEnabled(true);
+        }
 
         TimerText = findViewById(R.id.TimerText);
         if (savedInstanceState != null) {
             startTime = savedInstanceState.getDouble(getString(R.string.time_key));
         }
-        timer = new TimerHelper(startTime, new Handler(Looper.myLooper()) {
+        timer = new TimerModel(startTime, new Handler(Looper.myLooper()) {
             @Override
             public void handleMessage(@Nullable Message msg) {
                 super.handleMessage(msg);
@@ -56,7 +71,7 @@ public abstract class BaseSudokuActivity extends MenuForAllActivity implements V
         int subWidth = getIntent().getIntExtra(getString(R.string.sub_width_key), 3);
         int subHeight = getIntent().getIntExtra(getString(R.string.sub_height_key), 3);
 
-        mSudokuModel = new SudokuModel(mWords.length, subWidth, subHeight, 5);
+        mSudokuModel = new SudokuModel(mWords.length, subWidth, subHeight, (mWords.length*mWords.length)/2);
         mSudokuView = findViewById(R.id.sudokuGridView);
 
         // Set the words to draw on the grid and the dimensions of the grid
@@ -84,7 +99,7 @@ public abstract class BaseSudokuActivity extends MenuForAllActivity implements V
             onCellNotEmpty(mCellValue);
         } else {
             mWordPrompt = mWords[mSudokuModel.getSolutionAt(mCellRow, mCellColumn) - 1];
-            mQuestionCard.setCard(mWordPrompt, mTranslations);
+            mQuestionCard.setCard(mTranslations);
             mQuestionCard.show();
         }
         setButtonListeners(mQuestionCard.getWordChoiceButtons());
@@ -131,10 +146,15 @@ public abstract class BaseSudokuActivity extends MenuForAllActivity implements V
         mCellColumn = savedInstanceState.getInt(getString(R.string.cell_column_key));
         mCellValue = savedInstanceState.getInt(getString(R.string.cell_value_key));
 
-        mQuestionCard = findViewById(R.id.questionCardView);
-        mQuestionCard.setCard(mWordPrompt, mTranslations);
+        onCardRestore();
+
         setButtonListeners(mQuestionCard.getWordChoiceButtons());
         mQuestionCard.setVisibility(savedInstanceState.getBoolean(getString(R.string.popup_visibility_key)));
+    }
+
+    @Override
+    public void onBackPressed() {
+        showExitDialog();
     }
 
     @NonNull
@@ -154,9 +174,26 @@ public abstract class BaseSudokuActivity extends MenuForAllActivity implements V
 
     protected abstract void onCellNotEmpty(int cellValue);
 
+    protected abstract void onCardRestore();
+
     private void setButtonListeners(Button[] buttons) {
         for (Button button: buttons) {
             button.setOnClickListener(onClick());
         }
+    }
+
+    private void showExitDialog() {
+        mStackLevel++;
+        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+        Fragment prev = getSupportFragmentManager().findFragmentByTag("dialog");
+        if (prev != null) {
+            ft.remove(prev);
+        }
+        ft.addToBackStack(null);
+
+        // Create and show the dialog.
+        DialogFragment newFragment = ExitGameDialogFragment.newInstance(mStackLevel);
+        newFragment.show(ft, "dialog");
+
     }
 }

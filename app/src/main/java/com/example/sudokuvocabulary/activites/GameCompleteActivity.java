@@ -1,19 +1,14 @@
-package com.example.sudokuvocabulary;
+package com.example.sudokuvocabulary.activites;
 
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.TextView;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.SwitchCompat;
 import androidx.appcompat.widget.Toolbar;
 
-import java.util.concurrent.TimeUnit;
+import com.example.sudokuvocabulary.R;
 
 public class GameCompleteActivity extends MenuForAllActivity {
 
@@ -43,6 +38,7 @@ public class GameCompleteActivity extends MenuForAllActivity {
         Button restartButton = findViewById(R.id.restart_button);
         restartButton.setOnClickListener(view -> {
             Intent intent;
+            // Check which mode the game is currently in
             if (getIntent().getBooleanExtra(getString(R.string.mode_key), false)) {
                 intent = new Intent(this, ListenModeActivity.class);
             } else {
@@ -67,13 +63,4 @@ public class GameCompleteActivity extends MenuForAllActivity {
 
         durationTextView.setText(timeText);
     }
-    // TODO: Configure newIntent to be able to launch both normal and listening mode
-    @NonNull
-    public Intent newIntent(Context packageContext, String[] words, String[] translations) {
-        Intent intent = new Intent(packageContext, SudokuActivity.class);
-        intent.putExtra(getString(R.string.words_key), words);
-        intent.putExtra(getString(R.string.translations_key), translations);
-        return intent;
-    }
-
 }

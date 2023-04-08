@@ -44,7 +44,7 @@ public class SudokuActivity extends BaseSudokuActivity {
 
     @Override
     protected void initializeGrid() {
-        mSudokuView.setInitialGrid(mSudokuModel.getGridAsMatrix(), mWords);
+        mSudokuView.setView(mSudokuModel.getGridAsMatrix(), mWords);
     }
 
     @Override

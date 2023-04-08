@@ -2,6 +2,7 @@ package com.example.sudokuvocabulary.activities;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -31,12 +32,10 @@ public class MenuForAllActivity extends AppCompatActivity {
         itemSwitch.setActionView(R.layout.switch_item); //switch item layout;
         SwitchCompat darkSwitch = (SwitchCompat) menu.findItem(R.id.action_darkSwitch).getActionView().findViewById(R.id.switchTemplate);
 
-        // set the default value to false
-        darkSwitch.setChecked(false);
-
-        //check for dark or light mode
-        isNightModeOn = AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_YES;
-        darkSwitch.setChecked(isNightModeOn);
+        // set the default dark switch value to system theme
+        boolean currentTheme = (getResources().getConfiguration().uiMode &
+                Configuration.UI_MODE_NIGHT_MASK) == Configuration.UI_MODE_NIGHT_YES;
+        darkSwitch.setChecked(currentTheme);
 
         //listener
         darkSwitch.setOnCheckedChangeListener((compoundButton, isNightModeOn) -> {

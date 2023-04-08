@@ -58,7 +58,7 @@ public class ListenModeActivity extends BaseSudokuActivity {
         for (int number: numbersToCopy) {
             numbers[index++] = Integer.toString(number);
         }
-        mSudokuView.setInitialGrid(mSudokuModel.getGridAsMatrix(), numbers);
+        mSudokuView.setView(mSudokuModel.getGridAsMatrix(), numbers);
     }
 
     @Override

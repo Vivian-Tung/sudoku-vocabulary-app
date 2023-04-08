@@ -10,43 +10,27 @@ import com.example.sudokuvocabulary.R;
 
 public class SelectModeActivity extends MenuForAllActivity {
 
+    private String modeKey;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        // Key to store mode selected,
-        // false = normal, true = listening
-        final String modeKey = getString(R.string.mode_key);
+        // Key to store mode selected
+        // false = normal mode, true = listening mode
+        modeKey = getString(R.string.mode_key);
 
+        // Set up normal mode button
         Button normalMode = findViewById(R.id.select_mode_normal_button);
-        normalMode.setOnClickListener(view -> {
-            Intent intent = new Intent(
-                    SelectModeActivity.this,
-                    SetSudokuSizeActivity.class
-            );
-            intent.putExtra(modeKey, false);
-            startActivity(intent);
-        });
+        normalMode.setOnClickListener(view -> startActivity(newModeIntent(false)));
 
+        // Set up listening mode button
         Button listenMode = findViewById(R.id.select_mode_listen_button);
-        listenMode.setOnClickListener(view -> {
-            Intent intent = new Intent(
-                    SelectModeActivity.this,
-                    SetSudokuSizeActivity.class
-            );
-            intent.putExtra(modeKey, true);
-            startActivity(intent);
-        });
+        listenMode.setOnClickListener(view -> startActivity(newModeIntent(true)));
 
+        // Set back button to go back to previous activity
         Button backButton = findViewById(R.id.select_mode_back_button);
-        backButton.setOnClickListener(view -> {
-            Intent intent = new Intent(
-                    SelectModeActivity.this,
-                    MainMenuActivity.class
-            );
-            intent.putExtra(modeKey, true);
-            startActivity(intent);
-        });
+        backButton.setOnClickListener(view -> onBackPressed());
     }
 
     @Override
@@ -56,4 +40,12 @@ public class SelectModeActivity extends MenuForAllActivity {
         timerText.setVisibility(View.GONE);
     }
 
+    private Intent newModeIntent(boolean mode) {
+        Intent intent = new Intent(
+                SelectModeActivity.this,
+                SetSudokuSizeActivity.class
+        );
+        intent.putExtra(modeKey, mode);
+        return intent;
+    }
 }

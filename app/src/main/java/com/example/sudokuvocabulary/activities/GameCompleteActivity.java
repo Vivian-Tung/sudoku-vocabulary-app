@@ -6,8 +6,6 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
-import androidx.appcompat.widget.Toolbar;
-
 import com.example.sudokuvocabulary.R;
 import com.example.sudokuvocabulary.utils.PrefUtils;
 import com.example.sudokuvocabulary.utils.SaveFileUtil;
@@ -20,13 +18,6 @@ public class GameCompleteActivity extends MenuForAllActivity {
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_game_complete);
-
-        Toolbar toolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-        TextView timer = findViewById(R.id.TimerText);
-        timer.setVisibility(View.GONE);
-
 
         mWords = getIntent().getStringArrayExtra(getString(R.string.words_key));
         mTranslations = getIntent().getStringArrayExtra(getString(R.string.translations_key));
@@ -44,6 +35,7 @@ public class GameCompleteActivity extends MenuForAllActivity {
             startActivity(intent);
         });
 
+        // Set up the restart button
         Button restartButton = findViewById(R.id.restart_button);
         restartButton.setOnClickListener(view -> {
             Intent intent;
@@ -58,6 +50,7 @@ public class GameCompleteActivity extends MenuForAllActivity {
             startActivity(intent);
         });
 
+        // Get and show the time the user took to complete the puzzle
         long duration = (long) getIntent().getDoubleExtra(
                 getString(R.string.time_key), 0);
 
@@ -74,7 +67,9 @@ public class GameCompleteActivity extends MenuForAllActivity {
     }
 
     @Override
-    public void onDestroy() {
-        super.onDestroy();
+    protected void setContentView() {
+        this.setContentView(R.layout.activity_game_complete);
+        TextView timerText = findViewById(R.id.TimerText);
+        timerText.setVisibility(View.GONE);
     }
 }

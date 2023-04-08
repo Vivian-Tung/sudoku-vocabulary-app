@@ -45,7 +45,7 @@ public class SudokuView extends View {
     @Override
     public void onMeasure(int width, int height) {
         super.onMeasure(width, height);
-        int min = (int) Math.min(getMeasuredWidth(), getMeasuredHeight());
+        int min = Math.min(getMeasuredWidth(), getMeasuredHeight());
         // Calculate the size for each individual cell
         mCellHeight = (min / mGridLength);
         mCellWidth = getMeasuredWidth() / mGridLength;
@@ -60,7 +60,11 @@ public class SudokuView extends View {
         mGridColourPaint.setAntiAlias(true);
 
         mCellItemFillColourPaint.setStyle(Paint.Style.FILL);
-        mCellItemFillColourPaint.setTextSize((int) (getCellWidth()/3));
+        if (getResources().getBoolean(R.bool.isTablet)) {
+            mCellItemFillColourPaint.setTextSize(36);
+        } else {
+            mCellItemFillColourPaint.setTextSize((float) (getCellWidth()/3));
+        }
         mCellItemFillColourPaint.setColor(mCellItemFillColour);
         mCellItemFillColourPaint.setAntiAlias(true);
         mCellItemFillColourPaint.setTextAlign(Paint.Align.CENTER);
@@ -72,13 +76,10 @@ public class SudokuView extends View {
         drawCellItems(canvas);
     }
 
-    public void setSubGridDimensions(int subGridWidth, int subGridHeight) {
-        mSubGridWidth = subGridWidth;
-        mSubGridHeight = subGridHeight;
-    }
-
-    public void setInitialGrid(int[][] grid, String[] words) {
+    public void setView(int[][] grid, String[] words) {
         mGridLength = grid.length;
+        mSubGridWidth = (int) Math.ceil(Math.sqrt(mGridLength));
+        mSubGridHeight = (int) Math.floor(Math.sqrt(mGridLength));
         mWordsToDraw = new String[mGridLength][mGridLength];
         for (int i = 0; i < mGridLength* mGridLength; i++) {
             int row = i / mGridLength, column = i % mGridLength;
@@ -96,6 +97,7 @@ public class SudokuView extends View {
         mWordsToDraw = wordsToDraw;
         mSubGridWidth = (int) Math.ceil(Math.sqrt(mGridLength));
         mSubGridHeight = (int) Math.floor(Math.sqrt(mGridLength));
+        this.invalidate();
     }
 
     public int getCellHeight() {
@@ -116,12 +118,6 @@ public class SudokuView extends View {
 
     public void setWordToDrawAt(int row, int column, String word) {
         mWordsToDraw[row][column] = word;
-        this.invalidate();
-    }
-
-    public void setWordsToDraw(String[][] wordsToDraw) {
-        mWordsToDraw = wordsToDraw;
-        mGridLength = wordsToDraw.length;
         this.invalidate();
     }
 
@@ -155,7 +151,7 @@ public class SudokuView extends View {
     }
 
     private void drawGrid(Canvas canvas) {
-
+        // Draw rows
         for (int line = 0; line < mGridLength +1; line++) {
             // Check if current line is a major line, draw a thicker line if so
             if (line % mSubGridHeight == 0) {
@@ -167,6 +163,7 @@ public class SudokuView extends View {
             canvas.drawLine(0, mCellHeight *line, getWidth(), mCellHeight *line, mGridColourPaint);
         }
 
+        // Draw columns
         for (int line = 0; line < mGridLength +1; line++) {
             // Check if current line is a major line, draw a thicker line if so
             if (line % mSubGridWidth == 0) {

@@ -1,20 +1,18 @@
 package com.example.sudokuvocabulary.models;
 
-import com.example.sudokuvocabulary.models.SudokuModel;
-
 import java.util.Random;
 
 public class SudokuSolverModel {
     private interface RunInSolver {
-        void execute(SudokuModel board, int index, int solutions, int row, int column);
+        void execute(int solutions, int row, int column);
     }
     public static int solutions(SudokuModel board) {
-        RunInSolver function = (model, index , solutions, row, column) ->
+        RunInSolver function = (solutions, row, column) ->
                 board.setValueAt(row, column, 0);
         return solver(board, 0, 0, function);
     }
     public static boolean solve(SudokuModel board) {
-        RunInSolver function = (model, index, solution, row, column) -> {
+        RunInSolver function = (solution, row, column) -> {
             if (solution > 0) {
                 board.setNumberOfEmptyCells(board.getNumberOfEmptyCells()-1);
             } else {
@@ -37,7 +35,7 @@ public class SudokuSolverModel {
             if (board.gridValid(row, column, number)) {
                 board.setValueAt(row, column, number);
                 solutions = solver(board, index+1, solutions, function);
-                function.execute(board, index, solutions, row, column);
+                function.execute(solutions, row, column);
             }
         }
         return solutions;

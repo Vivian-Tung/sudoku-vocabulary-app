@@ -107,9 +107,7 @@ public class MainMenuTest {
     public void launchGameFromMainMenu() {
         try {
             // Attempt to find the play button to launch the next activity
-            assertTrue(clickButton(new UiSelector()
-                    .resourceId(formatId("main_menu_play_button"))
-            ));
+            assertTrue(clickButton(new UiSelector().textContains("play")));
 
             // Try to click the normal mode button
             assertTrue(clickButton(new UiSelector().textContains("normal")));
@@ -252,6 +250,7 @@ public class MainMenuTest {
             device.setOrientationRight(); // Rotate the device right
 
             // Run all test cases in this orientation
+            setUp();
             launchGameFromMainMenu();
             setUp();
             selectListFromWordBank();
@@ -272,11 +271,11 @@ public class MainMenuTest {
     public void testDarkModeToggle() {
         try {
             // Try to click the dark mode switch in main menu
-            assertTrue(toggleSwitch(new UiSelector().resourceId(formatId("darkSwitch"))));
+            assertTrue(toggleSwitch(new UiSelector().resourceId(formatId("switchTemplate"))));
 
             // Get the switch's current state
             UiObject darkSwitch = device.findObject(new UiSelector()
-                    .resourceId(formatId("darkSwitch"))
+                    .resourceId(formatId("switchTemplate"))
             );
             boolean isChecked = darkSwitch.isChecked();
 

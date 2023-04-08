@@ -3,6 +3,7 @@ package com.example.sudokuvocabulary.activities;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.res.Configuration;
+import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -11,12 +12,25 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
 import androidx.appcompat.widget.SwitchCompat;
+import androidx.appcompat.widget.Toolbar;
 
 import com.example.sudokuvocabulary.R;
 
-public class MenuForAllActivity extends AppCompatActivity {
+public abstract class MenuForAllActivity extends AppCompatActivity {
 
-    boolean isNightModeOn;
+    @Override
+    protected void onCreate(Bundle savedInstanceStated) {
+        super.onCreate(savedInstanceStated);
+        setContentView();
+
+        // Initialize toolbar and add back arrow button
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            getSupportActionBar().setDisplayShowHomeEnabled(true);
+        }
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -30,7 +44,7 @@ public class MenuForAllActivity extends AppCompatActivity {
         //handling dark switch action
         MenuItem itemSwitch = menu.findItem(R.id.action_darkSwitch);
         itemSwitch.setActionView(R.layout.switch_item); //switch item layout;
-        SwitchCompat darkSwitch = (SwitchCompat) menu.findItem(R.id.action_darkSwitch).getActionView().findViewById(R.id.switchTemplate);
+        SwitchCompat darkSwitch = menu.findItem(R.id.action_darkSwitch).getActionView().findViewById(R.id.switchTemplate);
 
         // set the default dark switch value to system theme
         boolean currentTheme = (getResources().getConfiguration().uiMode &
@@ -54,12 +68,12 @@ public class MenuForAllActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId())
         {
-            case R.id.action_tutorialBtn:
+            case R.id.action_tutorialBtn: // Question mark button
                 Intent intent = new Intent(this, TutorialActivity.class);
                 startActivity(intent);
                 return true;
 
-            case android.R.id.home:
+            case android.R.id.home: // Back arrow button
                 onBackPressed();
                 return true;
 
@@ -68,4 +82,13 @@ public class MenuForAllActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * Used to set the layout.xml file for each activity and
+     * hide/show other components of the toolbar.
+     *
+     * Must be implemented by all inheriting classes and
+     * contain this.setContentView(int layoutResID) or
+     * this.setContentView(View view)
+     */
+    protected abstract void setContentView();
 }

@@ -8,8 +8,6 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import androidx.appcompat.widget.Toolbar;
-
 import com.example.sudokuvocabulary.R;
 import com.example.sudokuvocabulary.models.WordDictionaryModel;
 
@@ -23,21 +21,13 @@ public class DisplayListActivity extends MenuForAllActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_display_list);
 
-        Toolbar toolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-        if (getSupportActionBar() != null) {
-            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-            getSupportActionBar().setDisplayShowHomeEnabled(true);
-        }
-        TextView timer = findViewById(R.id.TimerText);
-        timer.setVisibility(View.GONE);
-
+        // Set the activity header to the new table name
         tableName = getIntent().getStringExtra(getString(R.string.new_table_name_key));
         TextView activityTitle = findViewById(R.id.display_list_name_text);
         activityTitle.setText(tableName);
 
+        // Get the currently selected words
         words = getIntent().getStringArrayExtra(
                 getString(R.string.words_key));
         translations = getIntent().getStringArrayExtra(
@@ -46,6 +36,7 @@ public class DisplayListActivity extends MenuForAllActivity {
         WordDictionaryModel dictionary = new WordDictionaryModel(words, translations);
         LinearLayout layout = findViewById(R.id.display_list_word_view);
 
+        // Display the selected words
         for (String word: dictionary.getWordsAsArray()) {
             TextView textView = new TextView(this);
             textView.setLayoutParams(new LinearLayout.LayoutParams(
@@ -61,10 +52,19 @@ public class DisplayListActivity extends MenuForAllActivity {
     }
 
     @Override
+    protected void setContentView() {
+        this.setContentView(R.layout.activity_display_list);
+        TextView timerText = findViewById(R.id.TimerText);
+        timerText.setVisibility(View.GONE);
+    }
+
+    @Override
     public void onBackPressed() {
         String categoryKey = getString(R.string.category_key);
         Intent intent = new Intent(DisplayListActivity.this,
                 AddWordsActivity.class);
+
+        // Pass the words and their translations to the word adding activity
         intent.putExtra(getString(R.string.new_table_name_key), tableName);
         intent.putExtra(getString(R.string.words_key), words);
         intent.putExtra(getString(R.string.translations_key), translations);

@@ -9,12 +9,11 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.widget.Toolbar;
 
 import com.example.sudokuvocabulary.R;
-import com.example.sudokuvocabulary.views.WordListsView;
 import com.example.sudokuvocabulary.adapters.DBAdapter;
 import com.example.sudokuvocabulary.models.WordDictionaryModel;
+import com.example.sudokuvocabulary.views.WordListsView;
 
 public class WordListsActivity extends MenuForAllActivity implements View.OnClickListener {
 
@@ -23,28 +22,19 @@ public class WordListsActivity extends MenuForAllActivity implements View.OnClic
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_word_lists);
-
-        Toolbar toolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-        if(getSupportActionBar() != null) {
-            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-            getSupportActionBar().setDisplayShowHomeEnabled(true);
-        }
-        TextView timer = findViewById(R.id.TimerText);
-        timer.setVisibility(View.GONE);
 
         db = new DBAdapter(this);
         db.open();
 
-        Button new_word_list_button = (Button) findViewById(R.id.create_new_word_list_button);
-
+        // Set up the button for creating new word lists
+        Button new_word_list_button = findViewById(R.id.create_new_word_list_button);
         new_word_list_button.setOnClickListener(view -> {
             Intent intent = new Intent(
                     WordListsActivity.this, WordListNameActivity.class);
             startActivity(intent);
         });
 
+        // Set up the button listeners and text for all existing word lists
         WordListsView existingWordLists = findViewById(R.id.existing_word_lists);
         existingWordLists.setWordListText(db.getTableNames());
         for (Button button: existingWordLists.getListButtons()) {
@@ -52,17 +42,17 @@ public class WordListsActivity extends MenuForAllActivity implements View.OnClic
         }
     }
 
-    @NonNull
-    public static Intent newIntent(Context packageContext, WordDictionaryModel words) {
-        Intent intent = new Intent(packageContext, SudokuActivity.class);
-        intent.putExtra(packageContext.getString(R.string.words_key), words.getWordsAsArray());
-        intent.putExtra(packageContext.getString(
-                R.string.translations_key), words.getTranslationsAsArray());
-        return intent;
+    @Override
+    protected void setContentView() {
+        this.setContentView(R.layout.activity_word_lists);
+        TextView timerText = findViewById(R.id.TimerText);
+        timerText.setVisibility(View.GONE);
     }
 
     @Override
     public void onClick(View view) {
+
+        // Get all the words associated with the selected category
         String tableName = (String) ((Button) view).getText();
         Cursor cursor  = db.getAllRows(tableName);
         WordDictionaryModel dictionary = new WordDictionaryModel();
@@ -74,6 +64,8 @@ public class WordListsActivity extends MenuForAllActivity implements View.OnClic
             dictionary.add(word, translation);
         }
         cursor.close();
+
+        // Start a new game
         Intent intent = newIntent(WordListsActivity.this, dictionary);
         intent.putExtra(getString(R.string.size_key), dictionary.getLength());
         intent.putExtra(getString(R.string.sub_width_key),
@@ -91,4 +83,12 @@ public class WordListsActivity extends MenuForAllActivity implements View.OnClic
         db.close();
     }
 
+    @NonNull
+    public static Intent newIntent(Context packageContext, WordDictionaryModel words) {
+        Intent intent = new Intent(packageContext, SudokuActivity.class);
+        intent.putExtra(packageContext.getString(R.string.words_key), words.getWordsAsArray());
+        intent.putExtra(packageContext.getString(
+                R.string.translations_key), words.getTranslationsAsArray());
+        return intent;
+    }
 }

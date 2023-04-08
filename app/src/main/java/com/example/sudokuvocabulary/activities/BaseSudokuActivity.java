@@ -71,7 +71,6 @@ public abstract class BaseSudokuActivity extends MenuForAllActivity implements V
             mTranslations = (String[]) savedObjects[SaveFileUtil.SaveObjects.TRANSLATIONS.ordinal()];
             mSudokuView.setView((String[][]) savedObjects[SaveFileUtil.SaveObjects.SUDOKU_GRID.ordinal()]);
             startTime = (double) savedObjects[SaveFileUtil.SaveObjects.TIME.ordinal()];
-
             PrefUtils.saveBoolPreference(this, getString(R.string.save_game_key), false);
         } else {
             subWidth = getIntent().getIntExtra(getString(R.string.sub_width_key), 3);
@@ -82,8 +81,8 @@ public abstract class BaseSudokuActivity extends MenuForAllActivity implements V
 
             // Set the words to draw on the grid and the dimensions of the grid
             initializeGrid();
-            mSudokuView.setSubGridDimensions(subWidth, subHeight);
 
+            // Restore the previous time if initializing after device rotation
             if (savedInstanceState != null) {
                 startTime = savedInstanceState.getDouble(getString(R.string.time_key));
             }
@@ -113,6 +112,7 @@ public abstract class BaseSudokuActivity extends MenuForAllActivity implements V
             return false;
         }
 
+        // Calculate which cell was pressed
         mCellRow = (int) (Math.ceil(motionEvent.getY() / mSudokuView.getCellHeight())) - 1;
         mCellColumn = (int) ((Math.ceil(motionEvent.getX()) / mSudokuView.getCellWidth()));
         mCellValue = mSudokuModel.getSolutionAt(mCellRow, mCellColumn);
@@ -153,8 +153,6 @@ public abstract class BaseSudokuActivity extends MenuForAllActivity implements V
     public void onRestoreInstanceState(Bundle savedInstanceState) {
         super.onRestoreInstanceState(savedInstanceState);
 
-
-
         mSudokuModel = new SudokuModel();
         mSudokuModel.setGridFromArray(savedInstanceState.getIntArray(getString(R.string.current_grid_key)));
         mSudokuModel.setSolutionFromArray(savedInstanceState.getIntArray(getString(R.string.solution_grid_key)));
@@ -167,7 +165,7 @@ public abstract class BaseSudokuActivity extends MenuForAllActivity implements V
         mSudokuView = findViewById(R.id.sudokuGridView);
         String[][] wordsToDraw = SudokuModel.expand(
                 savedInstanceState.getStringArray(getString(R.string.word_grid_key)));
-        mSudokuView.setWordsToDraw(wordsToDraw);
+        mSudokuView.setView(wordsToDraw);
 
         mCellRow = savedInstanceState.getInt(getString(R.string.cell_row_key));
         mCellColumn = savedInstanceState.getInt(getString(R.string.cell_column_key));

@@ -38,6 +38,7 @@ public class MainMenuActivity extends MenuForAllActivity {
         Button loadButton = findViewById(R.id.load_save_button);
         loadButton.setEnabled(SaveFileUtil.saveExists(this, saveFileName));
         loadButton.setOnClickListener(view -> {
+            PrefUtils.saveBoolPreference(this, getString(R.string.save_game_key), true);
             Intent intent;
 
             // Retrieve the game mode from the save file
@@ -71,5 +72,11 @@ public class MainMenuActivity extends MenuForAllActivity {
         setContentView(R.layout.activity_main_menu);
         TextView timerText = findViewById(R.id.TimerText);
         timerText.setVisibility(View.GONE);
+    }
+
+    @Override
+    public void onBackPressed() {
+        this.finish();
+        System.exit(0);
     }
 }

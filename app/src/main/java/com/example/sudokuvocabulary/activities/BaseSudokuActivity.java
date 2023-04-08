@@ -65,10 +65,10 @@ public abstract class BaseSudokuActivity extends MenuForAllActivity implements V
             startTime = (double) savedObjects[SaveFileUtil.SaveObjects.TIME.ordinal()];
         } else {
             // Initialize a new game
-            subWidth = getIntent().getIntExtra(getString(R.string.sub_width_key), 3);
-            subHeight = getIntent().getIntExtra(getString(R.string.sub_height_key), 3);
             mWords = getIntent().getStringArrayExtra(getString(R.string.words_key));
             mTranslations = getIntent().getStringArrayExtra(getString(R.string.translations_key));
+            subWidth = (int) Math.ceil(Math.sqrt(mWords.length));
+            subHeight = (int) Math.floor(Math.sqrt(mWords.length));
             mSudokuModel = new SudokuModel(mWords.length, subWidth, subHeight, (mWords.length*mWords.length)/2);
 
             // Set the words to draw on the grid and the dimensions of the grid

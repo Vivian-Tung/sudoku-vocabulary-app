@@ -111,6 +111,12 @@ public class MainMenuTest {
                     .resourceId(formatId("main_menu_play_button"))
             ));
 
+            // If prompted with the confirmation dialog, press confirm
+            UiObject dialogConfirmButton = device.findObject(new UiSelector().textContains("confirm"));
+            if (dialogConfirmButton != null) {
+                assertTrue(dialogConfirmButton.click());
+            }
+
             // Try to click the normal mode button
             assertTrue(clickButton(new UiSelector().textContains("normal")));
 

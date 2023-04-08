@@ -44,7 +44,7 @@ public abstract class MenuForAllActivity extends AppCompatActivity {
         //handling dark switch action
         MenuItem itemSwitch = menu.findItem(R.id.action_darkSwitch);
         itemSwitch.setActionView(R.layout.switch_item); //switch item layout;
-        SwitchCompat darkSwitch = (SwitchCompat) menu.findItem(R.id.action_darkSwitch).getActionView().findViewById(R.id.switchTemplate);
+        SwitchCompat darkSwitch = menu.findItem(R.id.action_darkSwitch).getActionView().findViewById(R.id.switchTemplate);
 
         // set the default dark switch value to system theme
         boolean currentTheme = (getResources().getConfiguration().uiMode &
@@ -68,12 +68,12 @@ public abstract class MenuForAllActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId())
         {
-            case R.id.action_tutorialBtn:
+            case R.id.action_tutorialBtn: // Question mark button
                 Intent intent = new Intent(this, TutorialActivity.class);
                 startActivity(intent);
                 return true;
 
-            case android.R.id.home:
+            case android.R.id.home: // Back arrow button
                 onBackPressed();
                 return true;
 
@@ -82,5 +82,13 @@ public abstract class MenuForAllActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * Used to set the layout.xml file for each activity and
+     * hide/show other components of the toolbar.
+     *
+     * Must be implemented by all inheriting classes and
+     * contain this.setContentView(int layoutResID) or
+     * this.setContentView(View view)
+     */
     protected abstract void setContentView();
 }

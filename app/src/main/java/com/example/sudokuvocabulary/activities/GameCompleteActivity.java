@@ -1,19 +1,16 @@
-package com.example.sudokuvocabulary;
+package com.example.sudokuvocabulary.activities;
 
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.TextView;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.SwitchCompat;
 import androidx.appcompat.widget.Toolbar;
 
-import java.util.concurrent.TimeUnit;
+import com.example.sudokuvocabulary.R;
+import com.example.sudokuvocabulary.utils.PrefUtils;
+import com.example.sudokuvocabulary.utils.SaveFileUtil;
 
 public class GameCompleteActivity extends MenuForAllActivity {
 
@@ -36,6 +33,13 @@ public class GameCompleteActivity extends MenuForAllActivity {
 
         Button homeButton = findViewById(R.id.home_button);
         homeButton.setOnClickListener(view -> {
+
+            // Delete the save file if the finished game was from a loaded save
+            if (PrefUtils.loadBoolPreference(this, getString(R.string.save_game_key))) {
+                SaveFileUtil.deleteSave(this, getString(R.string.save_game_file));
+            }
+
+            // Launch the main menu
             Intent intent = new Intent(GameCompleteActivity.this, MainMenuActivity.class);
             startActivity(intent);
         });
@@ -43,6 +47,7 @@ public class GameCompleteActivity extends MenuForAllActivity {
         Button restartButton = findViewById(R.id.restart_button);
         restartButton.setOnClickListener(view -> {
             Intent intent;
+            // Check which mode the game is currently in
             if (getIntent().getBooleanExtra(getString(R.string.mode_key), false)) {
                 intent = new Intent(this, ListenModeActivity.class);
             } else {
@@ -67,13 +72,9 @@ public class GameCompleteActivity extends MenuForAllActivity {
 
         durationTextView.setText(timeText);
     }
-    // TODO: Configure newIntent to be able to launch both normal and listening mode
-    @NonNull
-    public Intent newIntent(Context packageContext, String[] words, String[] translations) {
-        Intent intent = new Intent(packageContext, SudokuActivity.class);
-        intent.putExtra(getString(R.string.words_key), words);
-        intent.putExtra(getString(R.string.translations_key), translations);
-        return intent;
-    }
 
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+    }
 }

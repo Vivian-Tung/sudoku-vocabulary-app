@@ -13,37 +13,37 @@
         android:theme="@style/Theme.SudokuVocabulary"
         tools:targetApi="31" >
         <activity
-            android:name=".ListenModeActivity"
+            android:name=".activities.ListenModeActivity"
             android:exported="false" />
         <activity
-            android:name=".BaseSudokuActivity"
+            android:name=".activities.BaseSudokuActivity"
             android:exported="false" />
         <activity
-            android:name=".SelectModeActivity"
+            android:name=".activities.SelectModeActivity"
             android:exported="false" />
         <activity
-            android:name=".DisplayListActivity"
+            android:name=".activities.DisplayListActivity"
             android:exported="false" />
         <activity
-            android:name=".WordListNameActivity"
+            android:name=".activities.WordListNameActivity"
             android:exported="false" />
         <activity
-            android:name=".WordListsActivity"
+            android:name=".activities.WordListsActivity"
             android:exported="false" />
         <activity
-            android:name=".TutorialActivity"
+            android:name=".activities.TutorialActivity"
             android:exported="false" />
         <activity
-            android:name=".GameCompleteActivity"
+            android:name=".activities.GameCompleteActivity"
             android:exported="false" />
         <activity
-            android:name=".SudokuActivity"
+            android:name=".activities.SudokuActivity"
             android:exported="false" />
         <activity
-            android:name=".SetSudokuSizeActivity"
+            android:name=".activities.SetSudokuSizeActivity"
             android:exported="false" />
         <activity
-            android:name=".MainMenuActivity"
+            android:name=".activities.MainMenuActivity"
             android:exported="true" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -52,10 +52,10 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".WordCategoryActivity"
+            android:name=".activities.WordCategoryActivity"
             android:exported="false" />
         <activity
-            android:name=".AddWordsActivity"
+            android:name=".activities.AddWordsActivity"
             android:exported="false" />
     </application>
 

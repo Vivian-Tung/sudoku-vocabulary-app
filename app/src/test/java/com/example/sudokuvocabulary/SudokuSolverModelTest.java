@@ -2,6 +2,9 @@ package com.example.sudokuvocabulary;
 
 import static org.junit.Assert.*;
 
+import com.example.sudokuvocabulary.models.SudokuModel;
+import com.example.sudokuvocabulary.models.SudokuSolverModel;
+
 import org.junit.Test;
 
 public class SudokuSolverModelTest {

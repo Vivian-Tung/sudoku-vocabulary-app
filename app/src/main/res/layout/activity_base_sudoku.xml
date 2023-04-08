@@ -4,13 +4,13 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".BaseSudokuActivity">
+    tools:context=".activities.BaseSudokuActivity">
 
     <include
         android:id="@+id/toolbar"
         layout="@layout/toolbar" />
 
-    <com.example.sudokuvocabulary.QuestionCardView
+    <com.example.sudokuvocabulary.views.QuestionCardView
         android:id="@+id/questionCardView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -23,7 +23,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/toolbar" />
 
-    <com.example.sudokuvocabulary.SudokuView
+    <com.example.sudokuvocabulary.views.SudokuView
         android:id="@+id/sudokuGridView"
         android:layout_width="0dp"
         android:layout_height="0dp"

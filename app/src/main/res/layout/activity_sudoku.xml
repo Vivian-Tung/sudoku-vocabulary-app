@@ -5,13 +5,13 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".SudokuActivity">
+    tools:context=".activities.SudokuActivity">
 
     <include
         android:id="@+id/toolbar"
         layout="@layout/toolbar"/>
 
-    <com.example.sudokuvocabulary.QuestionCardView
+    <com.example.sudokuvocabulary.views.QuestionCardView
         android:id="@+id/questionCardView"
         tools:layout_editor_absoluteX="47dp"
         tools:layout_editor_absoluteY="32dp"
@@ -25,9 +25,9 @@
         custom:layout_constraintEnd_toEndOf="parent"
         custom:layout_constraintStart_toStartOf="parent"
         custom:layout_constraintTop_toTopOf="parent" >
-    </com.example.sudokuvocabulary.QuestionCardView>
+    </com.example.sudokuvocabulary.views.QuestionCardView>
 
-    <com.example.sudokuvocabulary.SudokuView
+    <com.example.sudokuvocabulary.views.SudokuView
         android:id="@+id/sudokuGridView"
         android:layout_width="0dp"
         android:layout_height="0dp"
@@ -38,6 +38,6 @@
         custom:layout_constraintEnd_toEndOf="parent"
         custom:layout_constraintStart_toStartOf="parent"
         custom:layout_constraintTop_toTopOf="parent" >
-    </com.example.sudokuvocabulary.SudokuView>
+    </com.example.sudokuvocabulary.views.SudokuView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

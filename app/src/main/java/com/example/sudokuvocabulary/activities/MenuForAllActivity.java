@@ -1,24 +1,18 @@
-package com.example.sudokuvocabulary;
+package com.example.sudokuvocabulary.activities;
 
-import static androidx.appcompat.app.AppCompatDelegate.getDefaultNightMode;
-import static androidx.constraintlayout.helper.widget.MotionEffect.TAG;
-
+import android.annotation.SuppressLint;
 import android.content.Intent;
-import android.util.Log;
+import android.content.res.Configuration;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.CompoundButton;
-import android.widget.ImageView;
-import android.widget.Switch;
-import android.widget.Toast;
-import android.widget.Toolbar;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
 import androidx.appcompat.widget.SwitchCompat;
+
+import com.example.sudokuvocabulary.R;
 
 public class MenuForAllActivity extends AppCompatActivity {
 
@@ -38,32 +32,24 @@ public class MenuForAllActivity extends AppCompatActivity {
         itemSwitch.setActionView(R.layout.switch_item); //switch item layout;
         SwitchCompat darkSwitch = (SwitchCompat) menu.findItem(R.id.action_darkSwitch).getActionView().findViewById(R.id.switchTemplate);
 
-        // set the default value to false
-        isNightModeOn = false;
-        darkSwitch.setChecked(isNightModeOn);
-        //check for dark or light mode
-        if (AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_YES) {
-            isNightModeOn = true;
-        } else {
-            isNightModeOn = false;
-        }
-        darkSwitch.setChecked(isNightModeOn);
+        // set the default dark switch value to system theme
+        boolean currentTheme = (getResources().getConfiguration().uiMode &
+                Configuration.UI_MODE_NIGHT_MASK) == Configuration.UI_MODE_NIGHT_YES;
+        darkSwitch.setChecked(currentTheme);
 
         //listener
-        darkSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton compoundButton, boolean isNightModeOn) {
-                if (isNightModeOn) {
-                    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
-                } else {
-                    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
-                }
+        darkSwitch.setOnCheckedChangeListener((compoundButton, isNightModeOn) -> {
+            if (isNightModeOn) {
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+            } else {
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
             }
         });
         return true;
     }
 
 
+    @SuppressLint("NonConstantResourceId")
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId())
@@ -71,6 +57,10 @@ public class MenuForAllActivity extends AppCompatActivity {
             case R.id.action_tutorialBtn:
                 Intent intent = new Intent(this, TutorialActivity.class);
                 startActivity(intent);
+                return true;
+
+            case android.R.id.home:
+                onBackPressed();
                 return true;
 
             default:

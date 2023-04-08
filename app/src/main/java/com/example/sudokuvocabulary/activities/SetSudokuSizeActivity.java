@@ -1,16 +1,18 @@
-package com.example.sudokuvocabulary;
+package com.example.sudokuvocabulary.activities;
 
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.TextView;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.SwitchCompat;
 import androidx.appcompat.widget.Toolbar;
+
+import com.example.sudokuvocabulary.R;
+import com.example.sudokuvocabulary.models.WordDictionaryModel;
+import com.example.sudokuvocabulary.adapters.DBAdapter;
+import com.example.sudokuvocabulary.utils.PrefUtils;
 
 public class SetSudokuSizeActivity extends MenuForAllActivity implements View.OnClickListener{
 
@@ -23,6 +25,10 @@ public class SetSudokuSizeActivity extends MenuForAllActivity implements View.On
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            getSupportActionBar().setDisplayShowHomeEnabled(true);
+        }
         TextView timer = findViewById(R.id.TimerText);
         timer.setVisibility(View.GONE);
 
@@ -63,7 +69,7 @@ public class SetSudokuSizeActivity extends MenuForAllActivity implements View.On
         int subWidth = (int) Math.ceil(Math.sqrt(size));
         int subHeight = (int) Math.floor(Math.sqrt(size));
         Cursor cursor  = db.getAllRows("words");
-        WordDictionary dictionary = new WordDictionary();
+        WordDictionaryModel dictionary = new WordDictionaryModel();
         while(cursor.moveToNext() && size-- > 0) {
             String word = cursor.getString(
                     cursor.getColumnIndexOrThrow("word"));
@@ -83,6 +89,7 @@ public class SetSudokuSizeActivity extends MenuForAllActivity implements View.On
         }
         intent.putExtra(getString(R.string.sub_width_key), subWidth);
         intent.putExtra(getString(R.string.sub_height_key), subHeight);
+        PrefUtils.saveBoolPreference(this, getString(R.string.save_game_key), false);
         startActivity(intent);
     }
 

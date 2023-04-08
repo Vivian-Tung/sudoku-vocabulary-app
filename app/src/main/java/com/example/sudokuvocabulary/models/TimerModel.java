@@ -1,4 +1,4 @@
-package com.example.sudokuvocabulary;
+package com.example.sudokuvocabulary.models;
 
 import android.os.Handler;
 
@@ -6,17 +6,18 @@ import java.util.Locale;
 import java.util.Timer;
 import java.util.TimerTask;
 
-public class TimerHelper {
+public class TimerModel {
     private double time;
-    private final Timer timer = new Timer();
+    private Timer timer;
     private final Handler handler;
 
-    public TimerHelper(double startTime, Handler handler) {
+    public TimerModel(double startTime, Handler handler) {
         this.time = startTime;
         this.handler = handler;
     }
 
     public void start() {
+        timer = new Timer();
         timer.scheduleAtFixedRate(new TimerTask() {
             public void run() {
                 time++;
@@ -48,4 +49,5 @@ public class TimerHelper {
                 String.format(Locale.ENGLISH, "%02d",minutes) + " : " +
                 String.format(Locale.ENGLISH, "%02d", seconds);
     }
+
 }

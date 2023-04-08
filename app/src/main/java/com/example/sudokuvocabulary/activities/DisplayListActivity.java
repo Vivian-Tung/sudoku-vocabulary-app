@@ -22,10 +22,12 @@ public class DisplayListActivity extends MenuForAllActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        // Set the activity header to the new table name
         tableName = getIntent().getStringExtra(getString(R.string.new_table_name_key));
         TextView activityTitle = findViewById(R.id.display_list_name_text);
         activityTitle.setText(tableName);
 
+        // Get the currently selected words
         words = getIntent().getStringArrayExtra(
                 getString(R.string.words_key));
         translations = getIntent().getStringArrayExtra(
@@ -34,6 +36,7 @@ public class DisplayListActivity extends MenuForAllActivity {
         WordDictionaryModel dictionary = new WordDictionaryModel(words, translations);
         LinearLayout layout = findViewById(R.id.display_list_word_view);
 
+        // Display the selected words
         for (String word: dictionary.getWordsAsArray()) {
             TextView textView = new TextView(this);
             textView.setLayoutParams(new LinearLayout.LayoutParams(
@@ -60,6 +63,8 @@ public class DisplayListActivity extends MenuForAllActivity {
         String categoryKey = getString(R.string.category_key);
         Intent intent = new Intent(DisplayListActivity.this,
                 AddWordsActivity.class);
+
+        // Pass the words and their translations to the word adding activity
         intent.putExtra(getString(R.string.new_table_name_key), tableName);
         intent.putExtra(getString(R.string.words_key), words);
         intent.putExtra(getString(R.string.translations_key), translations);

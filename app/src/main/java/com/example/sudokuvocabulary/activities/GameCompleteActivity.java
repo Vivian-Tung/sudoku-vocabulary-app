@@ -30,6 +30,7 @@ public class GameCompleteActivity extends MenuForAllActivity {
             startActivity(intent);
         });
 
+        // Set up the restart button
         Button restartButton = findViewById(R.id.restart_button);
         restartButton.setOnClickListener(view -> {
             Intent intent;
@@ -44,6 +45,7 @@ public class GameCompleteActivity extends MenuForAllActivity {
             startActivity(intent);
         });
 
+        // Get and show the time the user took to complete the puzzle
         long duration = (long) getIntent().getDoubleExtra(
                 getString(R.string.time_key), 0);
 

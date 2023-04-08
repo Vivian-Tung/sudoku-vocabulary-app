@@ -73,4 +73,12 @@ public class SaveFileUtil {
         Object[] objects = readAllFromSave(context, fileName);
         return objects[object.ordinal()];
     }
+
+    public static boolean saveExists(Context context, String fileName) {
+        return context.getFileStreamPath(fileName).exists();
+    }
+
+    public static void deleteSave(Context context, String fileName) {
+        context.deleteFile(fileName);
+    }
 }

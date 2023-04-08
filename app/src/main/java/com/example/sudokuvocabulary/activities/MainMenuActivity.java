@@ -6,6 +6,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import androidx.fragment.app.DialogFragment;
+
 import com.example.sudokuvocabulary.R;
 import com.example.sudokuvocabulary.utils.PrefUtils;
 import com.example.sudokuvocabulary.utils.SaveFileUtil;
@@ -19,17 +21,21 @@ public class MainMenuActivity extends MenuForAllActivity {
         // Set up play button
         Button playButton = findViewById(R.id.main_menu_play_button);
         playButton.setOnClickListener(v -> {
-            Intent intent = new Intent (
-                    MainMenuActivity.this,
+            if (SaveFileUtil.saveExists(this, getString(R.string.save_game_file))) {
+                DialogFragment newFragment = OverrideSaveDialogFragment.newInstance(0);
+                newFragment.show(getSupportFragmentManager().beginTransaction(), "dialog");
+            } else {
+                PrefUtils.saveBoolPreference(this, getString(R.string.save_game_file), false);Intent intent = new Intent (
+                    this,
                     SelectModeActivity.class
             );
-            startActivity(intent);
+            startActivity(intent);}
         });
 
         // Set up load button
+        String saveFileName = getString(R.string.save_game_file);
         Button loadButton = findViewById(R.id.load_save_button);
-        boolean saveExists = PrefUtils.loadBoolPreference(this, getString(R.string.save_game_key));
-        loadButton.setEnabled(saveExists);
+        loadButton.setEnabled(SaveFileUtil.saveExists(this, saveFileName));
         loadButton.setOnClickListener(view -> {
             Intent intent;
 

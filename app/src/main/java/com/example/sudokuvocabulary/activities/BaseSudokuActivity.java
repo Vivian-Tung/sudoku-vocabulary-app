@@ -15,6 +15,7 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
@@ -54,18 +55,17 @@ public abstract class BaseSudokuActivity extends MenuForAllActivity implements V
 
         int subWidth, subHeight;
 
-        // Load existing save file if load button was pressed from main menu
-        if (PrefUtils.loadBoolPreference(this, getString(R.string.save_game_key))) {
+        // Load existing save file if load button was pressed from main menu and save file exists
+        if (PrefUtils.loadBoolPreference(this, getString(R.string.save_game_key)) &&
+                SaveFileUtil.saveExists(this, saveFileName)) {
             Object[] savedObjects = SaveFileUtil.readAllFromSave(this, saveFileName);
             mSudokuModel = (SudokuModel) savedObjects[SaveFileUtil.SaveObjects.SUDOKU_MODEL.ordinal()];
             mWords = (String[]) savedObjects[SaveFileUtil.SaveObjects.WORDS.ordinal()];
             mTranslations = (String[]) savedObjects[SaveFileUtil.SaveObjects.TRANSLATIONS.ordinal()];
             mSudokuView.setView((String[][]) savedObjects[SaveFileUtil.SaveObjects.SUDOKU_GRID.ordinal()]);
             startTime = (double) savedObjects[SaveFileUtil.SaveObjects.TIME.ordinal()];
-            PrefUtils.saveBoolPreference(this, getString(R.string.save_game_key), false);
-
-        // Initialize a new game using parameters passed in from previous menus
         } else {
+            // Initialize a new game
             subWidth = getIntent().getIntExtra(getString(R.string.sub_width_key), 3);
             subHeight = getIntent().getIntExtra(getString(R.string.sub_height_key), 3);
             mWords = getIntent().getStringArrayExtra(getString(R.string.words_key));
@@ -277,7 +277,7 @@ public abstract class BaseSudokuActivity extends MenuForAllActivity implements V
     /**
      * Saves necessary components of the game to a serialized file using SaveFileUtil.
      */
-    private void saveGame() {
+    public void saveGame() {
         Serializable[] objectsToSave = {
                 this.getClass() == ListenModeActivity.class, // Current game mode
                 mSudokuModel,

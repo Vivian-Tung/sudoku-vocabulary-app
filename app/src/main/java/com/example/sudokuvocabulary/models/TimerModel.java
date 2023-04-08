@@ -8,7 +8,7 @@ import java.util.TimerTask;
 
 public class TimerModel {
     private double time;
-    private final Timer timer = new Timer();
+    private Timer timer;
     private final Handler handler;
 
     public TimerModel(double startTime, Handler handler) {
@@ -17,6 +17,7 @@ public class TimerModel {
     }
 
     public void start() {
+        timer = new Timer();
         timer.scheduleAtFixedRate(new TimerTask() {
             public void run() {
                 time++;
@@ -48,4 +49,5 @@ public class TimerModel {
                 String.format(Locale.ENGLISH, "%02d",minutes) + " : " +
                 String.format(Locale.ENGLISH, "%02d", seconds);
     }
+
 }

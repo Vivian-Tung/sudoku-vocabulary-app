@@ -8,8 +8,10 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.DialogFragment;
 
-import com.example.sudokuvocabulary.activites.MainMenuActivity;
 import com.example.sudokuvocabulary.R;
+import com.example.sudokuvocabulary.activities.BaseSudokuActivity;
+import com.example.sudokuvocabulary.activities.MainMenuActivity;
+import com.example.sudokuvocabulary.utils.PrefUtils;
 
 public class ExitGameDialogFragment extends DialogFragment {
 
@@ -31,11 +33,11 @@ public class ExitGameDialogFragment extends DialogFragment {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         builder.setMessage(R.string.dialog_exit_game)
                 .setPositiveButton(R.string.exit, (dialog, id) -> {
+                    PrefUtils.saveBoolPreference(getContext(), getString(R.string.save_game_key), true);
                     Intent intent = new Intent(getContext(), MainMenuActivity.class);
                     startActivity(intent);
                 })
-                .setNegativeButton(R.string.cancel, (dialog, id) -> {
-                });
+                .setNegativeButton(R.string.cancel, (dialog, id) -> ((BaseSudokuActivity) getActivity()).resumeTimer());
         // Create the AlertDialog object and return it
         return builder.create();
     }

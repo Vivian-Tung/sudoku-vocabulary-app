@@ -1,4 +1,4 @@
-package com.example.sudokuvocabulary.activites;
+package com.example.sudokuvocabulary.activities;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -19,12 +19,16 @@ import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
-import com.example.sudokuvocabulary.fragments.ExitGameDialogFragment;
-import com.example.sudokuvocabulary.views.QuestionCardView;
 import com.example.sudokuvocabulary.R;
+import com.example.sudokuvocabulary.fragments.ExitGameDialogFragment;
 import com.example.sudokuvocabulary.models.SudokuModel;
-import com.example.sudokuvocabulary.views.SudokuView;
 import com.example.sudokuvocabulary.models.TimerModel;
+import com.example.sudokuvocabulary.utils.PrefUtils;
+import com.example.sudokuvocabulary.utils.SaveFileUtil;
+import com.example.sudokuvocabulary.views.QuestionCardView;
+import com.example.sudokuvocabulary.views.SudokuView;
+
+import java.io.Serializable;
 
 public abstract class BaseSudokuActivity extends MenuForAllActivity implements View.OnTouchListener {
     protected QuestionCardView mQuestionCard;
@@ -37,6 +41,7 @@ public abstract class BaseSudokuActivity extends MenuForAllActivity implements V
     protected TimerModel timer;
     protected double startTime = 0;
     protected int mStackLevel = 0;
+    protected String saveFileName;
 
     @SuppressLint("ClickableViewAccessibility")
     @Override
@@ -45,6 +50,7 @@ public abstract class BaseSudokuActivity extends MenuForAllActivity implements V
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_base_sudoku);
 
+        // Initialize toolbar and add back arrow button
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         if (getSupportActionBar() != null) {
@@ -52,36 +58,52 @@ public abstract class BaseSudokuActivity extends MenuForAllActivity implements V
             getSupportActionBar().setDisplayShowHomeEnabled(true);
         }
 
-        TimerText = findViewById(R.id.TimerText);
-        if (savedInstanceState != null) {
-            startTime = savedInstanceState.getDouble(getString(R.string.time_key));
+        saveFileName = getString(R.string.save_game_file);
+
+        mSudokuView = findViewById(R.id.sudokuGridView);
+        int subWidth, subHeight;
+
+        // Load existing save file if load button was pressed from main menu
+        if (PrefUtils.loadBoolPreference(this, getString(R.string.save_game_key))) {
+            Object[] savedObjects = SaveFileUtil.readAllFromSave(this, saveFileName);
+            mSudokuModel = (SudokuModel) savedObjects[SaveFileUtil.SaveObjects.SUDOKU_MODEL.ordinal()];
+            mWords = (String[]) savedObjects[SaveFileUtil.SaveObjects.WORDS.ordinal()];
+            mTranslations = (String[]) savedObjects[SaveFileUtil.SaveObjects.TRANSLATIONS.ordinal()];
+            mSudokuView.setView((String[][]) savedObjects[SaveFileUtil.SaveObjects.SUDOKU_GRID.ordinal()]);
+            startTime = (double) savedObjects[SaveFileUtil.SaveObjects.TIME.ordinal()];
+
+            PrefUtils.saveBoolPreference(this, getString(R.string.save_game_key), false);
+        } else {
+            subWidth = getIntent().getIntExtra(getString(R.string.sub_width_key), 3);
+            subHeight = getIntent().getIntExtra(getString(R.string.sub_height_key), 3);
+            mWords = getIntent().getStringArrayExtra(getString(R.string.words_key));
+            mTranslations = getIntent().getStringArrayExtra(getString(R.string.translations_key));
+            mSudokuModel = new SudokuModel(mWords.length, subWidth, subHeight, (mWords.length*mWords.length)/2);
+
+            // Set the words to draw on the grid and the dimensions of the grid
+            initializeGrid();
+            mSudokuView.setSubGridDimensions(subWidth, subHeight);
+
+            if (savedInstanceState != null) {
+                startTime = savedInstanceState.getDouble(getString(R.string.time_key));
+            }
         }
+
+        // Hide the input prompt
+        mQuestionCard = findViewById(R.id.questionCardView);
+        mQuestionCard.hide();
+
+        // Setup and start the timer
+        mSudokuView.setOnTouchListener(this);
+
+        TimerText = findViewById(R.id.TimerText);
         timer = new TimerModel(startTime, new Handler(Looper.myLooper()) {
             @Override
             public void handleMessage(@Nullable Message msg) {
                 super.handleMessage(msg);
-                TimerText.setText(timer.getTimerText());
+                TimerText.setText(timer.getTimerText()); // Update timer view
             }
         });
-
-        mWords = getIntent().getStringArrayExtra(getString(R.string.words_key));
-        mTranslations = getIntent().getStringArrayExtra(getString(R.string.translations_key));
-
-        mSudokuModel = new SudokuModel();
-        int subWidth = getIntent().getIntExtra(getString(R.string.sub_width_key), 3);
-        int subHeight = getIntent().getIntExtra(getString(R.string.sub_height_key), 3);
-
-        mSudokuModel = new SudokuModel(mWords.length, subWidth, subHeight, (mWords.length*mWords.length)/2);
-        mSudokuView = findViewById(R.id.sudokuGridView);
-
-        // Set the words to draw on the grid and the dimensions of the grid
-        initializeGrid();
-        mSudokuView.setSubGridDimensions(subWidth, subHeight);
-
-        mQuestionCard = findViewById(R.id.questionCardView);
-        mQuestionCard.hide();
-
-        mSudokuView.setOnTouchListener(this);
         timer.start();
     }
 
@@ -121,12 +143,17 @@ public abstract class BaseSudokuActivity extends MenuForAllActivity implements V
         savedInstanceState.putString(getString(R.string.word_prompt_key), mWordPrompt);
         savedInstanceState.putStringArray(getString(R.string.word_grid_key),
                 SudokuModel.flatten(mSudokuView.getWordsToDraw()));
+        if (PrefUtils.loadBoolPreference(this, getString(R.string.save_game_key))) {
+            saveGame();
+        }
         super.onSaveInstanceState(savedInstanceState);
     }
 
     @Override
     public void onRestoreInstanceState(Bundle savedInstanceState) {
         super.onRestoreInstanceState(savedInstanceState);
+
+
 
         mSudokuModel = new SudokuModel();
         mSudokuModel.setGridFromArray(savedInstanceState.getIntArray(getString(R.string.current_grid_key)));
@@ -154,6 +181,7 @@ public abstract class BaseSudokuActivity extends MenuForAllActivity implements V
 
     @Override
     public void onBackPressed() {
+        timer.stop();
         showExitDialog();
     }
 
@@ -176,6 +204,10 @@ public abstract class BaseSudokuActivity extends MenuForAllActivity implements V
 
     protected abstract void onCardRestore();
 
+    public void resumeTimer() {
+        timer.start();
+    }
+
     private void setButtonListeners(Button[] buttons) {
         for (Button button: buttons) {
             button.setOnClickListener(onClick());
@@ -194,6 +226,17 @@ public abstract class BaseSudokuActivity extends MenuForAllActivity implements V
         // Create and show the dialog.
         DialogFragment newFragment = ExitGameDialogFragment.newInstance(mStackLevel);
         newFragment.show(ft, "dialog");
+    }
 
+    private void saveGame() {
+        Serializable[] objectsToSave = {
+                this.getClass() == ListenModeActivity.class, // Current game mode
+                mSudokuModel,
+                mSudokuView.getWordsToDraw(),
+                timer.getTime(),
+                mWords,
+                mTranslations,
+        };
+        SaveFileUtil.writeToSave(this, objectsToSave, saveFileName);
     }
 }

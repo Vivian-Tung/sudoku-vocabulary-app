@@ -91,6 +91,13 @@ public class SudokuView extends View {
         this.invalidate();
     }
 
+    public void setView(String[][] wordsToDraw) {
+        mGridLength = wordsToDraw.length;
+        mWordsToDraw = wordsToDraw;
+        mSubGridWidth = (int) Math.ceil(Math.sqrt(mGridLength));
+        mSubGridHeight = (int) Math.floor(Math.sqrt(mGridLength));
+    }
+
     public int getCellHeight() {
         return mCellHeight;
     }
@@ -114,6 +121,7 @@ public class SudokuView extends View {
 
     public void setWordsToDraw(String[][] wordsToDraw) {
         mWordsToDraw = wordsToDraw;
+        mGridLength = wordsToDraw.length;
         this.invalidate();
     }
 

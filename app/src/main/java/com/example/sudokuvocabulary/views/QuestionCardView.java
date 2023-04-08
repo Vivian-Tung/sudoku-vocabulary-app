@@ -5,7 +5,6 @@ import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.ViewTreeObserver;
 import android.widget.Button;
 import android.widget.TableLayout;
 import android.widget.TableRow;
@@ -89,17 +88,8 @@ public class QuestionCardView extends CardView {
         }
         for (Button button: mWordChoiceButtons) {
             button.setText(shuffledChoices[buttonNum++]);
-            ViewTreeObserver viewTreeObserver = button.getViewTreeObserver();
-            if (viewTreeObserver.isAlive()) {
-                viewTreeObserver.addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
-                    @Override
-                    public void onGlobalLayout() {
-                        button.getViewTreeObserver().removeOnGlobalLayoutListener(this);
-                        if (getResources().getBoolean(R.bool.isTablet)) {
-                            button.setTextSize((float) (button.getHeight() * 0.75));
-                        }
-                    }
-                });
+            if (getResources().getBoolean(R.bool.isTablet)) {
+                button.setTextSize((float) (42));
             }
         }
     }
@@ -114,7 +104,7 @@ public class QuestionCardView extends CardView {
     }
 
     private int numberOfColumns(int choices) {
-        return (int) Math.ceil((double) Math.sqrt((double) choices));
+        return (int) Math.ceil(Math.sqrt(choices));
     }
 
     private Button[] newButtonArray(int choices) {

@@ -45,7 +45,7 @@ public class SudokuView extends View {
     @Override
     public void onMeasure(int width, int height) {
         super.onMeasure(width, height);
-        int min = (int) Math.min(getMeasuredWidth(), getMeasuredHeight());
+        int min = Math.min(getMeasuredWidth(), getMeasuredHeight());
         // Calculate the size for each individual cell
         mCellHeight = (min / mGridLength);
         mCellWidth = getMeasuredWidth() / mGridLength;
@@ -60,7 +60,11 @@ public class SudokuView extends View {
         mGridColourPaint.setAntiAlias(true);
 
         mCellItemFillColourPaint.setStyle(Paint.Style.FILL);
-        mCellItemFillColourPaint.setTextSize((int) (getCellWidth()/3));
+        if (getResources().getBoolean(R.bool.isTablet)) {
+            mCellItemFillColourPaint.setTextSize(36);
+        } else {
+            mCellItemFillColourPaint.setTextSize((float) (getCellWidth()/3));
+        }
         mCellItemFillColourPaint.setColor(mCellItemFillColour);
         mCellItemFillColourPaint.setAntiAlias(true);
         mCellItemFillColourPaint.setTextAlign(Paint.Align.CENTER);

@@ -9,7 +9,7 @@ After clicking the 6x6 button, this is what the board will look like. <br /><br 
 <img src="./user-story-assets/clickingemptycell.png" alt="save-menu" width="200px"><br />
 If the user were to click on an empty cell , they will be prompted with this pop up. An audio queue of the word will play and it is the users turn now to choose the right word. <br /><br />
 <img src="./user-story-assets/clickingnumber.png" alt="save-menu" width="200px"><br />
-if the user were to click on a number, they will again be prompted with a popup and an audio queue. Again it is now the users turn to listen and click the right translation.
+if the user were to click on a number, they will again be prompted with a popup and an audio queue. Again it is now the users turn to listen and click the right translation. <br /><br />
 **Updating for full functionality of your application:**<br />
 <img src="./user-story-assets/main.png" alt="save-menu" width="200px"><br />
 This is the main menu of our game. Now lets click play! <br /><br />

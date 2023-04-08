@@ -12,10 +12,9 @@ import android.widget.Toast;
 import android.widget.ToggleButton;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.widget.Toolbar;
 
-import com.example.sudokuvocabulary.adapters.DBAdapter;
 import com.example.sudokuvocabulary.R;
+import com.example.sudokuvocabulary.adapters.DBAdapter;
 import com.example.sudokuvocabulary.models.WordDictionaryModel;
 import com.example.sudokuvocabulary.models.WordSampleModel;
 
@@ -33,18 +32,12 @@ public class AddWordsActivity extends MenuForAllActivity implements View.OnClick
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_add_words);
 
-        Toolbar toolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-        if(getSupportActionBar() != null) {
-            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-            getSupportActionBar().setDisplayShowHomeEnabled(true);
-        }
+        // Hide the toolbar in the timer
         TextView timer = findViewById(R.id.TimerText);
         timer.setVisibility(View.GONE);
 
-
+        // Get the category that was selected in the previous activity
         category = getIntent().getStringExtra(getString(R.string.category_key)).toLowerCase();
         TextView title = findViewById(R.id.category_title);
 
@@ -53,11 +46,9 @@ public class AddWordsActivity extends MenuForAllActivity implements View.OnClick
                 category.substring(0,1).toUpperCase(), category.substring(1));
         title.setText(title_text);
 
-        // Open the database
+        // Retrieve the words for the given category from the database
         db = new DBAdapter(this);
         db.open();
-
-        // Retrieve the words for the given category
         ArrayList<ArrayList<String>> words = db.getWordsFromCategory(category);
         this.words = new WordDictionaryModel(words.get(0), words.get(1));
 
@@ -87,6 +78,11 @@ public class AddWordsActivity extends MenuForAllActivity implements View.OnClick
 
         Button prevButton = findViewById(R.id.animal_category_prev_button);
         prevButton.setOnClickListener(this);
+    }
+
+    @Override
+    protected void setContentView() {
+        this.setContentView(R.layout.activity_add_words);
     }
 
     @Override
@@ -221,5 +217,4 @@ public class AddWordsActivity extends MenuForAllActivity implements View.OnClick
         });
         return button;
     }
-
 }

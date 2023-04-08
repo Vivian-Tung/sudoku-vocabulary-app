@@ -14,7 +14,6 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
@@ -48,15 +47,6 @@ public abstract class BaseSudokuActivity extends MenuForAllActivity implements V
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_base_sudoku);
-
-        // Initialize toolbar and add back arrow button
-        Toolbar toolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-        if (getSupportActionBar() != null) {
-            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-            getSupportActionBar().setDisplayShowHomeEnabled(true);
-        }
 
         saveFileName = getString(R.string.save_game_file);
 
@@ -181,6 +171,11 @@ public abstract class BaseSudokuActivity extends MenuForAllActivity implements V
     public void onBackPressed() {
         timer.stop();
         showExitDialog();
+    }
+
+    @Override
+    protected void setContentView() {
+        this.setContentView(R.layout.activity_base_sudoku);
     }
 
     @NonNull

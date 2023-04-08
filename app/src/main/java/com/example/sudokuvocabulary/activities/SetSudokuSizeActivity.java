@@ -7,11 +7,9 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
-import androidx.appcompat.widget.Toolbar;
-
 import com.example.sudokuvocabulary.R;
-import com.example.sudokuvocabulary.models.WordDictionaryModel;
 import com.example.sudokuvocabulary.adapters.DBAdapter;
+import com.example.sudokuvocabulary.models.WordDictionaryModel;
 import com.example.sudokuvocabulary.utils.PrefUtils;
 
 public class SetSudokuSizeActivity extends MenuForAllActivity implements View.OnClickListener{
@@ -21,16 +19,6 @@ public class SetSudokuSizeActivity extends MenuForAllActivity implements View.On
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_set_sudoku_size);
-
-        Toolbar toolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-        if (getSupportActionBar() != null) {
-            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-            getSupportActionBar().setDisplayShowHomeEnabled(true);
-        }
-        TextView timer = findViewById(R.id.TimerText);
-        timer.setVisibility(View.GONE);
 
         db = new DBAdapter(this);
         db.open();
@@ -47,6 +35,13 @@ public class SetSudokuSizeActivity extends MenuForAllActivity implements View.On
         Button btn_12x12 = findViewById(R.id.btn_12x12);
         btn_12x12.setOnClickListener(this);
 
+    }
+
+    @Override
+    protected void setContentView() {
+        this.setContentView(R.layout.activity_set_sudoku_size);
+        TextView timerText = findViewById(R.id.TimerText);
+        timerText.setVisibility(View.GONE);
     }
 
     @Override

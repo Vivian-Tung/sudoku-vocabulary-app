@@ -3,6 +3,7 @@ package com.example.sudokuvocabulary.activities;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.res.Configuration;
+import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -11,12 +12,25 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
 import androidx.appcompat.widget.SwitchCompat;
+import androidx.appcompat.widget.Toolbar;
 
 import com.example.sudokuvocabulary.R;
 
-public class MenuForAllActivity extends AppCompatActivity {
+public abstract class MenuForAllActivity extends AppCompatActivity {
 
-    boolean isNightModeOn;
+    @Override
+    protected void onCreate(Bundle savedInstanceStated) {
+        super.onCreate(savedInstanceStated);
+        setContentView();
+
+        // Initialize toolbar and add back arrow button
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            getSupportActionBar().setDisplayShowHomeEnabled(true);
+        }
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -68,4 +82,5 @@ public class MenuForAllActivity extends AppCompatActivity {
         }
     }
 
+    protected abstract void setContentView();
 }

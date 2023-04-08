@@ -8,8 +8,6 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import androidx.appcompat.widget.Toolbar;
-
 import com.example.sudokuvocabulary.R;
 import com.example.sudokuvocabulary.models.WordDictionaryModel;
 
@@ -23,16 +21,6 @@ public class DisplayListActivity extends MenuForAllActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_display_list);
-
-        Toolbar toolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-        if (getSupportActionBar() != null) {
-            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-            getSupportActionBar().setDisplayShowHomeEnabled(true);
-        }
-        TextView timer = findViewById(R.id.TimerText);
-        timer.setVisibility(View.GONE);
 
         tableName = getIntent().getStringExtra(getString(R.string.new_table_name_key));
         TextView activityTitle = findViewById(R.id.display_list_name_text);
@@ -58,6 +46,13 @@ public class DisplayListActivity extends MenuForAllActivity {
 
         Button backButton = findViewById(R.id.display_list_back_button);
         backButton.setOnClickListener(view -> onBackPressed());
+    }
+
+    @Override
+    protected void setContentView() {
+        this.setContentView(R.layout.activity_display_list);
+        TextView timerText = findViewById(R.id.TimerText);
+        timerText.setVisibility(View.GONE);
     }
 
     @Override

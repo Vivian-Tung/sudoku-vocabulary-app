@@ -9,12 +9,11 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.widget.Toolbar;
 
 import com.example.sudokuvocabulary.R;
-import com.example.sudokuvocabulary.views.WordListsView;
 import com.example.sudokuvocabulary.adapters.DBAdapter;
 import com.example.sudokuvocabulary.models.WordDictionaryModel;
+import com.example.sudokuvocabulary.views.WordListsView;
 
 public class WordListsActivity extends MenuForAllActivity implements View.OnClickListener {
 
@@ -23,16 +22,6 @@ public class WordListsActivity extends MenuForAllActivity implements View.OnClic
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_word_lists);
-
-        Toolbar toolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-        if(getSupportActionBar() != null) {
-            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-            getSupportActionBar().setDisplayShowHomeEnabled(true);
-        }
-        TextView timer = findViewById(R.id.TimerText);
-        timer.setVisibility(View.GONE);
 
         db = new DBAdapter(this);
         db.open();
@@ -50,6 +39,13 @@ public class WordListsActivity extends MenuForAllActivity implements View.OnClic
         for (Button button: existingWordLists.getListButtons()) {
             button.setOnClickListener(this);
         }
+    }
+
+    @Override
+    protected void setContentView() {
+        this.setContentView(R.layout.activity_word_lists);
+        TextView timerText = findViewById(R.id.TimerText);
+        timerText.setVisibility(View.GONE);
     }
 
     @NonNull

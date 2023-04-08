@@ -6,8 +6,6 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
-import androidx.appcompat.widget.Toolbar;
-
 import com.example.sudokuvocabulary.R;
 
 public class SelectModeActivity extends MenuForAllActivity {
@@ -15,16 +13,6 @@ public class SelectModeActivity extends MenuForAllActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_select_mode);
-
-        Toolbar toolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-        if (getSupportActionBar() != null) {
-            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-            getSupportActionBar().setDisplayShowHomeEnabled(true);
-        }
-        TextView timer = findViewById(R.id.TimerText);
-        timer.setVisibility(View.GONE);
 
         // Key to store mode selected,
         // false = normal, true = listening
@@ -59,6 +47,13 @@ public class SelectModeActivity extends MenuForAllActivity {
             intent.putExtra(modeKey, true);
             startActivity(intent);
         });
+    }
+
+    @Override
+    protected void setContentView() {
+        setContentView(R.layout.activity_select_mode);
+        TextView timerText = findViewById(R.id.TimerText);
+        timerText.setVisibility(View.GONE);
     }
 
 }

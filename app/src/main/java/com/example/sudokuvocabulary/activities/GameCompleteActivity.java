@@ -6,8 +6,6 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
-import androidx.appcompat.widget.Toolbar;
-
 import com.example.sudokuvocabulary.R;
 import com.example.sudokuvocabulary.utils.PrefUtils;
 
@@ -19,13 +17,6 @@ public class GameCompleteActivity extends MenuForAllActivity {
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_game_complete);
-
-        Toolbar toolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-        TextView timer = findViewById(R.id.TimerText);
-        timer.setVisibility(View.GONE);
-
 
         mWords = getIntent().getStringArrayExtra(getString(R.string.words_key));
         mTranslations = getIntent().getStringArrayExtra(getString(R.string.translations_key));
@@ -66,5 +57,12 @@ public class GameCompleteActivity extends MenuForAllActivity {
         timeText += seconds + " seconds";
 
         durationTextView.setText(timeText);
+    }
+
+    @Override
+    protected void setContentView() {
+        this.setContentView(R.layout.activity_game_complete);
+        TextView timerText = findViewById(R.id.TimerText);
+        timerText.setVisibility(View.GONE);
     }
 }

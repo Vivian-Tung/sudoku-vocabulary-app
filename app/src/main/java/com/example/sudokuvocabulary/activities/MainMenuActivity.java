@@ -6,8 +6,6 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
-import androidx.appcompat.widget.Toolbar;
-
 import com.example.sudokuvocabulary.R;
 import com.example.sudokuvocabulary.utils.PrefUtils;
 import com.example.sudokuvocabulary.utils.SaveFileUtil;
@@ -17,18 +15,12 @@ public class MainMenuActivity extends MenuForAllActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main_menu);
 
         Button playButton = findViewById(R.id.main_menu_play_button);
         playButton.setOnClickListener(v -> {
             Intent intent = new Intent (MainMenuActivity.this, SelectModeActivity.class);
             startActivity(intent);
         });
-
-        Toolbar toolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-        TextView timer = findViewById(R.id.TimerText);
-        timer.setVisibility(View.GONE);
 
         Button loadButton = findViewById(R.id.load_save_button);
         boolean saveExists = PrefUtils.loadBoolPreference(this, getString(R.string.save_game_key));
@@ -51,8 +43,9 @@ public class MainMenuActivity extends MenuForAllActivity {
     }
 
     @Override
-    public void onDestroy() {
-        super.onDestroy();
+    protected void setContentView() {
+        setContentView(R.layout.activity_main_menu);
+        TextView timerText = findViewById(R.id.TimerText);
+        timerText.setVisibility(View.GONE);
     }
-
 }

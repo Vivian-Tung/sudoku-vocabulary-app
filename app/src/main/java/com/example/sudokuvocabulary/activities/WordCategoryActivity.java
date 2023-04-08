@@ -7,8 +7,6 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 
-import androidx.appcompat.widget.Toolbar;
-
 import com.example.sudokuvocabulary.R;
 import com.example.sudokuvocabulary.adapters.DBAdapter;
 
@@ -23,16 +21,6 @@ public class WordCategoryActivity extends MenuForAllActivity implements View.OnC
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_word_category);
-
-        Toolbar toolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-        if(getSupportActionBar() != null) {
-            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-            getSupportActionBar().setDisplayShowHomeEnabled(true);
-        }
-        TextView timer = findViewById(R.id.TimerText);
-        timer.setVisibility(View.GONE);
 
         tableName = getIntent().getStringExtra(getString(R.string.new_table_name_key));
 
@@ -46,6 +34,13 @@ public class WordCategoryActivity extends MenuForAllActivity implements View.OnC
 
         Button backButton = findViewById(R.id.word_category_back_button);
         backButton.setOnClickListener(this);
+    }
+
+    @Override
+    protected void setContentView() {
+        this.setContentView(R.layout.activity_word_category);
+        TextView timerText = findViewById(R.id.TimerText);
+        timerText.setVisibility(View.GONE);
     }
 
     @Override

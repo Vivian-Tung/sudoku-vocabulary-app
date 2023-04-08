@@ -1,11 +1,8 @@
 package com.example.sudokuvocabulary.activities;
 
-import android.os.Bundle;
 import android.view.Menu;
 import android.view.View;
 import android.widget.TextView;
-
-import androidx.appcompat.widget.Toolbar;
 
 import com.example.sudokuvocabulary.R;
 
@@ -22,17 +19,9 @@ public class TutorialActivity extends MenuForAllActivity {
     }
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.tutorial);
-
-        Toolbar toolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-        if (getSupportActionBar() != null) {
-            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-            getSupportActionBar().setDisplayShowHomeEnabled(true);
-        }
-        TextView timer = findViewById(R.id.TimerText);
-        timer.setVisibility(View.GONE);
+    protected void setContentView() {
+        this.setContentView(R.layout.tutorial);
+        TextView timerText = findViewById(R.id.TimerText);
+        timerText.setVisibility(View.GONE);
     }
 }

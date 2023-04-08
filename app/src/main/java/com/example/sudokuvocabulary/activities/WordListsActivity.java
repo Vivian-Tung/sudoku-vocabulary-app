@@ -26,14 +26,15 @@ public class WordListsActivity extends MenuForAllActivity implements View.OnClic
         db = new DBAdapter(this);
         db.open();
 
-        Button new_word_list_button = (Button) findViewById(R.id.create_new_word_list_button);
-
+        // Set up the button for creating new word lists
+        Button new_word_list_button = findViewById(R.id.create_new_word_list_button);
         new_word_list_button.setOnClickListener(view -> {
             Intent intent = new Intent(
                     WordListsActivity.this, WordListNameActivity.class);
             startActivity(intent);
         });
 
+        // Set up the button listeners and text for all existing word lists
         WordListsView existingWordLists = findViewById(R.id.existing_word_lists);
         existingWordLists.setWordListText(db.getTableNames());
         for (Button button: existingWordLists.getListButtons()) {
@@ -48,17 +49,10 @@ public class WordListsActivity extends MenuForAllActivity implements View.OnClic
         timerText.setVisibility(View.GONE);
     }
 
-    @NonNull
-    public static Intent newIntent(Context packageContext, WordDictionaryModel words) {
-        Intent intent = new Intent(packageContext, SudokuActivity.class);
-        intent.putExtra(packageContext.getString(R.string.words_key), words.getWordsAsArray());
-        intent.putExtra(packageContext.getString(
-                R.string.translations_key), words.getTranslationsAsArray());
-        return intent;
-    }
-
     @Override
     public void onClick(View view) {
+
+        // Get all the words associated with the selected category
         String tableName = (String) ((Button) view).getText();
         Cursor cursor  = db.getAllRows(tableName);
         WordDictionaryModel dictionary = new WordDictionaryModel();
@@ -70,6 +64,8 @@ public class WordListsActivity extends MenuForAllActivity implements View.OnClic
             dictionary.add(word, translation);
         }
         cursor.close();
+
+        // Start a new game
         Intent intent = newIntent(WordListsActivity.this, dictionary);
         intent.putExtra(getString(R.string.size_key), dictionary.getLength());
         intent.putExtra(getString(R.string.sub_width_key),
@@ -87,4 +83,12 @@ public class WordListsActivity extends MenuForAllActivity implements View.OnClic
         db.close();
     }
 
+    @NonNull
+    public static Intent newIntent(Context packageContext, WordDictionaryModel words) {
+        Intent intent = new Intent(packageContext, SudokuActivity.class);
+        intent.putExtra(packageContext.getString(R.string.words_key), words.getWordsAsArray());
+        intent.putExtra(packageContext.getString(
+                R.string.translations_key), words.getTranslationsAsArray());
+        return intent;
+    }
 }

@@ -16,8 +16,6 @@ import com.example.sudokuvocabulary.R;
 
 public class MenuForAllActivity extends AppCompatActivity {
 
-    boolean isNightModeOn;
-
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater menuInflater = getMenuInflater();
@@ -30,7 +28,7 @@ public class MenuForAllActivity extends AppCompatActivity {
         //handling dark switch action
         MenuItem itemSwitch = menu.findItem(R.id.action_darkSwitch);
         itemSwitch.setActionView(R.layout.switch_item); //switch item layout;
-        SwitchCompat darkSwitch = (SwitchCompat) menu.findItem(R.id.action_darkSwitch).getActionView().findViewById(R.id.switchTemplate);
+        SwitchCompat darkSwitch = menu.findItem(R.id.action_darkSwitch).getActionView().findViewById(R.id.switchTemplate);
 
         // set the default dark switch value to system theme
         boolean currentTheme = (getResources().getConfiguration().uiMode &

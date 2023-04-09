@@ -9,6 +9,8 @@ public class WordSampleModel {
        setTranslation(translation);
     }
 
+    public WordSampleModel() {}
+
     public String getWord() {return word;}
 
     public void setWord(String word) {

@@ -17,6 +17,8 @@ public class ListenModeActivity extends BaseSudokuActivity {
     @Override
     protected void onStart() {
         super.onStart();
+
+        // Set up the text to Speech
         mTextToSpeech = new TextToSpeech(this, status -> {
             if (status == TextToSpeech.SUCCESS) {
                 mTextToSpeech.setLanguage(Locale.CHINESE);
@@ -31,6 +33,7 @@ public class ListenModeActivity extends BaseSudokuActivity {
             String toastMessage;
 
             if (isCorrect()) {
+                // Fill the cells with the word
                 if (mSudokuModel.getValueAt(mCellRow, mCellColumn) == 0) {
                     mSudokuModel.checkAndFillCellAt(mCellRow, mCellColumn, mCellValue);
                 }
@@ -41,6 +44,8 @@ public class ListenModeActivity extends BaseSudokuActivity {
             }
             mQuestionCard.setVisibility(View.GONE);
             Toast.makeText(view.getContext(), toastMessage, Toast.LENGTH_SHORT).show();
+
+            // Stop the game if the board has been completely filled
             if (mSudokuModel.isGridFilled()) {
                 timer.stop();
                 Intent intent = newIntent(view.getContext(), mWords, mTranslations);
@@ -58,7 +63,7 @@ public class ListenModeActivity extends BaseSudokuActivity {
         for (int number: numbersToCopy) {
             numbers[index++] = Integer.toString(number);
         }
-        mSudokuView.setInitialGrid(mSudokuModel.getGridAsMatrix(), numbers);
+        mSudokuView.setView(mSudokuModel.getGridAsMatrix(), numbers);
     }
 
     @Override
@@ -75,13 +80,16 @@ public class ListenModeActivity extends BaseSudokuActivity {
             Toast.makeText(this, mWords[cellValue-1], Toast.LENGTH_SHORT).show();
             return;
         }
-        mQuestionCard.setCard(mWords);
+
+        // Read out the word from the selected cell
         mTextToSpeech.speak(
                 mTranslations[cellValue-1],
                 TextToSpeech.QUEUE_FLUSH,
                 null,
                 null
         );
+
+        mQuestionCard.setCard(mWords);
         mQuestionCard.show();
     }
 

@@ -5,16 +5,13 @@ import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.ViewTreeObserver;
 import android.widget.Button;
 import android.widget.TableLayout;
 import android.widget.TableRow;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.cardview.widget.CardView;
-import androidx.constraintlayout.widget.ConstraintLayout;
 
 import com.example.sudokuvocabulary.R;
 
@@ -23,8 +20,6 @@ import java.util.Random;
 public class QuestionCardView extends CardView {
     private final Context mContext;
     private final TableLayout mQuestionChoices;
-    private int mNumberOfChoices = 9;
-    private final TextView mQuestionPromptView;
     private Button[] mWordChoiceButtons;
     private int mButtonColumns;
 
@@ -40,8 +35,6 @@ public class QuestionCardView extends CardView {
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         cardInflater.inflate(R.layout.question_card_layout, this, true);
 
-        ConstraintLayout parentLayout = findViewById(R.id.questionCardLayout);
-        mQuestionPromptView = (TextView) parentLayout.getChildAt(1);
         mQuestionChoices = findViewById(R.id.questionButtonLayout);
     }
 
@@ -52,10 +45,10 @@ public class QuestionCardView extends CardView {
     }
 
     public void setCard(String[] choices) {
-        setNumberOfChoices(choices.length);
-        mButtonColumns = numberOfColumns(mNumberOfChoices);
+        int numberOfChoices = choices.length;
+        mButtonColumns = numberOfColumns(numberOfChoices);
         if (mWordChoiceButtons == null) {
-            mWordChoiceButtons = newButtonArray(mNumberOfChoices);
+            mWordChoiceButtons = newButtonArray(numberOfChoices);
             setTable();
         }
         setWordChoiceButtonsText(choices);
@@ -80,14 +73,6 @@ public class QuestionCardView extends CardView {
 
     public Button[] getWordChoiceButtons() { return mWordChoiceButtons; }
 
-    public String getWordPrompt(){
-        return mQuestionPromptView.getText().toString();
-    }
-
-    public void setNumberOfChoices(int numberOfChoices) {
-        mNumberOfChoices = numberOfChoices;
-    }
-
     public void setWordChoiceButtonsText(String[] choices) {
         int buttonNum = 0;
         String[] shuffledChoices = choices.clone();
@@ -103,17 +88,8 @@ public class QuestionCardView extends CardView {
         }
         for (Button button: mWordChoiceButtons) {
             button.setText(shuffledChoices[buttonNum++]);
-            ViewTreeObserver viewTreeObserver = button.getViewTreeObserver();
-            if (viewTreeObserver.isAlive()) {
-                viewTreeObserver.addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
-                    @Override
-                    public void onGlobalLayout() {
-                        button.getViewTreeObserver().removeOnGlobalLayoutListener(this);
-                        if (getResources().getBoolean(R.bool.isTablet)) {
-                            button.setTextSize((float) (button.getHeight() * 0.75));
-                        }
-                    }
-                });
+            if (getResources().getBoolean(R.bool.isTablet)) {
+                button.setTextSize((float) (42));
             }
         }
     }
@@ -128,7 +104,7 @@ public class QuestionCardView extends CardView {
     }
 
     private int numberOfColumns(int choices) {
-        return (int) Math.ceil((double) Math.sqrt((double) choices));
+        return (int) Math.ceil(Math.sqrt(choices));
     }
 
     private Button[] newButtonArray(int choices) {

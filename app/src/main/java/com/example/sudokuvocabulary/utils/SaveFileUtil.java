@@ -21,7 +21,13 @@ public class SaveFileUtil {
         TRANSLATIONS,
     }
 
-    // Methods for writing to save file
+    /**
+     * Writes the given array to the specified save file.
+     *
+     * @param context The calling activity's context.
+     * @param objects An array containing the objects to write to the file.
+     * @param fileName The name of the save file.
+     */
     public static void writeToSave(Context context, Serializable[] objects, String fileName) {
         try {
             FileOutputStream fileOutputStream = context.openFileOutput(fileName, Context.MODE_PRIVATE);
@@ -35,7 +41,11 @@ public class SaveFileUtil {
         }
     }
 
-    // Methods for reading from save file
+    /**
+     * @param context The calling activity's context.
+     * @param fileName The name of the save file.
+     * @return An array containing all the objects in the save file
+     */
     public static Object[] readAllFromSave(Context context, String fileName) {
         Object[] objects;
         try {
@@ -53,6 +63,12 @@ public class SaveFileUtil {
         return objects;
     }
 
+    /**
+     * @param context The calling activity's context.
+     * @param fileName The name of the file.
+     * @param object The object type to return.
+     * @return The specified object in the save file.
+     */
     public static Object readFromSave(Context context, String fileName, SaveObjects object) {
         Object[] objects = readAllFromSave(context, fileName);
         return objects[object.ordinal()];

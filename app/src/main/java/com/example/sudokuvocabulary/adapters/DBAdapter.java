@@ -47,7 +47,7 @@ public class DBAdapter {
     // Context of application
     private final Context context;
 
-    private DatabaseHelper myDBHelper;
+    private final DatabaseHelper myDBHelper;
     private SQLiteDatabase db;
 
     /////////////////////////////////////////////////////////////////////
@@ -107,9 +107,9 @@ public class DBAdapter {
     }
 
     // Delete a row from the database, by rowId (primary key)
-    public boolean deleteRow(long rowId) {
+    public void deleteRow(long rowId) {
         String where = KEY_ROWID + "=" + rowId;
-        return db.delete(ANIMAL_TABLE, where, null) != 0;
+        db.delete(ANIMAL_TABLE, where, null);
     }
 
     public void deleteAll() {

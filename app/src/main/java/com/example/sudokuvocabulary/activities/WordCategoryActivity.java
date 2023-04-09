@@ -7,14 +7,12 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 
-import androidx.appcompat.widget.Toolbar;
-
 import com.example.sudokuvocabulary.R;
 import com.example.sudokuvocabulary.adapters.DBAdapter;
 
 import java.util.ArrayList;
 
-public class WordCategoryActivity extends MenuForAllActivity implements View.OnClickListener {
+public class WordCategoryActivity extends MenuForAllActivity {
     String tableName;
     DBAdapter db;
     ViewGroup buttonLayout;
@@ -23,43 +21,31 @@ public class WordCategoryActivity extends MenuForAllActivity implements View.OnC
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_word_category);
 
-        Toolbar toolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-        if(getSupportActionBar() != null) {
-            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-            getSupportActionBar().setDisplayShowHomeEnabled(true);
-        }
-        TextView timer = findViewById(R.id.TimerText);
-        timer.setVisibility(View.GONE);
-
+        // Get the name of the new table from the previous activity
         tableName = getIntent().getStringExtra(getString(R.string.new_table_name_key));
 
         db = new DBAdapter(this);
         db.open();
+
+        // Retrieve all the word categories from the database
+        // and add a button for each one
         categories = db.getAllCategories();
-        buttonLayout = (ViewGroup) findViewById(R.id.gray_box);
+        buttonLayout = findViewById(R.id.gray_box);
         for (String category: categories) {
             addCategoryButton(category);
         }
 
+        // Set up the back button
         Button backButton = findViewById(R.id.word_category_back_button);
-        backButton.setOnClickListener(this);
+        backButton.setOnClickListener(view -> onBackPressed());
     }
 
     @Override
-    public void onClick(View view) {
-        if (view.equals(findViewById(R.id.word_category_back_button))) {
-            onBackButtonClick();
-        } else {
-            onCategoryButtonClick(view);
-        }
-    }
-
-    private void onBackButtonClick() {
-        Intent intent = new Intent(WordCategoryActivity.this, WordListNameActivity.class);
-        startActivity(intent);
+    protected void setContentView() {
+        this.setContentView(R.layout.activity_word_category);
+        TextView timerText = findViewById(R.id.TimerText);
+        timerText.setVisibility(View.GONE);
     }
 
     // Passes the category clicked to the word selection activity
@@ -76,8 +62,7 @@ public class WordCategoryActivity extends MenuForAllActivity implements View.OnC
     private void addCategoryButton(String categoryName) {
         Button categoryButton = new Button(this);
         categoryButton.setText(categoryName);
-        categoryButton.setOnClickListener(this);
+        categoryButton.setOnClickListener(this::onCategoryButtonClick);
         buttonLayout.addView(categoryButton);
     }
-
 }

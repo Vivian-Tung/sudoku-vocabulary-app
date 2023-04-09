@@ -238,18 +238,16 @@ public class SudokuModel implements Serializable {
     /**
      * <p>Checks whether the given value is the correct answer at the specified cell and
      * places it in the cell.</p>
-     * @param row The row number of the cell to check/modify, index starts at zero
+     *
+     * @param row    The row number of the cell to check/modify, index starts at zero
      * @param column The column number of the cell to check/modify, index starts at zero
-     * @param value The number to place at the specified cell, 0 <= value <= mGridLength
-     * @return True if value is the correct answer, false otherwise
+     * @param value  The number to place at the specified cell, 0 <= value <= mGridLength
      */
-    public boolean checkAndFillCellAt(int row, int column, int value) {
+    public void checkAndFillCellAt(int row, int column, int value) {
         if (value == getSolutionAt(row, column)) {
             setValueAt(row, column, value);
             setNumberOfEmptyCells(mNumOfEmptyCells-1);
-            return true;
         }
-        return false;
     }
 
     /**

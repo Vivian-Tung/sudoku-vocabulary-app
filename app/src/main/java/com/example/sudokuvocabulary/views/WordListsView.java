@@ -26,12 +26,16 @@ public class WordListsView extends ScrollView {
     public WordListsView(@NonNull Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
 
+        // Inflate the layout file for the view
         LayoutInflater scrollInflater = (LayoutInflater) context.getApplicationContext()
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         scrollInflater.inflate(R.layout.view_word_lists, this, true);
 
         LinearLayout parentLayout = (LinearLayout) getChildAt(0);
         ScrollView scrollView = (ScrollView) parentLayout.getChildAt(0);
+
+        // Set the linear layout to show content vertically/horizontally
+        // depending on the device orientation
         mButtonLayout = (LinearLayout) scrollView.getChildAt(0);
         int orientation = getResources().getConfiguration().orientation;
         mButtonLayout.setOrientation(orientation == Configuration.ORIENTATION_PORTRAIT ?

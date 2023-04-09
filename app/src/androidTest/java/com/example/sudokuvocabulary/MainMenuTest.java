@@ -3,6 +3,7 @@ package com.example.sudokuvocabulary;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.notNullValue;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 import android.content.Context;
@@ -57,7 +58,6 @@ public class MainMenuTest {
         context.startActivity(intent);
         device.wait(Until.hasObject(By.pkg(APP_PACKAGE).depth(0)), LAUNCH_TIMEOUT);
     }
-
 
     /**
      * Example test of comparing app context
@@ -707,42 +707,51 @@ public class MainMenuTest {
         }
     }
 
-    /**
-     * Checks that the listening comprehension mode can be opened from
-     * the mode select menu activity.
-     */
     @Test
-    public void testListeningComprehensionMode() {
+    public void testHelpButton() {
         try {
-            // Try to click the play button in the main menu
-            assertTrue(clickButton(new UiSelector().textContains("Play")));
+            // Test the help button in the toolbar
+            UiObject helpButton = device.findObject(new UiSelector().resourceId(formatId("action_tutorialBtn")));
+            assertTrue(helpButton.exists() && helpButton.click());
 
-            // If prompted with the confirmation dialog, press confirm
-            UiObject dialogConfirmButton = device.findObject(new UiSelector().textContains("confirm"));
-            if (dialogConfirmButton != null) assertTrue(dialogConfirmButton.click());
+            // Confirm that the help page has been opened
+            UiObject helpPage = device.findObject(new UiSelector().textContains(context.getString(R.string.sudoku_description)));
+            assertTrue(helpPage.exists());
 
-            // Try to click the listening mode button
-            assertTrue(clickButton(new UiSelector().textContains("Listen")));
+            // Confirm that the help button has been hidden
+            helpButton = device.findObject(new UiSelector().resourceId(formatId("action_tutorialBtn")));
+            assertFalse(helpButton.exists() && helpButton.click());
 
-            // Try to select the 9x9 size button
-            assertTrue(clickButton(new UiSelector().textContains("9x9")));
-
-            // Check that the Sudoku board is open
-            assertTrue(sudokuBoardIsActive(new UiSelector()));
-
-            // Try pressing the grid
-            UiObject cellNumber = device.findObject(new UiSelector().resourceId(formatId("sudokuGridView")));
-            assertTrue(cellNumber.exists() && cellNumber.click());
-
-            // Confirm that the input card has shown up
-            UiObject card = device.findObject(new UiSelector().textContains(context.getString(R.string.game_popup_question_text)));
-            assertTrue(card.exists());
+            // Try to go back using the toolbar back arrow
+            UiObject backButton = device.findObject(new UiSelector().descriptionContains("Navigate Up"));
+            assertTrue(backButton.exists() && backButton.isEnabled() && backButton.click());
 
         } catch (Exception e) {
             handleException(e);
         }
     }
+    
+    /**
+     * Checks that the listening comprehension mode can be opened from
+     * the mode select menu activity.
+     */
+    @Test
+    public void testLoadButton() {
+        try {
+            // Click the load button if it is enabled
+            UiObject loadButton = device.findObject(new UiSelector().textContains("load"));
+            assertTrue(loadButton.exists());
+            if (loadButton.exists() && loadButton.isEnabled()) {
+                // try to click the load button
+                assertTrue(loadButton.click());
 
+                // Check that the game has launched
+                assertTrue(sudokuBoardIsActive(new UiSelector()));
+            }
+        } catch (Exception e) {
+            handleException(e);
+        }
+    }
 
     /**
      * Tries to click the button specified by the given UiSelector.

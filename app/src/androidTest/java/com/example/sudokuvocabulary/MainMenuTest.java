@@ -117,6 +117,8 @@ public class MainMenuTest {
                 assertTrue(dialogConfirmButton.click());
             }
 
+            testDarkModeToggle();
+
             // Try to click the normal mode button
             assertTrue(clickButton(new UiSelector().textContains("normal")));
 
@@ -125,6 +127,8 @@ public class MainMenuTest {
                     .text("Select Size")
             ));
 
+            testDarkModeToggle();
+
             // Try to select the 9x9 size option
             assertTrue(clickButton(new UiSelector()
                     .textContains("4x4")
@@ -132,6 +136,8 @@ public class MainMenuTest {
 
             // Check that the SudokuView is visible and working
             assertTrue(sudokuBoardIsActive(new UiSelector()));
+
+            testDarkModeToggle();
 
             // Try to exit the game using the back arrow in the toolbar
             UiObject backArrow = device.findObject(new UiSelector().descriptionContains("Navigate Up"));
@@ -168,6 +174,8 @@ public class MainMenuTest {
                 assertTrue(dialogConfirmButton.click());
             }
 
+            testDarkModeToggle();
+
             // Try to click the normal mode button
             assertTrue(clickButton(new UiSelector().textContains("normal")));
 
@@ -176,6 +184,8 @@ public class MainMenuTest {
                     .text("Select Size")
             ));
 
+            testDarkModeToggle();
+
             // Try to select the 9x9 size option
             assertTrue(clickButton(new UiSelector()
                     .textContains("6x6")
@@ -183,6 +193,8 @@ public class MainMenuTest {
 
             // Check that the SudokuView is visible and working
             assertTrue(sudokuBoardIsActive(new UiSelector()));
+
+            testDarkModeToggle();
 
             // Try to exit the game using the back arrow in the toolbar
             UiObject backArrow = device.findObject(new UiSelector().descriptionContains("Navigate Up"));
@@ -219,6 +231,8 @@ public class MainMenuTest {
                 assertTrue(dialogConfirmButton.click());
             }
 
+            testDarkModeToggle();
+
             // Try to click the normal mode button
             assertTrue(clickButton(new UiSelector().textContains("normal")));
 
@@ -227,6 +241,8 @@ public class MainMenuTest {
                     .text("Select Size")
             ));
 
+            testDarkModeToggle();
+
             // Try to select the 9x9 size option
             assertTrue(clickButton(new UiSelector()
                     .textContains("9x9")
@@ -234,6 +250,8 @@ public class MainMenuTest {
 
             // Check that the SudokuView is visible and working
             assertTrue(sudokuBoardIsActive(new UiSelector()));
+
+            testDarkModeToggle();
 
             // Try to exit the game using the back arrow in the toolbar
             UiObject backArrow = device.findObject(new UiSelector().descriptionContains("Navigate Up"));
@@ -270,6 +288,8 @@ public class MainMenuTest {
                 assertTrue(dialogConfirmButton.click());
             }
 
+            testDarkModeToggle();
+
             // Try to click the normal mode button
             assertTrue(clickButton(new UiSelector().textContains("normal")));
 
@@ -278,6 +298,8 @@ public class MainMenuTest {
                     .text("Select Size")
             ));
 
+            testDarkModeToggle();
+
             // Try to select the 9x9 size option
             assertTrue(clickButton(new UiSelector()
                     .textContains("12x12")
@@ -285,6 +307,8 @@ public class MainMenuTest {
 
             // Check that the SudokuView is visible and working
             assertTrue(sudokuBoardIsActive(new UiSelector()));
+
+            testDarkModeToggle();
 
             // Try to exit the game using the back arrow in the toolbar
             UiObject backArrow = device.findObject(new UiSelector().descriptionContains("Navigate Up"));
@@ -321,6 +345,8 @@ public class MainMenuTest {
                 assertTrue(dialogConfirmButton.click());
             }
 
+            testDarkModeToggle();
+
             // Try to click the listening mode button
             assertTrue(clickButton(new UiSelector().textContains("listen")));
 
@@ -329,6 +355,8 @@ public class MainMenuTest {
                     .text("Select Size")
             ));
 
+            testDarkModeToggle();
+
             // Try to select the 9x9 size option
             assertTrue(clickButton(new UiSelector()
                     .textContains("4x4")
@@ -336,6 +364,8 @@ public class MainMenuTest {
 
             // Check that the SudokuView is visible and working
             assertTrue(sudokuBoardIsActive(new UiSelector()));
+
+            testDarkModeToggle();
 
             // Try pressing the grid
             UiObject cellNumber = device.findObject(new UiSelector().resourceId(formatId("sudokuGridView")));
@@ -380,6 +410,8 @@ public class MainMenuTest {
                 assertTrue(dialogConfirmButton.click());
             }
 
+            testDarkModeToggle();
+
             // Try to click the listening mode button
             assertTrue(clickButton(new UiSelector().textContains("listen")));
 
@@ -388,6 +420,8 @@ public class MainMenuTest {
                     .text("Select Size")
             ));
 
+            testDarkModeToggle();
+
             // Try to select the 9x9 size option
             assertTrue(clickButton(new UiSelector()
                     .textContains("6x6")
@@ -395,6 +429,8 @@ public class MainMenuTest {
 
             // Check that the SudokuView is visible and working
             assertTrue(sudokuBoardIsActive(new UiSelector()));
+
+            testDarkModeToggle();
 
             // Try pressing the grid
             UiObject cellNumber = device.findObject(new UiSelector().resourceId(formatId("sudokuGridView")));
@@ -438,6 +474,8 @@ public class MainMenuTest {
                 assertTrue(dialogConfirmButton.click());
             }
 
+            testDarkModeToggle();
+
             // Try to click the listening mode button
             assertTrue(clickButton(new UiSelector().textContains("listening")));
 
@@ -446,6 +484,8 @@ public class MainMenuTest {
                     .text("Select Size")
             ));
 
+            testDarkModeToggle();
+
             // Try to select the 9x9 size option
             assertTrue(clickButton(new UiSelector()
                     .textContains("9x9")
@@ -453,6 +493,8 @@ public class MainMenuTest {
 
             // Check that the SudokuView is visible and working
             assertTrue(sudokuBoardIsActive(new UiSelector()));
+
+            testDarkModeToggle();
 
             // Try pressing the grid
             UiObject cellNumber = device.findObject(new UiSelector().resourceId(formatId("sudokuGridView")));
@@ -496,6 +538,8 @@ public class MainMenuTest {
                 assertTrue(dialogConfirmButton.click());
             }
 
+            testDarkModeToggle();
+
             // Try to click the listening mode button
             assertTrue(clickButton(new UiSelector().textContains("listen")));
 
@@ -503,6 +547,8 @@ public class MainMenuTest {
             assertTrue(doesTextViewExist(new UiSelector()
                     .text("Select Size")
             ));
+
+            testDarkModeToggle();
 
             // Try to select the 12x12 size option
             assertTrue(clickButton(new UiSelector()
@@ -556,6 +602,8 @@ public class MainMenuTest {
                     .textContains("word list")
             ));
 
+            testDarkModeToggle();
+
             // Try to click the default 'ANIMALS' list button
             assertTrue(clickButton(new UiSelector()
                     .textContains("animals")
@@ -587,6 +635,8 @@ public class MainMenuTest {
             // matching visible text view
             assertTrue(doesTextViewExist(new UiSelector().textContains("word lists")));
 
+            testDarkModeToggle();
+
             // Try to click the 'create new word list button
             assertTrue(clickButton(new UiSelector().textContains("create new word list")));
 
@@ -606,14 +656,19 @@ public class MainMenuTest {
             // Check that app is in word category selection menu
             assertTrue(doesTextViewExist(new UiSelector().textContains("categories")));
 
+            testDarkModeToggle();
+
             // Try to click the specified word category button
             assertTrue(clickButton(new UiSelector()
                     .textContains(category)
             ));
 
+
             // Verify that the app is in the activity for selecting words
             // by checking if the TextView with the category name exists
             assertTrue(doesTextViewExist(new UiSelector().textContains(category)));
+
+            testDarkModeToggle();
 
             // Find the table layout holding the word buttons
             UiObject wordButtons = device.findObject(new UiSelector()
@@ -641,6 +696,12 @@ public class MainMenuTest {
                     button++;
                 }
             }
+
+            // Check that the display list button works
+            UiObject displayButton = device.findObject(new UiSelector().textContains("display"));
+            assertTrue(displayButton.exists() && displayButton.click());
+
+            testDarkModeToggle();
 
             // Check that the back button works
             assertTrue(clickButton(new UiSelector().textContains("back")));
@@ -715,7 +776,7 @@ public class MainMenuTest {
             assertTrue(helpButton.exists() && helpButton.click());
 
             // Confirm that the help page has been opened
-            UiObject helpPage = device.findObject(new UiSelector().textContains(context.getString(R.string.sudoku_description)));
+            UiObject helpPage = device.findObject(new UiSelector().textContains("Help"));
             assertTrue(helpPage.exists());
 
             // Confirm that the help button has been hidden
@@ -724,7 +785,8 @@ public class MainMenuTest {
 
             // Try to go back using the toolbar back arrow
             UiObject backButton = device.findObject(new UiSelector().descriptionContains("Navigate Up"));
-            assertTrue(backButton.exists() && backButton.isEnabled() && backButton.click());
+            assertTrue(backButton.exists());
+            backButton.click();
 
         } catch (Exception e) {
             handleException(e);

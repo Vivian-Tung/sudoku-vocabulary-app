@@ -9,7 +9,7 @@ public class SudokuSolverModel {
     public static int solutions(SudokuModel board) {
         RunInSolver function = (solutions, row, column) ->
                 board.setValueAt(row, column, 0);
-        return solver(board, 0, 0, function);
+        return solutions(board, 0, 0, function);
     }
     public static boolean solve(SudokuModel board) {
         RunInSolver function = (solution, row, column) -> {
@@ -21,11 +21,12 @@ public class SudokuSolverModel {
         };
         return solver(board, 0, 0, function) == 1;
     }
+
     private static int solver(SudokuModel board, int index, int solutions, RunInSolver function) {
-        if (solutions > 1) { return solutions; }
         if (index >= board.getGridSize()) {
             return solutions + 1;
         }
+
         int row = (index / board.getGridLength()), column = (index % board.getGridLength());
         if (board.cellNotEmpty(row, column)) {
             return solver(board, index+1, solutions, function);
@@ -35,6 +36,26 @@ public class SudokuSolverModel {
             if (board.gridValid(row, column, number)) {
                 board.setValueAt(row, column, number);
                 solutions = solver(board, index+1, solutions, function);
+                function.execute(solutions, row, column);
+            }
+        }
+        return solutions;
+    }
+
+    private static int solutions(SudokuModel board, int index, int solutions, RunInSolver function) {
+        if (index >= board.getGridSize()) {
+            return solutions + 1;
+        }
+
+        int row = (index / board.getGridLength()), column = (index % board.getGridLength());
+        if (board.cellNotEmpty(row, column)) {
+            return solutions(board, index+1, solutions, function);
+        }
+
+        for (int number: (board.getNumberArray())) {
+            if (board.gridValid(row, column, number)) {
+                board.setValueAt(row, column, number);
+                solutions = solutions(board, index+1, solutions, function);
                 function.execute(solutions, row, column);
             }
         }

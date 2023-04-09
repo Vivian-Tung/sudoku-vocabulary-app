@@ -21,16 +21,16 @@ public class WordListNameActivity extends MenuForAllActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        // Initialize the database
+        db = new DBAdapter(this);
+        db.open();
+
         EditText text = findViewById(R.id.table_name_input); // Box for user input
 
         Button confirmButton = findViewById(R.id.confirm_name_button);
         confirmButton.setOnClickListener(view -> {
             // Get the new list name from the input box
             String listName = text.getText().toString();
-
-            // Initialize the database
-            db = new DBAdapter(this);
-            db.open();
 
             // Check if the list name already exists, notify user if so
             if (db.getTableNames().contains(listName.toLowerCase(Locale.ROOT))) {

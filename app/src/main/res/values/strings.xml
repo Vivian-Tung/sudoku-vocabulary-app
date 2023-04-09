@@ -12,7 +12,7 @@
     <string name="select_mode_listen_button_text">Listening</string>
 
     <string name="sudoku_description">Sudoku is traditionally played on a 9x9 grid, separated into 3x3 squares. Each column, row, and 3x3 square needs to filled in using numbers 1-9, with no repeating numbers.</string>
-    <string name="sudoku_vocab_description">Sudoku Vocabulary is also played on a 9x9 grid, with the same set of rules as traditional Sudoku. However, the numbers 1-9 are replaced with nine pairs of words. Every pair of words consists of one word in English, and its corresponding definition in Chinese. When the user clicks on a cell, a pop-up is displayed with one English word alongside multiple options of Chinese words. The correct option is the definition of the English word in Chinese. When the user clicks the correct option, the cell well become filled. The game finishes when every cell is filled.
+    <string name="sudoku_vocab_description">Sudoku Vocabulary is also played on a 9x9 grid, with the same set of rules as traditional Sudoku. However, the numbers 1-9 are replaced with nine pairs of words. Every pair of words consists of one word in English, and its corresponding definition in Chinese. When the user clicks on a cell, a pop-up is displayed with one English word alongside multiple options of Chinese words. The correct option is the definition of the English word in Chinese. When the user clicks the correct option, the cell will become filled. The game finishes when every cell is filled.
 </string>
 
     <string name="dialog_override_save">A save has been found! Starting a new game will erase the save. \n\nDo you wish to proceed?</string>
@@ -72,4 +72,11 @@
 
     <string name="save_game_file">save.ser</string>
     <string name="save_game_key">save</string>
+
+    <string name="Listening_mode_info">How Listening Mode Works:</string>
+    <string name="Listening_mode_description">When you are playing the Listening mode, make sure to have your volume or ringer on. When you click a cell with a number you will have to solve using Sudoku logic. However, when you click a cell that is empty, a text-to-speech translation of the word will be played through your device in Chinese. If you click the correct word, the cell will be filled."
+</string>
+    <string name="Notes">Notes:</string>
+    <string name="Notes_description">The game will be auto saved when you leave or the app. You can resume your game by pressing the load button</string>
+
 </resources>

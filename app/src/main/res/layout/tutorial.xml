@@ -60,7 +60,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="24dp"
+        android:layout_marginTop="224dp"
         android:layout_marginEnd="16dp"
         android:layout_marginBottom="12dp"
         android:text="How Sudoku Vocabulary Works:"
@@ -69,19 +69,74 @@
         app:layout_constraintBottom_toTopOf="@+id/Sudoku_vocab_info"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/Sudoku_info" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/Sudoku_vocab_info"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="12dp"
         android:layout_marginEnd="16dp"
         android:text="@string/sudoku_vocab_description"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/Sudoku_vocab" />
+        app:layout_constraintTop_toBottomOf="@+id/How_Sudoku_Works"
+        app:layout_constraintVertical_bias="0.303" />
+
+    <TextView
+        android:id="@+id/Listening_mode"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:text="@string/Listening_mode_info"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/Sudoku_vocab_info"
+        app:layout_constraintVertical_bias="0.055" />
+
+    <TextView
+        android:id="@+id/Listening_mode_info"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="12dp"
+        android:layout_marginEnd="16dp"
+        android:text="@string/Listening_mode_description"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/Listening_mode"
+        app:layout_constraintVertical_bias="0.021" />
+
+    <TextView
+        android:id="@+id/Notes"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:text="@string/Notes"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/Sudoku_vocab_info"
+        app:layout_constraintVertical_bias="0.791" />
+
+    <TextView
+        android:id="@+id/Notes_info"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="12dp"
+        android:text="@string/Notes_description"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/Notes"
+        app:layout_constraintVertical_bias="0.2" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

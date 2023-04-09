@@ -100,11 +100,113 @@ public class MainMenuTest {
     }
 
     /**
+     * Tests the app's ability to launch a 4x4 sudoku game from
+     * the main menu through the 'Play' button.
+     */
+    @Test
+    public void launchAndExitNormalGame4x4() {
+        try {
+            // Attempt to find the play button to launch the next activity
+            assertTrue(clickButton(new UiSelector()
+                    .resourceId(formatId("main_menu_play_button"))
+            ));
+
+            // If prompted with the confirmation dialog, press confirm
+            UiObject dialogConfirmButton = device.findObject(new UiSelector().textContains("confirm"));
+            if (dialogConfirmButton != null) {
+                assertTrue(dialogConfirmButton.click());
+            }
+
+            // Try to click the normal mode button
+            assertTrue(clickButton(new UiSelector().textContains("normal")));
+
+            // Check that the SetSudokuSize activity has been opened
+            assertTrue(doesTextViewExist(new UiSelector()
+                    .text("Select Size")
+            ));
+
+            // Try to select the 9x9 size option
+            assertTrue(clickButton(new UiSelector()
+                    .textContains("4x4")
+            ));
+
+            // Check that the SudokuView is visible and working
+            assertTrue(sudokuBoardIsActive(new UiSelector()));
+
+            // Try to exit the game using the back arrow in the toolbar
+            UiObject backArrow = device.findObject(new UiSelector().descriptionContains("Navigate Up"));
+            assertTrue(backArrow.exists() && backArrow.click());
+
+            // Click the exit button on the confirmation dialog
+            UiObject exitButton = device.findObject(new UiSelector().textContains("exit"));
+            assertTrue(exitButton.exists() && exitButton.click());
+
+            // Check that the app has returned to the main menu
+            UiObject mainMenu = device.findObject(new UiSelector().textContains(context.getString(R.string.app_name)));
+            assertTrue(mainMenu.exists());
+
+        } catch (Exception e) { // Somethings has gone very wrong
+            handleException(e);
+        }
+    }
+
+    /**
+     * Tests the app's ability to launch a 4x4 sudoku game from
+     * the main menu through the 'Play' button.
+     */
+    @Test
+    public void launchAndExitNormalGame6x6() {
+        try {
+            // Attempt to find the play button to launch the next activity
+            assertTrue(clickButton(new UiSelector()
+                    .resourceId(formatId("main_menu_play_button"))
+            ));
+
+            // If prompted with the confirmation dialog, press confirm
+            UiObject dialogConfirmButton = device.findObject(new UiSelector().textContains("confirm"));
+            if (dialogConfirmButton != null) {
+                assertTrue(dialogConfirmButton.click());
+            }
+
+            // Try to click the normal mode button
+            assertTrue(clickButton(new UiSelector().textContains("normal")));
+
+            // Check that the SetSudokuSize activity has been opened
+            assertTrue(doesTextViewExist(new UiSelector()
+                    .text("Select Size")
+            ));
+
+            // Try to select the 9x9 size option
+            assertTrue(clickButton(new UiSelector()
+                    .textContains("6x6")
+            ));
+
+            // Check that the SudokuView is visible and working
+            assertTrue(sudokuBoardIsActive(new UiSelector()));
+
+            // Try to exit the game using the back arrow in the toolbar
+            UiObject backArrow = device.findObject(new UiSelector().descriptionContains("Navigate Up"));
+            assertTrue(backArrow.exists() && backArrow.click());
+
+            // Click the exit button on the confirmation dialog
+            UiObject exitButton = device.findObject(new UiSelector().textContains("exit"));
+            assertTrue(exitButton.exists() && exitButton.click());
+
+            // Check that the app has returned to the main menu
+            UiObject mainMenu = device.findObject(new UiSelector().textContains(context.getString(R.string.app_name)));
+            assertTrue(mainMenu.exists());
+
+        } catch (Exception e) { // Somethings has gone very wrong
+            handleException(e);
+        }
+    }
+
+    /**
      * Tests the app's ability to launch a 9x9 sudoku game from
      * the main menu through the 'Play' button.
      */
     @Test
-    public void launchGameFromMainMenu() {
+    public void launchAndExitNormalGame9x9() {
         try {
             // Attempt to find the play button to launch the next activity
             assertTrue(clickButton(new UiSelector()
@@ -133,6 +235,303 @@ public class MainMenuTest {
             // Check that the SudokuView is visible and working
             assertTrue(sudokuBoardIsActive(new UiSelector()));
 
+            // Try to exit the game using the back arrow in the toolbar
+            UiObject backArrow = device.findObject(new UiSelector().descriptionContains("Navigate Up"));
+            assertTrue(backArrow.exists() && backArrow.click());
+
+            // Click the exit button on the confirmation dialog
+            UiObject exitButton = device.findObject(new UiSelector().textContains("exit"));
+            assertTrue(exitButton.exists() && exitButton.click());
+
+            // Check that the app has returned to the main menu
+            UiObject mainMenu = device.findObject(new UiSelector().textContains(context.getString(R.string.app_name)));
+            assertTrue(mainMenu.exists());
+
+        } catch (Exception e) { // Somethings has gone very wrong
+            handleException(e);
+        }
+    }
+
+    /**
+     * Tests the app's ability to launch a 12x12 sudoku game from
+     * the main menu through the 'Play' button.
+     */
+    @Test
+    public void launchAndExitNormalGame12x12() {
+        try {
+            // Attempt to find the play button to launch the next activity
+            assertTrue(clickButton(new UiSelector()
+                    .resourceId(formatId("main_menu_play_button"))
+            ));
+
+            // If prompted with the confirmation dialog, press confirm
+            UiObject dialogConfirmButton = device.findObject(new UiSelector().textContains("confirm"));
+            if (dialogConfirmButton != null) {
+                assertTrue(dialogConfirmButton.click());
+            }
+
+            // Try to click the normal mode button
+            assertTrue(clickButton(new UiSelector().textContains("normal")));
+
+            // Check that the SetSudokuSize activity has been opened
+            assertTrue(doesTextViewExist(new UiSelector()
+                    .text("Select Size")
+            ));
+
+            // Try to select the 9x9 size option
+            assertTrue(clickButton(new UiSelector()
+                    .textContains("12x12")
+            ));
+
+            // Check that the SudokuView is visible and working
+            assertTrue(sudokuBoardIsActive(new UiSelector()));
+
+            // Try to exit the game using the back arrow in the toolbar
+            UiObject backArrow = device.findObject(new UiSelector().descriptionContains("Navigate Up"));
+            assertTrue(backArrow.exists() && backArrow.click());
+
+            // Click the exit button on the confirmation dialog
+            UiObject exitButton = device.findObject(new UiSelector().textContains("exit"));
+            assertTrue(exitButton.exists() && exitButton.click());
+
+            // Check that the app has returned to the main menu
+            UiObject mainMenu = device.findObject(new UiSelector().textContains(context.getString(R.string.app_name)));
+            assertTrue(mainMenu.exists());
+
+        } catch (Exception e) { // Somethings has gone very wrong
+            handleException(e);
+        }
+    }
+
+    /**
+     * Tests the app's ability to launch a 4x4 sudoku game from
+     * the main menu in listening comprehension mode through the 'Play' button.
+     */
+    @Test
+    public void launchAndExitListeningGame4x4() {
+        try {
+            // Attempt to find the play button to launch the next activity
+            assertTrue(clickButton(new UiSelector()
+                    .resourceId(formatId("main_menu_play_button"))
+            ));
+
+            // If prompted with the confirmation dialog, press confirm
+            UiObject dialogConfirmButton = device.findObject(new UiSelector().textContains("confirm"));
+            if (dialogConfirmButton != null) {
+                assertTrue(dialogConfirmButton.click());
+            }
+
+            // Try to click the listening mode button
+            assertTrue(clickButton(new UiSelector().textContains("listen")));
+
+            // Check that the SetSudokuSize activity has been opened
+            assertTrue(doesTextViewExist(new UiSelector()
+                    .text("Select Size")
+            ));
+
+            // Try to select the 9x9 size option
+            assertTrue(clickButton(new UiSelector()
+                    .textContains("4x4")
+            ));
+
+            // Check that the SudokuView is visible and working
+            assertTrue(sudokuBoardIsActive(new UiSelector()));
+
+            // Try pressing the grid
+            UiObject cellNumber = device.findObject(new UiSelector().resourceId(formatId("sudokuGridView")));
+            assertTrue(cellNumber.exists() && cellNumber.click());
+
+            // Confirm that the input card has shown up
+            UiObject card = device.findObject(new UiSelector().textContains(context.getString(R.string.game_popup_question_text)));
+            assertTrue(card.exists());
+
+            // Try to exit the game using the back arrow in the toolbar
+            UiObject backArrow = device.findObject(new UiSelector().descriptionContains("Navigate Up"));
+            assertTrue(backArrow.exists() && backArrow.click());
+
+            // Click the exit button on the confirmation dialog
+            UiObject exitButton = device.findObject(new UiSelector().textContains("exit"));
+            assertTrue(exitButton.exists() && exitButton.click());
+
+            // Check that the app has returned to the main menu
+            UiObject mainMenu = device.findObject(new UiSelector().textContains(context.getString(R.string.app_name)));
+            assertTrue(mainMenu.exists());
+
+        } catch (Exception e) { // Somethings has gone very wrong
+            handleException(e);
+        }
+    }
+
+    /**
+     * Tests the app's ability to launch a 6x6 sudoku game from
+     * the main menu in listening comprehension mode through the 'Play' button.
+     */
+    @Test
+    public void launchAndExitListeningGame6x6() {
+        try {
+            // Attempt to find the play button to launch the next activity
+            assertTrue(clickButton(new UiSelector()
+                    .resourceId(formatId("main_menu_play_button"))
+            ));
+
+            // If prompted with the confirmation dialog, press confirm
+            UiObject dialogConfirmButton = device.findObject(new UiSelector().textContains("confirm"));
+            if (dialogConfirmButton != null) {
+                assertTrue(dialogConfirmButton.click());
+            }
+
+            // Try to click the listening mode button
+            assertTrue(clickButton(new UiSelector().textContains("listen")));
+
+            // Check that the SetSudokuSize activity has been opened
+            assertTrue(doesTextViewExist(new UiSelector()
+                    .text("Select Size")
+            ));
+
+            // Try to select the 9x9 size option
+            assertTrue(clickButton(new UiSelector()
+                    .textContains("6x6")
+            ));
+
+            // Check that the SudokuView is visible and working
+            assertTrue(sudokuBoardIsActive(new UiSelector()));
+
+            // Try pressing the grid
+            UiObject cellNumber = device.findObject(new UiSelector().resourceId(formatId("sudokuGridView")));
+            assertTrue(cellNumber.exists() && cellNumber.click());
+
+            // Confirm that the input card has shown up
+            UiObject card = device.findObject(new UiSelector().textContains(context.getString(R.string.game_popup_question_text)));
+            assertTrue(card.exists());
+
+            // Try to exit the game using the back arrow in the toolbar
+            UiObject backArrow = device.findObject(new UiSelector().descriptionContains("Navigate Up"));
+            assertTrue(backArrow.exists() && backArrow.click());
+
+            // Click the exit button on the confirmation dialog
+            UiObject exitButton = device.findObject(new UiSelector().textContains("exit"));
+            assertTrue(exitButton.exists() && exitButton.click());
+
+            // Check that the app has returned to the main menu
+            UiObject mainMenu = device.findObject(new UiSelector().textContains(context.getString(R.string.app_name)));
+            assertTrue(mainMenu.exists());
+
+        } catch (Exception e) { // Somethings has gone very wrong
+            handleException(e);
+        }
+    }
+    /**
+     * Tests the app's ability to launch a 9x9 sudoku game from
+     * the main menu in listening comprehension mode through the 'Play' button.
+     */
+    @Test
+    public void launchAndExitListeningGame9x9() {
+        try {
+            // Attempt to find the play button to launch the next activity
+            assertTrue(clickButton(new UiSelector()
+                    .resourceId(formatId("main_menu_play_button"))
+            ));
+
+            // If prompted with the confirmation dialog, press confirm
+            UiObject dialogConfirmButton = device.findObject(new UiSelector().textContains("confirm"));
+            if (dialogConfirmButton != null) {
+                assertTrue(dialogConfirmButton.click());
+            }
+
+            // Try to click the listening mode button
+            assertTrue(clickButton(new UiSelector().textContains("listening")));
+
+            // Check that the SetSudokuSize activity has been opened
+            assertTrue(doesTextViewExist(new UiSelector()
+                    .text("Select Size")
+            ));
+
+            // Try to select the 9x9 size option
+            assertTrue(clickButton(new UiSelector()
+                    .textContains("9x9")
+            ));
+
+            // Check that the SudokuView is visible and working
+            assertTrue(sudokuBoardIsActive(new UiSelector()));
+
+            // Try pressing the grid
+            UiObject cellNumber = device.findObject(new UiSelector().resourceId(formatId("sudokuGridView")));
+            assertTrue(cellNumber.exists() && cellNumber.click());
+
+            // Confirm that the input card has shown up
+            UiObject card = device.findObject(new UiSelector().textContains(context.getString(R.string.game_popup_question_text)));
+            assertTrue(card.exists());
+
+            // Try to exit the game using the back arrow in the toolbar
+            UiObject backArrow = device.findObject(new UiSelector().descriptionContains("Navigate Up"));
+            assertTrue(backArrow.exists() && backArrow.click());
+
+            // Click the exit button on the confirmation dialog
+            UiObject exitButton = device.findObject(new UiSelector().textContains("exit"));
+            assertTrue(exitButton.exists() && exitButton.click());
+
+            // Check that the app has returned to the main menu
+            UiObject mainMenu = device.findObject(new UiSelector().textContains(context.getString(R.string.app_name)));
+            assertTrue(mainMenu.exists());
+
+        } catch (Exception e) { // Somethings has gone very wrong
+            handleException(e);
+        }
+    }
+    /**
+     * Tests the app's ability to launch a 12x12 sudoku game from
+     * the main menu in listening comprehension mode through the 'Play' button.
+     */
+    @Test
+    public void launchAndExitListeningGame12x12() {
+        try {
+            // Attempt to find the play button to launch the next activity
+            assertTrue(clickButton(new UiSelector()
+                    .resourceId(formatId("main_menu_play_button"))
+            ));
+
+            // If prompted with the confirmation dialog, press confirm
+            UiObject dialogConfirmButton = device.findObject(new UiSelector().textContains("confirm"));
+            if (dialogConfirmButton != null) {
+                assertTrue(dialogConfirmButton.click());
+            }
+
+            // Try to click the listening mode button
+            assertTrue(clickButton(new UiSelector().textContains("listen")));
+
+            // Check that the SetSudokuSize activity has been opened
+            assertTrue(doesTextViewExist(new UiSelector()
+                    .text("Select Size")
+            ));
+
+            // Try to select the 12x12 size option
+            assertTrue(clickButton(new UiSelector()
+                    .textContains("12x12")
+            ));
+
+            // Check that the SudokuView is visible and working
+            assertTrue(sudokuBoardIsActive(new UiSelector()));
+
+            // Try pressing the grid
+            UiObject cellNumber = device.findObject(new UiSelector().resourceId(formatId("sudokuGridView")));
+            assertTrue(cellNumber.exists() && cellNumber.click());
+
+            // Confirm that the input card has shown up
+            UiObject card = device.findObject(new UiSelector().textContains(context.getString(R.string.game_popup_question_text)));
+            assertTrue(card.exists());
+
+            // Try to exit the game using the back arrow in the toolbar
+            UiObject backArrow = device.findObject(new UiSelector().descriptionContains("Navigate Up"));
+            assertTrue(backArrow.exists() && backArrow.click());
+
+            // Click the exit button on the confirmation dialog
+            UiObject exitButton = device.findObject(new UiSelector().textContains("exit"));
+            assertTrue(exitButton.exists() && exitButton.click());
+
+            // Check that the app has returned to the main menu
+            UiObject mainMenu = device.findObject(new UiSelector().textContains(context.getString(R.string.app_name)));
+            assertTrue(mainMenu.exists());
+
         } catch (Exception e) { // Somethings has gone very wrong
             handleException(e);
         }
@@ -157,7 +556,7 @@ public class MainMenuTest {
                     .textContains("word list")
             ));
 
-            // Try to click the 'ANIMALS' list button
+            // Try to click the default 'ANIMALS' list button
             assertTrue(clickButton(new UiSelector()
                     .textContains("animals")
             ));
@@ -197,6 +596,9 @@ public class MainMenuTest {
                     .resourceId(formatId("table_name_input")),
                     listName
             ));
+
+            // Hide the keyboard if it pops up as it hides the confirmation button
+            if (isKeyboardOpened()) device.pressBack();
 
             // Try to press the confirmation button
             assertTrue(clickButton(new UiSelector().textContains("confirm")));
@@ -258,7 +660,22 @@ public class MainMenuTest {
             device.setOrientationRight(); // Rotate the device right
 
             // Run all test cases in this orientation
-            launchGameFromMainMenu();
+            setUp();
+            launchAndExitNormalGame4x4();
+            setUp();
+            launchAndExitNormalGame6x6();
+            setUp();
+            launchAndExitNormalGame9x9();
+            setUp();
+            launchAndExitNormalGame12x12();
+            setUp();
+            launchAndExitListeningGame4x4();
+            setUp();
+            launchAndExitListeningGame6x6();
+            setUp();
+            launchAndExitListeningGame9x9();
+            setUp();
+            launchAndExitListeningGame12x12();
             setUp();
             selectListFromWordBank();
             setUp();
@@ -278,18 +695,13 @@ public class MainMenuTest {
     public void testDarkModeToggle() {
         try {
             // Try to click the dark mode switch in main menu
-            assertTrue(toggleSwitch(new UiSelector().resourceId(formatId("darkSwitch"))));
+            assertTrue(toggleSwitch(new UiSelector().resourceId(formatId("action_darkSwitch"))));
+            isDarkModeCorrect();
 
-            // Get the switch's current state
-            UiObject darkSwitch = device.findObject(new UiSelector()
-                    .resourceId(formatId("darkSwitch"))
-            );
-            boolean isChecked = darkSwitch.isChecked();
+            // Toggle the switch again
+            assertTrue(toggleSwitch(new UiSelector().resourceId(formatId("action_darkSwitch"))));
+            isDarkModeCorrect();
 
-            // Check if mode is correct
-            boolean isDark = AppCompatDelegate.getDefaultNightMode() ==
-                    AppCompatDelegate.MODE_NIGHT_YES;
-            assertEquals(isDark, isChecked);
         } catch (Exception e) {
             handleException(e);
         }
@@ -305,6 +717,10 @@ public class MainMenuTest {
             // Try to click the play button in the main menu
             assertTrue(clickButton(new UiSelector().textContains("Play")));
 
+            // If prompted with the confirmation dialog, press confirm
+            UiObject dialogConfirmButton = device.findObject(new UiSelector().textContains("confirm"));
+            if (dialogConfirmButton != null) assertTrue(dialogConfirmButton.click());
+
             // Try to click the listening mode button
             assertTrue(clickButton(new UiSelector().textContains("Listen")));
 
@@ -313,6 +729,15 @@ public class MainMenuTest {
 
             // Check that the Sudoku board is open
             assertTrue(sudokuBoardIsActive(new UiSelector()));
+
+            // Try pressing the grid
+            UiObject cellNumber = device.findObject(new UiSelector().resourceId(formatId("sudokuGridView")));
+            assertTrue(cellNumber.exists() && cellNumber.click());
+
+            // Confirm that the input card has shown up
+            UiObject card = device.findObject(new UiSelector().textContains(context.getString(R.string.game_popup_question_text)));
+            assertTrue(card.exists());
+
         } catch (Exception e) {
             handleException(e);
         }
@@ -432,5 +857,18 @@ public class MainMenuTest {
             }
         }
         return false;
+    }
+
+    private void isDarkModeCorrect() throws UiObjectNotFoundException {
+        // Get the switch's current state
+        UiObject darkSwitch = device.findObject(new UiSelector()
+                .resourceId(formatId("switchTemplate"))
+        );
+        boolean isChecked = darkSwitch.isChecked();
+
+        // Check if mode is correct
+        boolean isDark = AppCompatDelegate.getDefaultNightMode() ==
+                AppCompatDelegate.MODE_NIGHT_YES;
+        assertEquals(isDark, isChecked);
     }
 }

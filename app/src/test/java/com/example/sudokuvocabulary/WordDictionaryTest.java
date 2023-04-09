@@ -158,6 +158,9 @@ public class WordDictionaryTest {
                 WordSample sample = test.findSample(testCase[0][index]);
                 assertEquals(testCase[0][index], sample.getWord());
                 assertEquals(testCase[1][index], sample.getTranslation());
+                assertNotEquals(testCase[1][index], sample.getWord());
+                assertNotEquals(testCase[0][index], sample.getTranslation());
+
             }
         }
     }

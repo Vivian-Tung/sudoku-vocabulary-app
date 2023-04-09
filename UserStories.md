@@ -75,6 +75,8 @@
 so that I can refer back to it. For example, clicking the unfilled in bookmark beside the word will put it into the bookmarked words page.
   <img src="./user-story-assets/Screenshot_2023-01-26_193430.jpg" alt="saved" width="150px">
   
+- As a student/language learner who wants to practice my understanding of spoken words in the language that I am learning, I want a listening comprehension mode. In this mode, numbers will appear in the prefilled cells. When I press the number, the corresponding word in the language that I am learning will be read out to me. I can then test my listening comprehension by selecting from the menu the correct English translation of the word.
+<img src="./user-story-assets/modeselect.png" width"150px">
 
 ### Language Teachers:
 - As a language teacher, I want to be able to choose the words that were taught this week to reinforce the learning.

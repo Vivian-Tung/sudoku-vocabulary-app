@@ -129,7 +129,7 @@ public class MainMenuTest {
 
             testDarkModeToggle();
 
-            // Try to select the 9x9 size option
+            // Try to select the 4x4 size option
             assertTrue(clickButton(new UiSelector()
                     .textContains("4x4")
             ));

@@ -42,3 +42,9 @@ This is the board for the chosen 4 words.<br /><br />
 This is the dark mode feature when clicking the moon in the top right corner.<br /><br />
 <img src="./user-story-assets/tutorial.png" alt="save-menu" width="200px"><br />
 When the user clicks the ? icon in the top right corner, it will give an overview of regular sudoku is played and how our language learning sudoku plays.<br /><br /> 
+<img src="./user-story-assets/save_progress.jpg" width ="200px"><br/>
+This is the auto save feature, if the user leaves the game, it will show a prompt telling the user the progress will be saved.<br> <br/>
+<img src="./user-story-assets/main_load.jpg" width="200px"><br/>
+When the user returns to the main screen, the load button will allow the user to return to their previous state of the game.<br> <br/>
+<img src="./user-story-assets/resume_game.jpg" width="200px"><br/>
+Otherwise, if the user presses the "Play" button when they already have a previous game progess saved, a prompt will pop up warning the user they already have an existing game progress. <br> <br/>

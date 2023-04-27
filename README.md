@@ -1,7 +1,6 @@
 # Sudoku Vocabulary App
 
-# Sudoku Language Learning App
-What it is?
+# What it is?
 The Sudoku Language Learning App project is an interactive app build on Android Studio that enables users to learn Chinese vocabulary while playing the game of sudoku.
 
 # Motivation
